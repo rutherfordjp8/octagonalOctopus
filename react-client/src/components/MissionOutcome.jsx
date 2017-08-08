@@ -9,19 +9,15 @@ class MissionOutcome extends React.Component {
 
   render() {
 
-    identities = []
-    // Here, will have to itterate over players, creating <Identity> compenents.
 
     return (
       <div>
 
         <h5> Mission Outcome  </h5>
 
-         Here, we seem to have missed some components of use. I thus inaguate them:
+         <Stats /> <Timer />
 
-         {identities}
-
-         <NewGameButton />
+         <NextButton />
          // Unclear from discussion if Buttons should be components
       </div>
       )
