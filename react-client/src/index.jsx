@@ -7,28 +7,24 @@ class App extends React.Component {
   constructor(props) {
     super(props);
     this.state = { 
-      items: []
+
     }
   }
 
   componentDidMount() {
-    $.ajax({
-      url: '/items', 
-      success: (data) => {
-        this.setState({
-          items: data
-        })
-      },
-      error: (err) => {
-        console.log('err', err);
-      }
-    });
   }
 
   render () {
+
+    // This is all going to have to be done with an if test chain or a
+    // swith statement. I am not familiar with the react router tool
+    // that has been suggested to use here, so I'm passing over it for
+    // now.
+
     return (<div>
-      <h1>Item List</h1>
-      <List items={this.state.items}/>
+
+    ????
+
     </div>)
   }
 }
