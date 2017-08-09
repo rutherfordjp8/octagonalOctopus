@@ -25,10 +25,14 @@ class App extends React.Component {
 
   render () {
 
-    // This is all going to have to be done with an if test chain or a
-    // swith statement. I am not familiar with the react router tool
-    // that has been suggested to use here, so I'm passing over it for
-    // now.
+    // Suggestion that server sends a next page identifier to client
+    // and client uses to look up which render function to run, here.
+    // So, something like:
+
+    //     renderFunction = renderFunctionsObject[this.state.nextPageID]
+    //     return renderFunction()
+
+    // This makes all the decision logic live on the server.
 
     return (<div>
 
