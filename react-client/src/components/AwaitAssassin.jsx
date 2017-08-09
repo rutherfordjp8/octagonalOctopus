@@ -5,6 +5,8 @@ class AwaitAssassin extends React.Component {
   constructor(props) {
     super(props);
 
+    this.spyCount = 3 // Needs to be passed down appropriately
+
   }
 
   render() {
@@ -14,7 +16,7 @@ class AwaitAssassin extends React.Component {
 
       <Stats />
 
-      <Timer />
+      <Timer seconds={this.spyCount * 60}/>
 
         <h3> Awaiting Assassin </h3>
         (Shown to non-spy players)
