@@ -14,7 +14,6 @@ class Stats extends React.Component {
       <div>
       <h6> Stats Panel </h6>
 
-
       Your role is {this.props.role}
 
         <MissionHistory history={this.props.missionHistory}/>
