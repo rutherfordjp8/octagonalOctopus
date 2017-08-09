@@ -1,6 +1,6 @@
 import React from 'react';
 
-class PickMissonPlayer extends React.Component {
+class EnterMissonPlayer extends React.Component {
 
   constructor(props) {
     super(props);
@@ -16,9 +16,10 @@ class PickMissonPlayer extends React.Component {
 
       <Timer />
 
-        <h3> Pick Mission Players </h3>
+        <h3> Enter Mission Players </h3>
 
-        Pick {this.props.missionCount} players to go:
+        Enter the {this.props.missionCount} players that the group has
+        decided will go on the mission:
 
         Appropriate Widget here
 
@@ -28,4 +29,4 @@ class PickMissonPlayer extends React.Component {
   }
 }
 
-export default PickMissonPlayer;
+export default EnterMissonPlayer;
