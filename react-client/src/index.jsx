@@ -14,8 +14,6 @@ class App extends React.Component {
       role: undefined,
       otherCharInfo = {},
 
-      // Another worry: do games with many players have more rounds?
-      // In which case, roundsHistory isn't the right thing.
       roundsHistory: [null, null, null, null, null],
 
       missionParticipation = [],
