@@ -10,7 +10,7 @@ class GameOutcome extends React.Component {
   render() {
 
     identities = []
-    // Here, will have to itterate over players, creating <Identity> compenents.
+    // Here, will have to iterate over players, creating <Identity> components.
 
     return (
       <div>
