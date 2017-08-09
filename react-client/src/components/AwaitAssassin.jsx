@@ -16,7 +16,7 @@ class AwaitAssassin extends React.Component {
 
       <Stats />
 
-      <Timer seconds={this.spyCount * 60}/>
+      At most <Timer seconds={this.spyCount * 60}/>
 
         <h3> Awaiting Assassin </h3>
         (Shown to non-spy players)
