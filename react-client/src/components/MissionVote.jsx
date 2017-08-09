@@ -25,7 +25,7 @@ class MissonVote extends React.Component {
         <h3> Mission Vote </h3>
         You are on a mission with {this.playersToString()} Nice prompt here
 
-        <FailButton /> <PassButton />
+        FailButton PassButton
 
         (Shown only to players on the Mission)
       </div>
