@@ -1,13 +1,13 @@
-# Project Name
+DNA (Definitely Not Avalon)
 
-> Pithy project description
+A game almost, but not entirely, unlike Avalon.
 
 ## Team
 
-  - teamMember
-  - teamMember
-  - teamMember
-  - teamMember
+  Patrick Rutherford
+  Abhishek Bala
+  Yang Lu
+  Brian van den Broek
 
 ## Table of Contents
 
@@ -21,15 +21,13 @@
 
 ## Usage
 
-> Some usage instructions
+Gather friends, visit someurlhere and have fun. (Ideally most or all of
+you will know how to play the same Avalon.)
 
 ## Requirements
 
-- Node 6.4.x
-- Redis 2.6.x
-- Postgresql 9.1.x
-- etc
-- etc
+As a user, any tolerably modern web browser will suffice. There are no
+installation requirements.
 
 ## Development
 
@@ -38,15 +36,12 @@
 From within the root directory:
 
 ```sh
-npm install -g bower
 npm install
-bower install
 ```
 
 ### Roadmap
 
-View the project roadmap [here](LINK_TO_DOC)
-
+View the project roadmap [ROADMAP.md](ROADMAP.md)
 
 ## Contributing
 
