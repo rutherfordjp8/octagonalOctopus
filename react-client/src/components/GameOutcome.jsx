@@ -9,20 +9,17 @@ class GameOutcome extends React.Component {
 
   render() {
 
-    identities = []
-    // Here, will have to iterate over players, creating <Identity> components.
-
     return (
+
       <div>
 
         <h5> Game Outcome  </h5>
 
          Here, we seem to have missed some components of use. I thus inaguate them:
 
-         {identities}
+         Have a list of identities in the game
 
-         <NewGameButton />
-         // Unclear from discussion if Buttons should be components
+         A New game Button here
       </div>
       )
   }
