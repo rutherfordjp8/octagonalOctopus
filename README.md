@@ -22,7 +22,7 @@ A game almost, but not entirely, unlike Avalon.
 ## Usage
 
 Gather friends, visit someurlhere and have fun. (Ideally most or all of
-you will know how to play the same Avalon.)
+you will know how to play the game Avalon.)
 
 ## Requirements
 
