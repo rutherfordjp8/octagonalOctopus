@@ -9,7 +9,6 @@ class MissionOutcome extends React.Component {
     this.successVotes = props.successVotes;
     }
 
-
   render() {
 
     return (

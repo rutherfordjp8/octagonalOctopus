@@ -20,6 +20,7 @@ class GameOutcome extends React.Component {
          Have a list of identities in the game
 
          A New game Button here
+
       </div>
       )
   }

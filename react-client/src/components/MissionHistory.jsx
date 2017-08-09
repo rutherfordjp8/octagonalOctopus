@@ -5,7 +5,7 @@ class MissionHistory extends React.Component {
   constructor(props) {
     super(props);
 
-    // Here just to flag that cintaining component (Stats) will pass
+    // Here just to flag that containing component (Stats) will pass
     // the history down as a prop.
     this.history = props.history
   }
