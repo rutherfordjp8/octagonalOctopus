@@ -14,7 +14,7 @@ class AwaitMissionOutcome extends React.Component {
 
       <Stats />
 
-      <Timer />
+      <Timer seconds={30}/>
 
         <h3> Awaiting Mission Outcome </h3>
         (Shown to all players not on the mission [what of the last to vote?])
