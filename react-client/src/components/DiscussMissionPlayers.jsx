@@ -4,7 +4,6 @@ class DiscussMissionPlayers extends React.Component {
 
   constructor(props) {
     super(props);
-    this.missionSize = props.missionSize // Unclear where from
   }
 
   render() {
@@ -14,8 +13,7 @@ class DiscussMissionPlayers extends React.Component {
 
       <Stats />
 
-
-        <h3> Discuss Which {this.missionSize} Players to Send on the Mission </h3>
+        <h3> Discuss Which {this.props.missionSize} Players to Send on the Mission </h3>
         (Shown to all players except for game owner)
       </div>
       )
