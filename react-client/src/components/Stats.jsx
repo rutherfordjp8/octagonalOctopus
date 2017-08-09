@@ -5,6 +5,9 @@ class Stats extends React.Component {
   constructor(props) {
     super(props);
 
+    this.role = props.role;
+    this.missionHistory = props.missionHistory;
+    this.otherCharInfo = props.otherCharInfo;
   }
 
   render() {
@@ -13,7 +16,7 @@ class Stats extends React.Component {
       <div>
       <h6> Stats Panel </h6>
 
-      Your role is {role}
+      Your role is {this.role}
 
         <MissionHistory />
 
