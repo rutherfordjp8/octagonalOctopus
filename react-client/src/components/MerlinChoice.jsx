@@ -18,7 +18,7 @@ class MerlinChoice extends React.Component {
 
         <h3> Choose Merlin </h3>
 
-        A Submit button here
+        An html Submit form here
 
         (Shown only to the Assassin)
       </div>
