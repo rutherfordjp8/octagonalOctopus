@@ -5,6 +5,7 @@ class PickMissonPlayer extends React.Component {
   constructor(props) {
     super(props);
 
+    this.missionCount = props.missionCount;
   }
 
   render() {
@@ -22,7 +23,7 @@ class PickMissonPlayer extends React.Component {
 
         <h3> Pick Mission Players </h3>
 
-        Pick k players to go:
+        Pick {this.missionCount} players to go:
 
         Appropriate Widget here
 
