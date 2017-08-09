@@ -12,5 +12,6 @@
 3. Decide on architecture of the server/client rendering path choice
 4. Write server side game logic
 5. Flesh out client rendering stubs
-6. Investigate extent of history reporting
-7. Consider login and what level of authentication is needed
+6. Flesh out server side websocket/ request handling functions
+7. Investigate extent of history reporting
+8. Consider login and what level of authentication is needed
