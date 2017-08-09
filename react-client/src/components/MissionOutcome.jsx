@@ -9,12 +9,6 @@ class MissionOutcome extends React.Component {
     this.successVotes = props.successVotes;
     }
 
-  clickHandler() {
-    // Do click stuff. Presently, unclear 1) what to send to server and
-    // 2) if the function can live here and be called from within the
-    // render method or if it needs to be bound at app level and messages
-    // sent from there.
-    }
 
   render() {
 
@@ -30,8 +24,8 @@ class MissionOutcome extends React.Component {
 
         Success votes: {this.successVotes}
 
-         <NextButton clickHandler={this.clickHandler()}/>
-         // Unclear from discussion if Buttons should be components
+      NextButton with clickHandler=this.clickHandler
+
       </div>
       )
   }
