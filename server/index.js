@@ -5,14 +5,13 @@ var server = require('http').createServer(app);
 var bodyParser = require('body-parser');
 var helpers = require('./helper-functions');
 
-
 var io = require('socket.io')(server);
-// var items = require('../database-mysql');
 var items = require('../database-mongo');
 
 io.on('connection', (socket) => {
   console.log('hello');
   socket.emit('test', {testdata: 'data'})
+
 
   socket.on('join', (data) => {
     console.log(data.room);
