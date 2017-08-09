@@ -7,7 +7,7 @@ const roles = {
   10: ['Mordred', 'Merlin', 'Loyal Servant', 'Loyal Servant', 'Minion of Mordred', 'Percival', 'Morgana', 'Loyal Servant', 'Oberon', 'Loyal Servant'],
 }
 
-const missionMapping = {
+const numPeopleOnMission = {
   5: [2,3,2,3,3],
   6: [2,3,4,3,4],
   7: [2,3,3,4,4],
@@ -16,7 +16,7 @@ const missionMapping = {
   10: [3,4,4,5,5]
 }
 
-const numFailures = {
+const numFailuresNeeded = {
   5: [1,1,1,1,1],
   6: [1,1,1,1,1],
   7: [1,1,1,2,1],
