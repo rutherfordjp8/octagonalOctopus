@@ -1,5 +1,6 @@
 var mongoose = require('mongoose');
-mongoose.connect('mongodb://localhost/test');
+mongoose.connect('mongodb://localhost/');
+
 
 var db = mongoose.connection;
 
@@ -11,21 +12,23 @@ db.once('open', function() {
   console.log('mongoose connected successfully');
 });
 
-var itemSchema = mongoose.Schema({
-  quantity: Number,
-  description: String
+var games = mongoose.Schema({
+  token: String,
+  players: String,
+  results: String  
 });
 
-var Item = mongoose.model('Item', itemSchema);
+var Game = mongoose.model('Game', games);
 
-var selectAll = function(callback) {
-  Item.find({}, function(err, items) {
-    if(err) {
-      callback(err, null);
-    } else {
-      callback(null, items);
-    }
-  });
+var selectGame = function(token, callback) {
+  Game.find({token});
 };
 
-module.exports.selectAll = selectAll;
+var createGame = function(token, players, results, callback) {
+};
+
+var updateResults = function (results, callback) {
+};
+
+
+module.exports.selectGame = selectGame;
