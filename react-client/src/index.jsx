@@ -3,13 +3,14 @@ import ReactDOM from 'react-dom';
 import $ from 'jquery';
 
 import WelcomeScreen from './components/WelcomeScreen.jsx';
+import GameOwnerEnterNameScreen from './components/GameOwnerEnterNameScreen.jsx';
 
 class App extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
 
-      pageID: 'WelcomeScreen',
+      pageID: 'GameOwnerEnterNameScreen',
 
       //pageID: 'PlayerWaitingForPlayersScreen',
       //pageID: 'DiscussMissionPlayersScreen',
@@ -23,6 +24,7 @@ class App extends React.Component {
       //pageID: 'PlayerWaitingForPlayersScreen',
       //pageID: 'PlayerEnternameScreen',
       //pageID: 'GameOwnerWaitingForPlayersScreen',
+
       //pageID: 'WelcomeScreen',
       //pageID: 'GameOwnerEnterNameScreen',
 
@@ -56,7 +58,16 @@ class App extends React.Component {
       DiscussMissionPlayersScreen: function(pObj) { return 'DiscussMissionPlayersScreen' + pObj['thing'] },
       EnterMissionPlayersScreen: function(pObj) { return 'MissionPlayersScreen' + pObj['thing'] },
       GameOutcomeScreen: function(pObj) { return 'GameOutocomeScreen' + pObj['thing'] },
-      GameOwnerEnterNameScreen: function(pObj) { return 'GameOwnerEntername' + pObj['thing'] },
+
+      GameOwnerEnterNameScreen: function(pObj) {
+        return (
+            <GameOwnerEnterNameScreen
+          createButtonClickHandler={pObj.createButtonClickHandler}
+          backButtonClickHandler={pObj.backButtonClickHandler}
+            />
+        )
+      },
+
       GameOwnerWaitingForPlayersScreen: function(pObj) { return 'GameOwnerWaitPlayers' + pObj['code'] },
       MerlinChoiceScreen: function(pObj) { return 'MerlinChoiceScreen' + pObj['thing'] },
       MissionOutcomeScreen: function(pObj) { return 'MissionOutcomeScreen' + pObj['thing'] },
@@ -79,7 +90,10 @@ class App extends React.Component {
       'DiscussMissionPlayersScreen': {thing:1000},
       'EnterMissionPlayersScreen': {thing: 888888},
       'GameOutcomeScreen': {thing: 'tttt'},
-      'GameOwnerEnterNameScreen': {thing:'Stuff'},
+      'GameOwnerEnterNameScreen': {
+        createButtonClickHandler:this.handleCreateButtonClick,
+        backButtonClickHandler:this.handleBackButtonClick,
+      },
       'GameOwnerWaitingForPlayersScreen': {code: 'kdjfkjfd'},
       'MerlinChoiceScreen': {thing: 39},
       'MissionOutcomeScreen': {thing:'Orange'},
@@ -94,11 +108,16 @@ class App extends React.Component {
 
     this.handleNewButtonClick = this.handleNewButtonClick.bind(this);
     this.handleJoinButtonClick = this.handleJoinButtonClick.bind(this);
+    this.handleCreateButtonClick = this.handleCreateButtonClick.bind(this);
+    this.handleBackButtonClick = this.handleBackButtonClick.bind(this);
 
   }
 
   handleNewButtonClick() {console.log("I CAN HAZ NEW CLICKS") };
   handleJoinButtonClick() {console.log("I CAN HAZ JOIN CLICKS") };
+  handleCreateButtonClick() {console.log("I CAN HAZ CREATE CLICKS") };
+  handleBackButtonClick() {console.log("I CAN HAZ BACK CLICKS") };
+
 
   componentDidMount() {
   }
