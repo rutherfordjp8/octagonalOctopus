@@ -37,7 +37,7 @@ const numFailuresNeeded = {
   10: [1,1,1,2,1]
 }
 
-module.exports.missionResult = (playerCount, roundNum, ) => {
+module.exports.missionResult = (playerCount, roundNum, numFailures) => {
   // depending on number of players and round, returns
   // if mission passed (true) or not (false)
 };
@@ -75,4 +75,8 @@ module.exports.gameOutcome = (missionResults) => {
 
 module.exports.extraInfoAssignment = (userRoleMapping) => {
   // returns object of username as key and special roles they know (object) as value
+}
+
+module.exports.generateToken = () {
+  
 }
