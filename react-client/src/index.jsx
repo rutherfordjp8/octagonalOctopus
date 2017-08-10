@@ -5,13 +5,14 @@ import $ from 'jquery';
 import WelcomeScreen from './components/WelcomeScreen.jsx';
 import GameOwnerEnterNameScreen from './components/GameOwnerEnterNameScreen.jsx';
 import PlayerEnterNameScreen from './components/PlayerEnterNameScreen.jsx';
+import PlayerWaitingForPlayersScreen from './components/PlayerWaitingForPlayersScreen.jsx';
 
 class App extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
 
-      pageID: 'PlayerEnterNameScreen',
+      pageID: 'PlayerWaitingForPlayersScreen',
 
       //pageID: 'PlayerWaitingForPlayersScreen',
       //pageID: 'DiscussMissionPlayersScreen',
@@ -22,12 +23,16 @@ class App extends React.Component {
       //pageID: 'MissionVoteScreen',
       //pageID: 'AwaitAssassinScreen',
       //pageID: 'AwaitMissionOutcomeScreen',
-      //pageID: 'PlayerWaitingForPlayersScreen',
-      //pageID: 'PlayerEnterNameScreen',
       //pageID: 'GameOwnerWaitingForPlayersScreen',
+
+      //pageID: 'PlayerWaitingForPlayersScreen',
+
+
 
       //pageID: 'WelcomeScreen',
       //pageID: 'GameOwnerEnterNameScreen',
+      //pageID: 'PlayerEnterNameScreen',
+
 
       // State like things that don't exist on the app's first render,
       // but depend on a a Game having been created, joined by
@@ -81,7 +86,13 @@ class App extends React.Component {
             />
         )},
 
-      PlayerWaitingForPlayersScreen: function(pObj) { return 'PlayerWaitForPlayers' + pObj['button'] },
+      PlayerWaitingForPlayersScreen: function(pObj) {
+        return (
+            <PlayerWaitingForPlayersScreen
+          leaveButtonClickHandler={pObj.leaveButtonClickHandler}
+            />
+
+        )},
 
       WelcomeScreen: function(pObj) {
         return (
@@ -114,7 +125,9 @@ class App extends React.Component {
         joinButtonClickHandler:this.handleJoinButtonClick
       },
 
-      'PlayerWaitingForPlayersScreen': {button: 'rrr'},
+      'PlayerWaitingForPlayersScreen': {
+        leaveButtonClickHandler: this.handleLeaveButtonClick,
+      },
 
       'WelcomeScreen': {
         newButtonClickHandler:this.handleNewButtonClick,
@@ -126,6 +139,8 @@ class App extends React.Component {
     this.handleJoinButtonClick = this.handleJoinButtonClick.bind(this);
     this.handleCreateButtonClick = this.handleCreateButtonClick.bind(this);
     this.handleBackButtonClick = this.handleBackButtonClick.bind(this);
+    this.handleLeaveButtonClick = this.handleLeaveButtonClick.bind(this);
+    this.handleLeaveButtonClick = this.handleLeaveButtonClick.bind(this);
 
   }
 
@@ -133,6 +148,7 @@ class App extends React.Component {
   handleJoinButtonClick() {console.log("I CAN HAZ JOIN CLICKS") };
   handleCreateButtonClick() {console.log("I CAN HAZ CREATE CLICKS") };
   handleBackButtonClick() {console.log("I CAN HAZ BACK CLICKS") };
+  handleLeaveButtonClick() {console.log("I CAN HAZ LEAVE CLICKS") };
 
 
   componentDidMount() {
