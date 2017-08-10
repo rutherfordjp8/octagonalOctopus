@@ -1,3 +1,5 @@
+var _ = require('underscore');
+
 const roles = {
   5: ['Mordred', 'Merlin', 'Loyal Servant', 'Loyal Servant', 'Minion of Mordred'],
   6: ['Mordred', 'Merlin', 'Loyal Servant', 'Loyal Servant', 'Minion of Mordred', 'Loyal Servant'],
@@ -26,13 +28,30 @@ const numFailuresNeeded = {
 }
 
 module.exports.missionResult = (playerCount, roundNum) => {
-  // depending on number of players and round, returns 
+  // depending on number of players and round, returns
   // if mission passed (true) or not (false)
 };
 
 module.exports.generateRoles = (usernames) => {
   // given array of usernames generate object mapping username
   // to roles
+
+  // output array
+  var userRoles = {}
+  // get the length of the usernames.
+  var key = Object.keys(usernames).length;
+  // shuffle the roles
+  var shuffleRoles = _.shuffle(roles(key));
+
+  // iterate through usernames
+  for (let usernameKey in usernames) {
+    //add username as key and value as role
+    let i = 0;
+    userRoles.usernameKey = shuffleRoles[i];
+    i++;
+  }
+
+  return userRoles;
 };
 
 module.exports.merlinGuessResult = (merlinGuess) => {
@@ -47,4 +66,3 @@ module.exports.gameOutcome = (missionResults) => {
 module.exports.extraInfoAssignment = (userRoleMapping) => {
   // returns object of username as key and special roles they know (object) as value
 }
-
