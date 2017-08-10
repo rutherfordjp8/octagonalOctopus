@@ -78,6 +78,20 @@ module.exports.merlinGuessResult = (merlinGuess) => {
 
 module.exports.gameOutcome = (missionResults) => {
   // given mission results array, determine if good people won (true)
+
+  var failureCount = 0;
+  // iterate through missionResults counting failures.
+  for (let i = 0; i < missionResults.length; i++) {
+    // In case a mission is null, use false;
+    if (missionResults[i] === false) {
+      failureCount++;
+      // Return false if failureCount is equal to needed amount.
+      if (failureCount === 3) {
+        return false;
+      }
+    }
+  }
+  return true;
 };
 
 module.exports.extraInfoAssignment = (userRoleMapping) => {
@@ -93,7 +107,6 @@ module.exports.generateToken = () => {
   'n','o','p','q','r','s','t','u','v','w','x','y','z'];
 
   var token = '';
-
   // build a string with random characters with length of 6
 	for (let i = 1; i < 6; i++) {
 		let randomNum = Math.ceil(Math.random() * stringArray.length) - 1;
