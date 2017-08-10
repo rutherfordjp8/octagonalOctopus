@@ -76,7 +76,11 @@ class App extends React.Component {
       'PlayerWaitingForPlayersScreen': {button: 'rrr'},
       'WelcomeScreen': {thing:'People'}
     }
+
+    this.handleButtonClick = this.handleButtonClick.bind(this);
   }
+
+  handleButtonClick() { };
 
   componentDidMount() {
   }
