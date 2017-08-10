@@ -77,6 +77,6 @@ module.exports.extraInfoAssignment = (userRoleMapping) => {
   // returns object of username as key and special roles they know (object) as value
 }
 
-module.exports.generateToken = () {
+module.exports.generateToken = () => {
   
 }
