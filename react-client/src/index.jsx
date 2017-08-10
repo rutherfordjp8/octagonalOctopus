@@ -39,8 +39,8 @@ class App extends React.Component {
       missionParticipation: [],
 
       // Work out if to have different click handling functions or if dispatch within one
-      newButtonClickHandler: this.handleButtonClick,
-      joinButtonClickHandler: this.handleButtonClick,
+      // newButtonClickHandler: this.handleButtonClick,
+      // joinButtonClickHandler: this.handleButtonClick,
     }
 
   // An object that contains the render functions for the various
@@ -87,21 +87,23 @@ class App extends React.Component {
       'PlayerEnternameScreen':  {thing:'Fruit'},
       'PlayerWaitingForPlayersScreen': {button: 'rrr'},
       'WelcomeScreen': {
-        newButtonClickHandler:this.handleButtonClick,
-        joinButtonClickHandler:this.handleButtonClick
+        newButtonClickHandler:this.handleNewButtonClick,
+        joinButtonClickHandler:this.handleJoinButtonClick
       }
     }
 
-    this.handleButtonClick = this.handleButtonClick.bind(this);
+    this.handleNewButtonClick = this.handleNewButtonClick.bind(this);
+    this.handleJoinButtonClick = this.handleJoinButtonClick.bind(this);
+
   }
 
-  handleButtonClick() {console.log("I CAN HAZ CLICKS") };
+  handleNewButtonClick() {console.log("I CAN HAZ NEW CLICKS") };
+  handleJoinButtonClick() {console.log("I CAN HAZ JOIN CLICKS") };
 
   componentDidMount() {
   }
 
   render () {
-
     return (
         <div>
         {this.screenDispatch[this.state.pageID](this.propsDispatch[this.state.pageID])}
