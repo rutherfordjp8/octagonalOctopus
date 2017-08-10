@@ -54,11 +54,9 @@ module.exports.generateRoles = (usernames) => {
   var shuffleRoles = _.shuffle(roles(key));
 
   // iterate through usernames
-  for (let usernameKey in usernames) {
-    //add username as key and value as role
-    let i = 0;
-    userRoles.usernameKey = shuffleRoles[i];
-    i++;
+  for (let i = 0; i < usernames.length; i++) {
+    //add username as key and role as value
+    userRoles.usernames[i] = shuffleRoles[i];
   }
 
   return userRoles;
@@ -78,5 +76,5 @@ module.exports.extraInfoAssignment = (userRoleMapping) => {
 }
 
 module.exports.generateToken = () => {
-  
+
 }
