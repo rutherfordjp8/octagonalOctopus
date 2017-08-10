@@ -48,7 +48,6 @@ module.exports.missionResult = (playerCount, roundNum, numFailures) => {
   }
   // otherwise return false;
   return false;
-
 };
 
 module.exports.generateRoles = (usernames) => {
