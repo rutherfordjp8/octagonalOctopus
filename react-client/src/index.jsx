@@ -2,6 +2,7 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import $ from 'jquery';
 
+import WelcomeScreen from './components/WelcomeScreen.jsx';
 
 class App extends React.Component {
   constructor(props) {
@@ -36,6 +37,10 @@ class App extends React.Component {
       roundsHistory: [null, null, null, null, null],
 
       missionParticipation: [],
+
+      // Work out if to have different click handling functions or if dispatch within one
+      newButtonClickHandler: this.handleButtonClick,
+      joinButtonClickHandler: this.handleButtonClick,
     }
 
   // An object that contains the render functions for the various
@@ -58,7 +63,14 @@ class App extends React.Component {
       MissionVoteScreen: function(pObj) { return 'MissionVoteScreen' + pObj['thing'] },
       PlayerEnternameScreen: function(pObj) { return 'PlayerEntername' + pObj['thing'] },
       PlayerWaitingForPlayersScreen: function(pObj) { return 'PlayerWaitForPlayers' + pObj['button'] },
-      WelcomeScreen: function(pObj) { return 'WELCOME' + pObj['thing'] },
+
+      WelcomeScreen: function(pObj) {
+        return (
+            <WelcomeScreen
+          newButtonClickHandler={pObj.newButtonClickHandler}
+          joinButtonClickHandler={pObj.joinButtonClickHandler}
+            />
+        )},
     }
 
     this.propsDispatch = {
@@ -74,13 +86,16 @@ class App extends React.Component {
       'MissionVoteScreen': {thing:'Apple'},
       'PlayerEnternameScreen':  {thing:'Fruit'},
       'PlayerWaitingForPlayersScreen': {button: 'rrr'},
-      'WelcomeScreen': {thing:'People'}
+      'WelcomeScreen': {
+        newButtonClickHandler:this.handleButtonClick,
+        joinButtonClickHandler:this.handleButtonClick
+      }
     }
 
     this.handleButtonClick = this.handleButtonClick.bind(this);
   }
 
-  handleButtonClick() { };
+  handleButtonClick() {console.log("I CAN HAZ CLICKS") };
 
   componentDidMount() {
   }
