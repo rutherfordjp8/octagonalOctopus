@@ -8,7 +8,7 @@ class App extends React.Component {
     super(props);
     this.state = {
 
-      pageID: 'WelcomeScreen',
+      pageID: 'PlayerWaitingForPlayersScreen',
 
       // State like things that don't exist on the app's first render,
       // but depend on a a Game having been created, joined by
@@ -35,15 +35,15 @@ class App extends React.Component {
       // DiscussMissionPlayersScreen: (propsObj) => {},
       // EnterMissionPlayersScreen: (propsObj) => {},
       // GameOutcomeScreen: (propsObj) => {},
-      // GameOwnerEnterNameScreen: (propsObj) => {},
-      // GameOwnerWaitingForPlayersScreen: (propsObj) => {},
+      GameOwnerEnterNameScreen: function(pObj) { return 'GameOwnerEntername' + pObj['thing'] },
+      GameOwnerWaitingForPlayersScreen: function(pObj) { return 'GameOwnerWaitPlayers' + pObj['code'] },
       // MerlinChoiceScreen: (propsObj) => {},
       // MissionOutcomeScreen: (propsObj) => {},
       // MissionVoteScreen: (propsObj) => {},
-      // PlayerEnternameScreen: (propsObj) => {},
-      // PlayerWaitingForPlayersScreen: (propsObj) => {},
+      PlayerEnternameScreen: function(pObj) { return 'PlayerEntername' + pObj['thing'] },
+      PlayerWaitingForPlayersScreen: function(pObj) { return 'PlayerWaitForPlayers' + pObj['button'] },
 //      WelcomeScreen: function(pObj) { return "WELCOME" + pObj },
-      WelcomeScreen: function(pObj) { console.log(pObj); return "WELCOME" + pObj['thing'] },
+      WelcomeScreen: function(pObj) { return 'WELCOME' + pObj['thing'] },
     }
 
 
@@ -53,13 +53,13 @@ class App extends React.Component {
       // DiscussMissionPlayersScreen:
       // EnterMissionPlayersScreen:
       // GameOutcomeScreen:
-      // GameOwnerEnterNameScreen:
-      // GameOwnerWaitingForPlayersScreen:
+      'GameOwnerEnterNameScreen': {thing:'Stuff'},
+      'GameOwnerWaitingForPlayersScreen': {code: 'kdjfkjfd'},
       // MerlinChoiceScreen:
       // MissionOutcomeScreen:
       // MissionVoteScreen:
-      // PlayerEnternameScreen:
-      // PlayerWaitingForPlayersScreen:
+      'PlayerEnternameScreen':  {thing:'Fruit'},
+      'PlayerWaitingForPlayersScreen': {button: 'rrr'},
       'WelcomeScreen': {thing:'People'}
     }
   }
