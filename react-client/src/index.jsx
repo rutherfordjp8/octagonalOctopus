@@ -4,13 +4,14 @@ import $ from 'jquery';
 
 import WelcomeScreen from './components/WelcomeScreen.jsx';
 import GameOwnerEnterNameScreen from './components/GameOwnerEnterNameScreen.jsx';
+import PlayerEnterNameScreen from './components/PlayerEnterNameScreen.jsx';
 
 class App extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
 
-      pageID: 'GameOwnerEnterNameScreen',
+      pageID: 'PlayerEnterNameScreen',
 
       //pageID: 'PlayerWaitingForPlayersScreen',
       //pageID: 'DiscussMissionPlayersScreen',
@@ -22,7 +23,7 @@ class App extends React.Component {
       //pageID: 'AwaitAssassinScreen',
       //pageID: 'AwaitMissionOutcomeScreen',
       //pageID: 'PlayerWaitingForPlayersScreen',
-      //pageID: 'PlayerEnternameScreen',
+      //pageID: 'PlayerEnterNameScreen',
       //pageID: 'GameOwnerWaitingForPlayersScreen',
 
       //pageID: 'WelcomeScreen',
@@ -72,7 +73,14 @@ class App extends React.Component {
       MerlinChoiceScreen: function(pObj) { return 'MerlinChoiceScreen' + pObj['thing'] },
       MissionOutcomeScreen: function(pObj) { return 'MissionOutcomeScreen' + pObj['thing'] },
       MissionVoteScreen: function(pObj) { return 'MissionVoteScreen' + pObj['thing'] },
-      PlayerEnternameScreen: function(pObj) { return 'PlayerEntername' + pObj['thing'] },
+      PlayerEnterNameScreen: function(pObj) {
+        return (
+            <PlayerEnterNameScreen
+          backButtonClickHandler={pObj.backButtonClickHandler}
+          joinButtonClickHandler={pObj.joinButtonClickHandler}
+            />
+        )},
+
       PlayerWaitingForPlayersScreen: function(pObj) { return 'PlayerWaitForPlayers' + pObj['button'] },
 
       WelcomeScreen: function(pObj) {
@@ -90,16 +98,24 @@ class App extends React.Component {
       'DiscussMissionPlayersScreen': {thing:1000},
       'EnterMissionPlayersScreen': {thing: 888888},
       'GameOutcomeScreen': {thing: 'tttt'},
+
       'GameOwnerEnterNameScreen': {
         createButtonClickHandler:this.handleCreateButtonClick,
         backButtonClickHandler:this.handleBackButtonClick,
       },
+
       'GameOwnerWaitingForPlayersScreen': {code: 'kdjfkjfd'},
       'MerlinChoiceScreen': {thing: 39},
       'MissionOutcomeScreen': {thing:'Orange'},
       'MissionVoteScreen': {thing:'Apple'},
-      'PlayerEnternameScreen':  {thing:'Fruit'},
+
+      'PlayerEnterNameScreen':  {
+        backButtonClickHandler:this.handleBackButtonClick,
+        joinButtonClickHandler:this.handleJoinButtonClick
+      },
+
       'PlayerWaitingForPlayersScreen': {button: 'rrr'},
+
       'WelcomeScreen': {
         newButtonClickHandler:this.handleNewButtonClick,
         joinButtonClickHandler:this.handleJoinButtonClick
