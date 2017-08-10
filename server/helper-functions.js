@@ -1,5 +1,5 @@
 var _ = require('underscore');
-
+var db = require('../database-mongo');
 // key represents number of players.
 // values represent the different roles that will be played
 const roles = {
@@ -66,7 +66,6 @@ module.exports.generateRoles = (usernames) => {
     //add username as key and role as value
     userRoles.usernames[i] = shuffleRoles[i];
   }
-
   return userRoles;
 };
 
@@ -94,6 +93,7 @@ module.exports.gameOutcome = (missionResults) => {
 };
 
 module.exports.extraInfoAssignment = (userRoleMapping) => {
+  // accepts an object with user to role mapping then
   // returns object of username as key and special roles they know (object) as value
 }
 
