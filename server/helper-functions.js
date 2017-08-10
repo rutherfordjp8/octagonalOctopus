@@ -1,5 +1,7 @@
 var _ = require('underscore');
 
+// key represents number of players.
+// values represent the different roles that will be played
 const roles = {
   5: ['Mordred', 'Merlin', 'Loyal Servant', 'Loyal Servant', 'Minion of Mordred'],
   6: ['Mordred', 'Merlin', 'Loyal Servant', 'Loyal Servant', 'Minion of Mordred', 'Loyal Servant'],
@@ -9,6 +11,10 @@ const roles = {
   10: ['Mordred', 'Merlin', 'Loyal Servant', 'Loyal Servant', 'Minion of Mordred', 'Percival', 'Morgana', 'Loyal Servant', 'Oberon', 'Loyal Servant'],
 }
 
+// key represents number of players.
+// values represent number of players that
+// will go on a mission. The index
+// represents what mission it is.
 const numPeopleOnMission = {
   5: [2,3,2,3,3],
   6: [2,3,4,3,4],
@@ -18,6 +24,10 @@ const numPeopleOnMission = {
   10: [3,4,4,5,5]
 }
 
+// key represents number of players.
+// values represent how many votes it will
+// take to fail a mission. The index
+// represents what mission it is.
 const numFailuresNeeded = {
   5: [1,1,1,1,1],
   6: [1,1,1,1,1],
@@ -36,7 +46,7 @@ module.exports.generateRoles = (usernames) => {
   // given array of usernames generate object mapping username
   // to roles
 
-  // output array
+  // output array of users roles
   var userRoles = {}
   // get the length of the usernames.
   var key = Object.keys(usernames).length;
