@@ -1,4 +1,4 @@
-var _ = require('underscore');
+tokenvar _ = require('underscore');
 
 // key represents number of players.
 // values represent the different roles that will be played
@@ -40,6 +40,8 @@ const numFailuresNeeded = {
 module.exports.missionResult = (playerCount, roundNum, numFailures) => {
   // depending on number of players and round, returns
   // if mission passed (true) or not (false)
+
+  
 };
 
 module.exports.generateRoles = (usernames) => {
@@ -76,5 +78,19 @@ module.exports.extraInfoAssignment = (userRoleMapping) => {
 }
 
 module.exports.generateToken = () => {
+  // generates and returns a random token.
+  // used as the key to enter a room.
 
+  var token = '';
+  // list containing numbers and characters for the random string
+  var stringArray = ['0','1','2','3','4','5','6','7','8','9','a','b','c','d','e','f','g','h','i','j','k','l','m',
+                    'n','o','p','q','r','s','t','u','v','w','x','y','z'];
+
+  // build a string with random characters with length of 6
+	for (var i = 1; i < 6; i++) {
+		var randomNum = Math.ceil(Math.random() * stringArray.length) - 1;
+		token = token + stringArray[randomNum];
+	};
+
+  return token;
 }
