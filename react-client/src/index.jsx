@@ -8,26 +8,22 @@ class App extends React.Component {
     super(props);
     this.state = {
 
-      // pageID: 'PlayerWaitingForPlayersScreen'
+      pageID: 'WelcomeScreen',
 
-      
-
-      // pageID: // DiscussMissionPlayersScreen
-      // pageID: // EnterMissionPlayersScreen
-      // pageID: // GameOutcomeScreen
-
-      // pageID: // MerlinChoiceScreen
-      // pageID: // MissionOutcomeScreen
-      // pageID: // MissionVoteScreen
-      
-      
-      pageID: 'AwaitAssassinScreen',
-      //pageID: 'AwaitMissionOutcomeScreen', //works
-      //pageID: 'PlayerWaitingForPlayersScreen', //works
-      //pageID: 'PlayerEnternameScreen', // Works
-      //pageID: 'GameOwnerWaitingForPlayersScreen', // Works
-      //pageID: 'WelcomeScreen', // Works
-      //pageID: 'GameOwnerEnterNameScreen',  // Works
+      //pageID: 'PlayerWaitingForPlayersScreen',
+      //pageID: 'DiscussMissionPlayersScreen',
+      //pageID: 'EnterMissionPlayersScreen',
+      //pageID: 'GameOutcomeScreen',
+      //pageID: 'MerlinChoiceScreen',
+      //pageID: 'MissionOutcomeScreen',
+      //pageID: 'MissionVoteScreen',
+      //pageID: 'AwaitAssassinScreen',
+      //pageID: 'AwaitMissionOutcomeScreen',
+      //pageID: 'PlayerWaitingForPlayersScreen',
+      //pageID: 'PlayerEnternameScreen',
+      //pageID: 'GameOwnerWaitingForPlayersScreen',
+      //pageID: 'WelcomeScreen',
+      //pageID: 'GameOwnerEnterNameScreen',
 
       // State like things that don't exist on the app's first render,
       // but depend on a a Game having been created, joined by
@@ -49,33 +45,33 @@ class App extends React.Component {
   // then simply call the function that is the value of the one object
   // with the props of the other.
     this.screenDispatch = {
-       AwaitAssassinScreen: function(pObj) {return 'AwaitAssassin +spyCount=' + pObj.spyCount },
-       AwaitMissionOutcomeScreen: function(pObj) {return 'AwaitMissionOutcome' + pObj.role + pObj.history },
+      AwaitAssassinScreen: function(pObj) {return 'AwaitAssassin +spyCount=' + pObj.spyCount },
+      AwaitMissionOutcomeScreen: function(pObj) {return 'AwaitMissionOutcome' + pObj.role + pObj.history },
 
-//       // DiscussMissionPlayersScreen: (propsObj) => {},
-//       // EnterMissionPlayersScreen: (propsObj) => {},
-//       // GameOutcomeScreen: (propsObj) => {},
-       GameOwnerEnterNameScreen: function(pObj) { return 'GameOwnerEntername' + pObj['thing'] },
-       GameOwnerWaitingForPlayersScreen: function(pObj) { return 'GameOwnerWaitPlayers' + pObj['code'] },
-//       // MerlinChoiceScreen: (propsObj) => {},
-//       // MissionOutcomeScreen: (propsObj) => {},
-//       // MissionVoteScreen: (propsObj) => {},
-       PlayerEnternameScreen: function(pObj) { return 'PlayerEntername' + pObj['thing'] },
-       PlayerWaitingForPlayersScreen: function(pObj) { return 'PlayerWaitForPlayers' + pObj['button'] },
+      DiscussMissionPlayersScreen: function(pObj) { return 'DiscussMissionPlayersScreen' + pObj['thing'] },
+      EnterMissionPlayersScreen: function(pObj) { return 'MissionPlayersScreen' + pObj['thing'] },
+      GameOutcomeScreen: function(pObj) { return 'GameOutocomeScreen' + pObj['thing'] },
+      GameOwnerEnterNameScreen: function(pObj) { return 'GameOwnerEntername' + pObj['thing'] },
+      GameOwnerWaitingForPlayersScreen: function(pObj) { return 'GameOwnerWaitPlayers' + pObj['code'] },
+      MerlinChoiceScreen: function(pObj) { return 'MerlinChoiceScreen' + pObj['thing'] },
+      MissionOutcomeScreen: function(pObj) { return 'MissionOutcomeScreen' + pObj['thing'] },
+      MissionVoteScreen: function(pObj) { return 'MissionVoteScreen' + pObj['thing'] },
+      PlayerEnternameScreen: function(pObj) { return 'PlayerEntername' + pObj['thing'] },
+      PlayerWaitingForPlayersScreen: function(pObj) { return 'PlayerWaitForPlayers' + pObj['button'] },
       WelcomeScreen: function(pObj) { return 'WELCOME' + pObj['thing'] },
     }
 
     this.propsDispatch = {
       'AwaitAssassinScreen': {spyCount:this.state.spyCount},
       'AwaitMissionOutcomeScreen': {role:this.state.role, history:this.state.roundsHistory },
-      // // DiscussMissionPlayersScreen:
-      // // EnterMissionPlayersScreen:
-      // // GameOutcomeScreen:
+      'DiscussMissionPlayersScreen': {thing:1000},
+      'EnterMissionPlayersScreen': {thing: 888888},
+      'GameOutcomeScreen': {thing: 'tttt'},
       'GameOwnerEnterNameScreen': {thing:'Stuff'},
       'GameOwnerWaitingForPlayersScreen': {code: 'kdjfkjfd'},
-      // // MerlinChoiceScreen:
-      // // MissionOutcomeScreen:
-      // // MissionVoteScreen:
+      'MerlinChoiceScreen': {thing: 39},
+      'MissionOutcomeScreen': {thing:'Orange'},
+      'MissionVoteScreen': {thing:'Apple'},
       'PlayerEnternameScreen':  {thing:'Fruit'},
       'PlayerWaitingForPlayersScreen': {button: 'rrr'},
       'WelcomeScreen': {thing:'People'}
