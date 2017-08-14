@@ -1,6 +1,6 @@
 import React from 'react';
 
-class WelcomeScreen extends React.Component {
+class PlayerEnterNameScreen extends React.Component {
 
   constructor(props) {
     super(props);
@@ -49,4 +49,4 @@ class WelcomeScreen extends React.Component {
   }
 }
 
-export default WelcomeScreen;
+export default PlayerEnterNameScreen;
