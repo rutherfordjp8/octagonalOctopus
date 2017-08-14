@@ -73,14 +73,15 @@ class App extends React.Component {
 
         return (
 
+      AwaitMissionOutcomeScreen: function(pObj) {
+
+        return (
             <AwaitMissionOutcomeScreen
           role={pObj['role']}
           missionHistory={pObj['missionHistory']}
             />
-        )
+        )},
 
-
-      },
 
       DiscussMissionPlayersScreen: function(pObj) {
         return (
@@ -89,8 +90,8 @@ class App extends React.Component {
           role={pObj['role']}
           missionHistory={pObj['missionHistory']}
             />
-        )
-      },
+        )},
+
 
       EnterMissionPlayersScreen: function(pObj) {
 
@@ -102,10 +103,11 @@ class App extends React.Component {
           missionHistory={pObj['missionHistory']}
             />
 
-        )
-      },
+        )},
+
 
       GameOutcomeScreen: function(pObj) { return 'GameOutocomeScreen' + pObj['thing'] },
+
 
       GameOwnerEnterNameScreen: function(pObj) {
         return (
@@ -113,8 +115,8 @@ class App extends React.Component {
           createButtonClickHandler={pObj.createButtonClickHandler}
           backButtonClickHandler={pObj.backButtonClickHandler}
             />
-        )
-      },
+        )},
+
 
       GameOwnerWaitingForPlayersScreen: function(pObj) {
 
@@ -124,11 +126,14 @@ class App extends React.Component {
           startButtonClickHandler={pObj.startButtonClickHandler}
           accessCode={pObj.accessCode}
             />
-        )
-      },
+        )},
+
 
       MerlinChoiceScreen: function(pObj) { return 'MerlinChoiceScreen' + pObj['thing'] },
+
+
       MissionOutcomeScreen: function(pObj) { return 'MissionOutcomeScreen' + pObj['thing'] },
+
 
       MissionVoteScreen: function(pObj) {
         return (
@@ -141,6 +146,7 @@ class App extends React.Component {
             />
         )},
 
+
       PlayerEnterNameScreen: function(pObj) {
         return (
             <PlayerEnterNameScreen
@@ -148,6 +154,7 @@ class App extends React.Component {
           joinButtonClickHandler={pObj.joinButtonClickHandler}
             />
         )},
+
 
       PlayerWaitingForPlayersScreen: function(pObj) {
         return (
@@ -157,6 +164,7 @@ class App extends React.Component {
 
         )},
 
+
       WelcomeScreen: function(pObj) {
         return (
             <WelcomeScreen
@@ -165,6 +173,7 @@ class App extends React.Component {
             />
         )},
     }
+
 
     this.propsDispatch = {
       'AwaitAssassinScreen': {spyCount:this.state.spyCount},
