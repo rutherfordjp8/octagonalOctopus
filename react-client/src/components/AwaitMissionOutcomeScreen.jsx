@@ -7,7 +7,6 @@ class AwaitMissionOutcomeScreen extends React.Component {
 
   constructor(props) {
     super(props);
-
   }
 
   render() {
@@ -19,18 +18,18 @@ class AwaitMissionOutcomeScreen extends React.Component {
 
         <InfoPanel role={this.props.role} missionHistory={this.props.missionHistory} />
 
-      <p></p>
+        <p></p>
 
-      <Timer seconds={30}/>
+        <Timer seconds={30}/>
 
-
-
-        <p>(Shown to all players not on the mission. As players vote, they
+        <p>
+        (Shown to all players not on the mission. As players vote, they
         are taken here. Except the last to vote, which triggers all
-        players being sent to the MissionOutcomeScreen)</p>
+        players being sent to the MissionOutcomeScreen)
+        </p>
+        
       </div>
-      )
-  }
+    )}
 }
 
 export default AwaitMissionOutcomeScreen;

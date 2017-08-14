@@ -17,24 +17,20 @@ class MerlinChoiceScreen extends React.Component {
 
         <h3> Choose A Player to Assassinate as Merlin </h3>
 
-
         <InfoPanel role={this.props.role} missionHistory={this.props.missionHistory} />
 
-
-      <Timer seconds={this.props.spyCount * 60}/>
-
+        <Timer seconds={this.props.spyCount * 60}/>
 
         An html Submit form here
 
-      (Shown only to the Assassin)
+       (Shown only to the Assassin)
 
         <button onClick={this.props.submitButtonClickHandler}>
         {'Submit'}
         </button>
 
       </div>
-      )
-  }
+      )}
 }
 
 export default MerlinChoiceScreen;
