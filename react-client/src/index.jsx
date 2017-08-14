@@ -10,21 +10,20 @@ import PlayerWaitingForPlayersScreen from './components/PlayerWaitingForPlayersS
 import DiscussMissionPlayersScreen from './components/DiscussMissionPlayersScreen.jsx';
 import EnterMissionPlayersScreen from './components/EnterMissionPlayersScreen.jsx';
 import MissionVoteScreen from './components/MissionVoteScreen.jsx';
+import AwaitMissionOutcomeScreen from './components/AwaitMissionOutcomeScreen.jsx';
 
 class App extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
 
-      pageID: 'MissionVoteScreen',
+      pageID: 'AwaitMissionOutcomeScreen',
 
 
       //pageID: 'GameOutcomeScreen',
       //pageID: 'MerlinChoiceScreen',
       //pageID: 'MissionOutcomeScreen',
       //pageID: 'AwaitAssassinScreen',
-      //pageID: 'AwaitMissionOutcomeScreen',
-
 
       //pageID: 'WelcomeScreen',
       //pageID: 'GameOwnerEnterNameScreen',
@@ -34,6 +33,7 @@ class App extends React.Component {
       //pageID: 'DiscussMissionPlayersScreen',
       //pageID: 'EnterMissionPlayersScreen',
       //pageID: 'MissionVoteScreen',
+      //pageID: 'AwaitMissionOutcomeScreen',
 
       // State like things that don't exist on the app's first render,
       // but depend on a Game having been created, joined by
@@ -69,7 +69,18 @@ class App extends React.Component {
   // with the props of the other.
     this.screenDispatch = {
       AwaitAssassinScreen: function(pObj) {return 'AwaitAssassin +spyCount=' + pObj.spyCount },
-      AwaitMissionOutcomeScreen: function(pObj) {return 'AwaitMissionOutcome' + pObj.role + pObj.history },
+      AwaitMissionOutcomeScreen: function(pObj) {
+
+        return (
+
+            <AwaitMissionOutcomeScreen
+          role={pObj['role']}
+          missionHistory={pObj['missionHistory']}
+            />
+        )
+
+
+      },
 
       DiscussMissionPlayersScreen: function(pObj) {
         return (
@@ -157,7 +168,11 @@ class App extends React.Component {
 
     this.propsDispatch = {
       'AwaitAssassinScreen': {spyCount:this.state.spyCount},
-      'AwaitMissionOutcomeScreen': {role:this.state.role, history:this.state.roundsHistory },
+
+      'AwaitMissionOutcomeScreen': {
+        'role':this.state.role,
+        'missionHistory':this.state.missionHistory,
+      },
 
       'DiscussMissionPlayersScreen': {
         'missionSize':this.state.missionSize,

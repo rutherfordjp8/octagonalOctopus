@@ -1,6 +1,9 @@
 import React from 'react';
 
-class AwaitMissionOutcome extends React.Component {
+import InfoPanel from './InfoPanel.jsx';
+import Timer from './Timer.jsx';
+
+class AwaitMissionOutcomeScreen extends React.Component {
 
   constructor(props) {
     super(props);
@@ -12,17 +15,22 @@ class AwaitMissionOutcome extends React.Component {
     return (
       <div>
 
-      <Stats />
+        <h3> Awaiting Mission Outcome </h3>
+
+        <InfoPanel role={this.props.role} missionHistory={this.props.missionHistory} />
+
+      <p></p>
 
       <Timer seconds={30}/>
 
-        <h3> Awaiting Mission Outcome </h3>
-        (Shown to all players not on the mission. As players vote, they
+
+
+        <p>(Shown to all players not on the mission. As players vote, they
         are taken here. Except the last to vote, which triggers all
-        players being sent to the MissionOutcome page)
+        players being sent to the MissionOutcomeScreen)</p>
       </div>
       )
   }
 }
 
-export default AwaitMissionOutcome;
+export default AwaitMissionOutcomeScreen;
