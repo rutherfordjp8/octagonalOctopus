@@ -1,5 +1,7 @@
 import React from 'react';
 
+import MissionHistory from './MissionHistory.jsx';
+
 class InfoPanel extends React.Component {
 
   constructor(props) {
@@ -12,14 +14,15 @@ class InfoPanel extends React.Component {
 
     return (
       <div>
-      <h6> Info Panel </h6>
+      <h5> Info Panel </h5>
 
-      Your role is {this.props.role}
+      Your role: {this.props.role}
 
-        <MissionHistory history={this.props.missionHistory}/>
+      <MissionHistory missionHistory={this.props.missionHistory}/>
+
 
       Other Knowledge (A component?)
-      
+
       </div>
       )
   }
