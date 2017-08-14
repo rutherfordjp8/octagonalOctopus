@@ -21,12 +21,6 @@ class PlayerEnterNameScreen extends React.Component {
 <form >
   <input type="text" name="Token" value="Enter Access Token"/>
 
-  <input type="submit" value="Submit"/>
-</form> 
-
-      
-     
-<form >
   <input type="text" name="Name" value="Enter name"/>
 
   <input type="submit" value="Submit"/>
