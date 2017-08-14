@@ -40,7 +40,7 @@ class App extends React.Component {
       otherCharInfo: {},
       spyCount: 3,
 
-      roundsHistory: [null, null, null, null, null],
+      missionHistory: [true, false, true, null, null],
 
       missionParticipation: [],
 
@@ -66,7 +66,9 @@ class App extends React.Component {
       DiscussMissionPlayersScreen: function(pObj) {
         return (
             <DiscussMissionPlayersScreen
-          missionSize={pObj['missionSize'] }
+          missionSize={pObj['missionSize']}
+          role={pObj['role']}
+          missionHistory={pObj['missionHistory']}
             />
         )
       },
@@ -115,7 +117,13 @@ class App extends React.Component {
     this.propsDispatch = {
       'AwaitAssassinScreen': {spyCount:this.state.spyCount},
       'AwaitMissionOutcomeScreen': {role:this.state.role, history:this.state.roundsHistory },
-      'DiscussMissionPlayersScreen': {'missionSize':this.state.missionSize},
+
+      'DiscussMissionPlayersScreen': {
+        'missionSize':this.state.missionSize,
+        'role':this.state.role,
+        'missionHistory':this.state.missionHistory
+      },
+
       'EnterMissionPlayersScreen': {thing: 888888},
       'GameOutcomeScreen': {thing: 'tttt'},
 
