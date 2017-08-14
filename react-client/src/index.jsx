@@ -9,7 +9,7 @@ import GameOwnerWaitingForPlayersScreen from './components/GameOwnerWaitingForPl
 import PlayerWaitingForPlayersScreen from './components/PlayerWaitingForPlayersScreen.jsx';
 import DiscussMissionPlayersScreen from './components/DiscussMissionPlayersScreen.jsx';
 import EnterMissionPlayersScreen from './components/EnterMissionPlayersScreen.jsx';
-
+import MissionVoteScreen from './components/MissionVoteScreen.jsx';
 
 class App extends React.Component {
   constructor(props) {
@@ -38,7 +38,7 @@ class App extends React.Component {
       // State like things that don't exist on the app's first render,
       // but depend on a Game having been created, joined by
       // players, and started.
-      players: [],
+      players: ['Sam', 'Pat', 'Chris'],
       role: 'Merlin',
       otherCharInfo: {},
       spyCount: 3,
@@ -50,7 +50,7 @@ class App extends React.Component {
 
       missionHistory: [true, false, true, null, null],
 
-      missionParticipation: [],
+      missionPlayers: [],
 
       // I presume that this will be sent over by the server for each
       // round in state via sockets. Adopting a hard coded value to move fwd
@@ -118,7 +118,18 @@ class App extends React.Component {
 
       MerlinChoiceScreen: function(pObj) { return 'MerlinChoiceScreen' + pObj['thing'] },
       MissionOutcomeScreen: function(pObj) { return 'MissionOutcomeScreen' + pObj['thing'] },
-      MissionVoteScreen: function(pObj) { return 'MissionVoteScreen' + pObj['thing'] },
+
+      MissionVoteScreen: function(pObj) {
+        return (
+            <MissionVoteScreen
+          players={pObj.players}
+          role={pObj['role']}
+          missionHistory={pObj['missionHistory']}
+          failMissionButtonClickHandler={pObj['failMissionButtonClickHandler']}
+          passMissionButtonClickHandler={pObj['passMissionButtonClickHandler']}
+            />
+        )},
+
       PlayerEnterNameScreen: function(pObj) {
         return (
             <PlayerEnterNameScreen
@@ -175,7 +186,13 @@ class App extends React.Component {
 
       'MerlinChoiceScreen': {thing: 39},
       'MissionOutcomeScreen': {thing:'Orange'},
-      'MissionVoteScreen': {thing:'Apple'},
+      'MissionVoteScreen': {
+        players: this.state.players,
+        'role':this.state.role,
+        'missionHistory':this.state.missionHistory,
+        failMissionButtonClickHandler:this.handleFailMissionButtonClick,
+        passMissionButtonClickHandler:this.handlePassMissionButtonClick,
+      },
 
       'PlayerEnterNameScreen':  {
         backButtonClickHandler:this.handleBackButtonClick,
@@ -198,6 +215,8 @@ class App extends React.Component {
     this.handleBackButtonClick = this.handleBackButtonClick.bind(this);
     this.handleLeaveButtonClick = this.handleLeaveButtonClick.bind(this);
     this.handleStartButtonClick = this.handleStartButtonClick.bind(this);
+    this.handleFailMissionButtonClick = this.handleFailMissionButtonClick.bind(this);
+    this.handlePassMissionButtonClick = this.handlePassMissionButtonClick.bind(this);
 
   }
 
@@ -207,6 +226,8 @@ class App extends React.Component {
   handleBackButtonClick() {console.log("I CAN HAZ BACK CLICKS") };
   handleLeaveButtonClick() {console.log("I CAN HAZ LEAVE CLICKS") };
   handleStartButtonClick() {console.log("I CAN HAZ START CLICKS") };
+  handleFailMissionButtonClick() {console.log("I CAN HAZ FAIL CLICKS") };
+  handlePassMissionButtonClick() {console.log("I CAN HAZ PASS CLICKS") };
 
 
   componentDidMount() {
