@@ -43,12 +43,8 @@ module.exports.missionResult = (playerCount, roundNum, numFailures) => {
   // if mission passed (true) or not (false)
 
   // if numFailures is equal or greater to what is needed to fail for
-  // the given amount of players return true.
-  if (numFailures >= numFailuresNeeded[playerCount][roundNum]) {
-    return true;
-  }
-  // otherwise return false;
-  return false;
+  // the given amount of players return true, otherwise false.
+  return numFailures >= numFailuresNeeded[playerCount][roundNum];
 };
 
 module.exports.generateRoles = (usernames) => {
@@ -78,19 +74,11 @@ module.exports.merlinGuessResult = (merlinGuess) => {
 module.exports.gameOutcome = (missionResults) => {
   // given mission results array, determine if good people won (true)
 
-  var failureCount = 0;
-  // iterate through missionResults counting failures.
-  for (let i = 0; i < missionResults.length; i++) {
-    // In case a mission is null, use false;
-    if (missionResults[i] === false) {
-      failureCount++;
-      // Return false if failureCount is equal to needed amount.
-      if (failureCount === 3) {
-        return false;
-      }
-    }
-  }
-  return true;
+  const neededFailures = 3;
+
+  // Filter out all false values. Take then length and
+  // if it is greater than neededFailures return false (spies win).
+  if (missionRessults.filter(e => !e).length >= neededFailures) { return false; }
 };
 
 module.exports.extraInfoAssignment = (userRoleMapping) => {
@@ -103,8 +91,8 @@ module.exports.generateToken = () => {
   // used as the key to enter a room.
 
   // list containing numbers and characters for the random string
-  var stringArray = ['0','1','2','3','4','5','6','7','8','9','a','b','c','d','e','f','g','h','i','j','k','l','m',
-  'n','o','p','q','r','s','t','u','v','w','x','y','z'];
+  var stringArray = ['0','2','3','4','5','6','7','8','9','a','b','c','d','e','f','g','h','k',
+                    'o','p','q','r','s','t','u','v','w','x','y','z'];
 
   var token = '';
   // build a string with random characters with length of 6
