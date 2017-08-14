@@ -1,6 +1,9 @@
 import React from 'react';
 
-class GameOutcome extends React.Component {
+import MissionHistory from './MissionHistory.jsx';
+
+
+class GameOutcomeScreen extends React.Component {
 
   constructor(props) {
     super(props);
@@ -15,15 +18,19 @@ class GameOutcome extends React.Component {
 
         <h5> Game Outcome  </h5>
 
-         Here, we seem to have missed some components of use. I thus inaguate them:
+      <MissionHistory missionHistory={this.props.missionHistory}/>
 
-         Have a list of identities in the game
+         <p>Report on which side won.</p>
 
-         A New game Button here
+         <p>Have a list of identities in the game. Coordinate with websocket person</p>
+
+        <button onClick={this.props.againButtonClickHandler}>
+        {'Play Again'}
+        </button>
 
       </div>
       )
   }
 }
 
-export default GameOutcome;
+export default GameOutcomeScreen;

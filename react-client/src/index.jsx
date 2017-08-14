@@ -14,17 +14,16 @@ import AwaitMissionOutcomeScreen from './components/AwaitMissionOutcomeScreen.js
 import MissionOutcomeScreen from './components/MissionOutcomeScreen.jsx';
 import AwaitAssassinScreen from './components/AwaitAssassinScreen.jsx';
 import MerlinChoiceScreen from './components/MerlinChoiceScreen.jsx';
+import GameOutcomeScreen from './components/GameOutcomeScreen.jsx';
 
 class App extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
 
-      pageID: 'MerlinChoiceScreen',
+      pageID: 'GameOutcomeScreen',
 
-
-      //pageID: 'GameOutcomeScreen',
-
+      // These here for easy switching while developing
       //pageID: 'WelcomeScreen',
       //pageID: 'GameOwnerEnterNameScreen',
       //pageID: 'PlayerEnterNameScreen',
@@ -37,6 +36,7 @@ class App extends React.Component {
       //pageID: 'AwaitMissionOutcomeScreen',
       //pageID: 'AwaitAssassinScreen',
       //pageID: 'MerlinChoiceScreen',
+      //pageID: 'GameOutcomeScreen',
 
 
       // State like things that don't exist on the app's first render,
@@ -130,7 +130,17 @@ class App extends React.Component {
         )},
 
 
-      GameOutcomeScreen: function(pObj) { return 'GameOutocomeScreen' + pObj['thing'] },
+      GameOutcomeScreen: function(pObj) {
+
+        return (
+
+            <GameOutcomeScreen
+          role={pObj['role']}
+          missionHistory={pObj['missionHistory']}
+          againButtonClickHandler={pObj['againButtonClickHandler']}
+            />
+        )
+      },
 
 
       GameOwnerEnterNameScreen: function(pObj) {
@@ -244,7 +254,11 @@ class App extends React.Component {
         'missionHistory':this.state.missionHistory
       },
 
-      'GameOutcomeScreen': {thing: 'tttt'},
+      'GameOutcomeScreen': {
+        'role':this.state.role,
+        'missionHistory':this.state.missionHistory,
+        'againButtonClickHandler': this.handleAgainButtonClick
+      },
 
       'GameOwnerEnterNameScreen': {
         createButtonClickHandler:this.handleCreateButtonClick,
@@ -306,6 +320,7 @@ class App extends React.Component {
     this.handlePassMissionButtonClick = this.handlePassMissionButtonClick.bind(this);
     this.handleNextButtonClick = this.handleNextButtonClick.bind(this);
     this.handleSubmitButtonClick = this.handleSubmitButtonClick.bind(this);
+    this.handleAgainButtonClick = this.handleAgainButtonClick.bind(this);
     }
 
   handleNewButtonClick() {console.log("I CAN HAZ NEW CLICKS") };
@@ -318,6 +333,7 @@ class App extends React.Component {
   handlePassMissionButtonClick() {console.log("I CAN HAZ PASS CLICKS") };
   handleNextButtonClick() {console.log("I CAN HAZ NEXT CLICKS") };
   handleSubmitButtonClick() {console.log("I CAN HAZ SUBMIT CLICKS") };
+  handleAgainButtonClick() {console.log("I CAN HAZ AGAIN CLICKS") };
 
     componentDidMount() {
     }
