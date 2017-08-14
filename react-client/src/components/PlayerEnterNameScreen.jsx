@@ -12,7 +12,7 @@ class PlayerEnterNameScreen extends React.Component {
     return (
       <div>
 
-        <h2> What should the Heading Be? </h2>
+        <h2> Join a Game of Defintely Not Avalon </h2>
 
 
       I do not presently know how to deal with the html form

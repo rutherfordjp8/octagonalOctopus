@@ -1,12 +1,13 @@
 import React from 'react';
 
-class MissionOutcome extends React.Component {
+import InfoPanel from './InfoPanel.jsx';
+import Timer from './Timer.jsx';
+
+class MissionOutcomeScreen extends React.Component {
 
   constructor(props) {
     super(props);
 
-    this.failVotes = props.failVotes;
-    this.successVotes = props.successVotes;
     }
 
   render() {
@@ -14,14 +15,15 @@ class MissionOutcome extends React.Component {
     return (
       <div>
 
-        <h5> Mission Outcome  </h5>
+        <h4> Mission Outcome  </h4>
 
+        <InfoPanel role={this.props.role} missionHistory={this.props.missionHistory} />
 
-         <Stats /> <Timer seconds={30}/>
+        <Timer seconds={30}/>
 
-        Fail votes: {this.failVotes}
+        <p>Fail votes: {this.props.failVotes}</p>
 
-        Success votes: {this.successVotes}
+        <p>Success votes: {this.props.successVotes}</p>
 
       NextButton with clickHandler=this.clickHandler
 
@@ -30,4 +32,4 @@ class MissionOutcome extends React.Component {
   }
 }
 
-export default MissionOutcome;
+export default MissionOutcomeScreen;
