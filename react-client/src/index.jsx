@@ -78,12 +78,12 @@ class App extends React.Component {
       // joinButtonClickHandler: this.handleButtonClick,
     }
 
-  // An object that contains the render functions for the various
-  // screens as values. With this and the corresponding propsDispatch
-  // object, the server can send to the app a single string (one of
-  // the keys of these two objects) and the App render function can
-  // then simply call the function that is the value of the one object
-  // with the props of the other.
+    // An object that contains the render functions for the various
+    // screens as values. With this and the corresponding propsDispatch
+    // object, the server can send to the app a single string (one of
+    // the keys of these two objects) and the App render function can
+    // then simply call the function that is the value of the one object
+    // with the props of the other.
     this.screenDispatch = {
 
       AwaitAssassinScreen: function(pObj) {
@@ -321,7 +321,7 @@ class App extends React.Component {
     this.handleNextButtonClick = this.handleNextButtonClick.bind(this);
     this.handleSubmitButtonClick = this.handleSubmitButtonClick.bind(this);
     this.handleAgainButtonClick = this.handleAgainButtonClick.bind(this);
-    }
+  }
 
   handleNewButtonClick() {console.log("I CAN HAZ NEW CLICKS") };
   handleJoinButtonClick() {console.log("I CAN HAZ JOIN CLICKS") };
@@ -335,14 +335,14 @@ class App extends React.Component {
   handleSubmitButtonClick() {console.log("I CAN HAZ SUBMIT CLICKS") };
   handleAgainButtonClick() {console.log("I CAN HAZ AGAIN CLICKS") };
 
-    componentDidMount() {
-    }
+  componentDidMount() {
+  }
 
   render () {
     return (
         <div>
         {this.screenDispatch[this.state.pageID](this.propsDispatch[this.state.pageID])}
-        </div>)
+      </div>)
   }
 }
 
