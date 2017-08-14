@@ -21,7 +21,7 @@ class App extends React.Component {
     super(props);
     this.state = {
 
-      pageID: 'GameOutcomeScreen',
+      pageID: 'WelcomeScreen',
 
       // These here for easy switching while developing
       //pageID: 'WelcomeScreen',
@@ -77,6 +77,21 @@ class App extends React.Component {
       // newButtonClickHandler: this.handleButtonClick,
       // joinButtonClickHandler: this.handleButtonClick,
     }
+
+    // These bindings need to occur before the functions are
+    // referenced in propsDispatch.
+    this.handleNewButtonClick = this.handleNewButtonClick.bind(this);
+    this.handleJoinButtonClick = this.handleJoinButtonClick.bind(this);
+    this.handleCreateButtonClick = this.handleCreateButtonClick.bind(this);
+    this.handleBackButtonClick = this.handleBackButtonClick.bind(this);
+    this.handleLeaveButtonClick = this.handleLeaveButtonClick.bind(this);
+    this.handleStartButtonClick = this.handleStartButtonClick.bind(this);
+    this.handleFailMissionButtonClick = this.handleFailMissionButtonClick.bind(this);
+    this.handlePassMissionButtonClick = this.handlePassMissionButtonClick.bind(this);
+    this.handleNextButtonClick = this.handleNextButtonClick.bind(this);
+    this.handleSubmitButtonClick = this.handleSubmitButtonClick.bind(this);
+    this.handleAgainButtonClick = this.handleAgainButtonClick.bind(this);
+
 
     // An object that contains the render functions for the various
     // screens as values. With this and the corresponding propsDispatch
@@ -310,21 +325,16 @@ class App extends React.Component {
     }
 
 
-    this.handleNewButtonClick = this.handleNewButtonClick.bind(this);
-    this.handleJoinButtonClick = this.handleJoinButtonClick.bind(this);
-    this.handleCreateButtonClick = this.handleCreateButtonClick.bind(this);
-    this.handleBackButtonClick = this.handleBackButtonClick.bind(this);
-    this.handleLeaveButtonClick = this.handleLeaveButtonClick.bind(this);
-    this.handleStartButtonClick = this.handleStartButtonClick.bind(this);
-    this.handleFailMissionButtonClick = this.handleFailMissionButtonClick.bind(this);
-    this.handlePassMissionButtonClick = this.handlePassMissionButtonClick.bind(this);
-    this.handleNextButtonClick = this.handleNextButtonClick.bind(this);
-    this.handleSubmitButtonClick = this.handleSubmitButtonClick.bind(this);
-    this.handleAgainButtonClick = this.handleAgainButtonClick.bind(this);
   }
 
-  handleNewButtonClick() {console.log("I CAN HAZ NEW CLICKS") };
-  handleJoinButtonClick() {console.log("I CAN HAZ JOIN CLICKS") };
+  handleNewButtonClick() {
+    this.setState({'pageID': 'GameOwnerEnterNameScreen'})
+  };
+
+  handleJoinButtonClick() {
+    this.setState({'pageID': 'PlayerEnterNameScreen'})
+  };
+
   handleCreateButtonClick() {console.log("I CAN HAZ CREATE CLICKS") };
   handleBackButtonClick() {console.log("I CAN HAZ BACK CLICKS") };
   handleLeaveButtonClick() {console.log("I CAN HAZ LEAVE CLICKS") };
