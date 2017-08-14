@@ -1,6 +1,9 @@
 import React from 'react';
 
-class AwaitAssassin extends React.Component {
+import InfoPanel from './InfoPanel.jsx';
+import Timer from './Timer.jsx';
+
+class AwaitAssassinScreen extends React.Component {
 
   constructor(props) {
     super(props);
@@ -14,15 +17,16 @@ class AwaitAssassin extends React.Component {
     return (
       <div>
 
-      <Stats />
+      <h3> Awaiting Assassin </h3>
 
-      At most <Timer seconds={this.spyCount * 60}/>
+      <InfoPanel role={this.props.role} missionHistory={this.props.missionHistory} />
 
-        <h3> Awaiting Assassin </h3>
-        (Shown to non-spy players)
+      <Timer seconds={this.spyCount * 60}/>
+
+      (Shown to non-spy players)
       </div>
       )
   }
 }
 
-export default AwaitAssassin;
+export default AwaitAssassinScreen;

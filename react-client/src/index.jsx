@@ -11,19 +11,20 @@ import DiscussMissionPlayersScreen from './components/DiscussMissionPlayersScree
 import EnterMissionPlayersScreen from './components/EnterMissionPlayersScreen.jsx';
 import MissionVoteScreen from './components/MissionVoteScreen.jsx';
 import AwaitMissionOutcomeScreen from './components/AwaitMissionOutcomeScreen.jsx';
+import AwaitAssassinScreen from './components/AwaitAssassinScreen.jsx';
+
 
 class App extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
 
-      pageID: 'AwaitMissionOutcomeScreen',
+      pageID: 'AwaitAssassinScreen',
 
 
       //pageID: 'GameOutcomeScreen',
       //pageID: 'MerlinChoiceScreen',
       //pageID: 'MissionOutcomeScreen',
-      //pageID: 'AwaitAssassinScreen',
 
       //pageID: 'WelcomeScreen',
       //pageID: 'GameOwnerEnterNameScreen',
@@ -34,6 +35,7 @@ class App extends React.Component {
       //pageID: 'EnterMissionPlayersScreen',
       //pageID: 'MissionVoteScreen',
       //pageID: 'AwaitMissionOutcomeScreen',
+      //pageID: 'AwaitAssassinScreen',
 
       // State like things that don't exist on the app's first render,
       // but depend on a Game having been created, joined by
@@ -75,10 +77,17 @@ class App extends React.Component {
   // then simply call the function that is the value of the one object
   // with the props of the other.
     this.screenDispatch = {
-      AwaitAssassinScreen: function(pObj) {return 'AwaitAssassin +spyCount=' + pObj.spyCount },
-      AwaitMissionOutcomeScreen: function(pObj) {
+
+      AwaitAssassinScreen: function(pObj) {
 
         return (
+            <AwaitAssassinScreen
+          role={pObj['role']}
+          missionHistory={pObj['missionHistory']}
+          spyCount={pObj['spyCount']}
+            />
+        )},
+
 
       AwaitMissionOutcomeScreen: function(pObj) {
 
@@ -183,7 +192,11 @@ class App extends React.Component {
 
 
     this.propsDispatch = {
-      'AwaitAssassinScreen': {spyCount:this.state.spyCount},
+      'AwaitAssassinScreen': {
+        'spyCount':this.state.spyCount,
+        'role':this.state.role,
+        'missionHistory':this.state.missionHistory,
+      },
 
       'AwaitMissionOutcomeScreen': {
         'role':this.state.role,
