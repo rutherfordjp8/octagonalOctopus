@@ -5,6 +5,7 @@ import $ from 'jquery';
 import WelcomeScreen from './components/WelcomeScreen.jsx';
 import GameOwnerEnterNameScreen from './components/GameOwnerEnterNameScreen.jsx';
 import PlayerEnterNameScreen from './components/PlayerEnterNameScreen.jsx';
+import GameOwnerWaitingForPlayersScreen from './components/GameOwnerWaitingForPlayersScreen.jsx';
 import PlayerWaitingForPlayersScreen from './components/PlayerWaitingForPlayersScreen.jsx';
 import DiscussMissionPlayersScreen from './components/DiscussMissionPlayersScreen.jsx';
 import EnterMissionPlayersScreen from './components/EnterMissionPlayersScreen.jsx';
@@ -15,32 +16,37 @@ class App extends React.Component {
     super(props);
     this.state = {
 
-      pageID: 'EnterMissionPlayersScreen',
+      pageID: 'MissionVoteScreen',
 
 
       //pageID: 'GameOutcomeScreen',
       //pageID: 'MerlinChoiceScreen',
       //pageID: 'MissionOutcomeScreen',
-      //pageID: 'MissionVoteScreen',
       //pageID: 'AwaitAssassinScreen',
       //pageID: 'AwaitMissionOutcomeScreen',
-      //pageID: 'GameOwnerWaitingForPlayersScreen',
 
 
       //pageID: 'WelcomeScreen',
       //pageID: 'GameOwnerEnterNameScreen',
       //pageID: 'PlayerEnterNameScreen',
+      //pageID: 'GameOwnerWaitingForPlayersScreen',
       //pageID: 'PlayerWaitingForPlayersScreen',
       //pageID: 'DiscussMissionPlayersScreen',
       //pageID: 'EnterMissionPlayersScreen',
+      //pageID: 'MissionVoteScreen',
 
       // State like things that don't exist on the app's first render,
-      // but depend on a a Game having been created, joined by
+      // but depend on a Game having been created, joined by
       // players, and started.
       players: [],
       role: 'Merlin',
       otherCharInfo: {},
       spyCount: 3,
+
+      // Conforms to current pattern in the server
+      // helper-functions.generateToken (should be passed in from the
+      // server via a socket; for now, hard coded.)
+      accessCode: '8jsi7s',
 
       missionHistory: [true, false, true, null, null],
 
@@ -99,7 +105,17 @@ class App extends React.Component {
         )
       },
 
-      GameOwnerWaitingForPlayersScreen: function(pObj) { return 'GameOwnerWaitPlayers' + pObj['code'] },
+      GameOwnerWaitingForPlayersScreen: function(pObj) {
+
+        return (
+            <GameOwnerWaitingForPlayersScreen
+          leaveButtonClickHandler={pObj.leaveButtonClickHandler}
+          startButtonClickHandler={pObj.startButtonClickHandler}
+          accessCode={pObj.accessCode}
+            />
+        )
+      },
+
       MerlinChoiceScreen: function(pObj) { return 'MerlinChoiceScreen' + pObj['thing'] },
       MissionOutcomeScreen: function(pObj) { return 'MissionOutcomeScreen' + pObj['thing'] },
       MissionVoteScreen: function(pObj) { return 'MissionVoteScreen' + pObj['thing'] },
@@ -151,7 +167,12 @@ class App extends React.Component {
         backButtonClickHandler:this.handleBackButtonClick,
       },
 
-      'GameOwnerWaitingForPlayersScreen': {code: 'kdjfkjfd'},
+      'GameOwnerWaitingForPlayersScreen': {
+        accessCode: this.state.accessCode,
+        leaveButtonClickHandler: this.handleLeaveButtonClick,
+        startButtonClickHandler: this.handleStartButtonClick,
+      },
+
       'MerlinChoiceScreen': {thing: 39},
       'MissionOutcomeScreen': {thing:'Orange'},
       'MissionVoteScreen': {thing:'Apple'},
@@ -176,7 +197,7 @@ class App extends React.Component {
     this.handleCreateButtonClick = this.handleCreateButtonClick.bind(this);
     this.handleBackButtonClick = this.handleBackButtonClick.bind(this);
     this.handleLeaveButtonClick = this.handleLeaveButtonClick.bind(this);
-    this.handleLeaveButtonClick = this.handleLeaveButtonClick.bind(this);
+    this.handleStartButtonClick = this.handleStartButtonClick.bind(this);
 
   }
 
@@ -185,6 +206,7 @@ class App extends React.Component {
   handleCreateButtonClick() {console.log("I CAN HAZ CREATE CLICKS") };
   handleBackButtonClick() {console.log("I CAN HAZ BACK CLICKS") };
   handleLeaveButtonClick() {console.log("I CAN HAZ LEAVE CLICKS") };
+  handleStartButtonClick() {console.log("I CAN HAZ START CLICKS") };
 
 
   componentDidMount() {
