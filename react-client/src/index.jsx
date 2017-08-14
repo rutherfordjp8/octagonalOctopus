@@ -67,11 +67,9 @@ class App extends React.Component {
       // Also, not loving the variable name. // FixMe
       missionSize: 3,
 
-
       // Hard coded data for dev. Should be sent each round by server FixMe
       failVotes: 1,
       successVotes: 2,
-
 
       // Work out if to have different click handling functions or if dispatch within one
       // newButtonClickHandler: this.handleButtonClick,
@@ -91,6 +89,7 @@ class App extends React.Component {
     this.handleNextButtonClick = this.handleNextButtonClick.bind(this);
     this.handleSubmitButtonClick = this.handleSubmitButtonClick.bind(this);
     this.handleAgainButtonClick = this.handleAgainButtonClick.bind(this);
+
 
 
     // An object that contains the render functions for the various
