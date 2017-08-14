@@ -21,7 +21,7 @@ class App extends React.Component {
     super(props);
     this.state = {
 
-      pageID: 'GameOutcomeScreen',
+      pageID: 'PlayerEnterNameScreen',
 
       // These here for easy switching while developing
       //pageID: 'WelcomeScreen',
@@ -139,11 +139,11 @@ class App extends React.Component {
           missionHistory={pObj['missionHistory']}
           againButtonClickHandler={pObj['againButtonClickHandler']}
             />
-        )
-      },
+        )},
 
 
       GameOwnerEnterNameScreen: function(pObj) {
+
         return (
             <GameOwnerEnterNameScreen
           createButtonClickHandler={pObj.createButtonClickHandler}
@@ -172,8 +172,7 @@ class App extends React.Component {
           spyCount={pObj['spyCount']}
           submitButtonClickHandler={pObj['submitButtonClickHandler']}
             />
-        )
-      },
+        )},
 
 
       MissionOutcomeScreen: function(pObj) {
@@ -191,6 +190,7 @@ class App extends React.Component {
 
 
       MissionVoteScreen: function(pObj) {
+
         return (
             <MissionVoteScreen
           players={pObj.players}
@@ -203,6 +203,7 @@ class App extends React.Component {
 
 
       PlayerEnterNameScreen: function(pObj) {
+
         return (
             <PlayerEnterNameScreen
           backButtonClickHandler={pObj.backButtonClickHandler}
@@ -212,6 +213,7 @@ class App extends React.Component {
 
 
       PlayerWaitingForPlayersScreen: function(pObj) {
+
         return (
             <PlayerWaitingForPlayersScreen
           leaveButtonClickHandler={pObj.leaveButtonClickHandler}
@@ -221,6 +223,7 @@ class App extends React.Component {
 
 
       WelcomeScreen: function(pObj) {
+
         return (
             <WelcomeScreen
           newButtonClickHandler={pObj.newButtonClickHandler}

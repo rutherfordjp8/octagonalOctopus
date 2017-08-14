@@ -36,8 +36,7 @@ class WelcomeScreen extends React.Component {
 
 
       </div>
-      )
-  }
+    )}
 }
 
 export default WelcomeScreen;
