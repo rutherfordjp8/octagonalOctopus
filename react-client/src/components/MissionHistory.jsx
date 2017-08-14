@@ -17,7 +17,6 @@ class MissionHistory extends React.Component {
       if (props.missionHistory[i] === false) { this.glyphs.push('-'); }
 
       if (props.missionHistory[i] === null) { this.glyphs.push('_'); }
-
     }
   }
 
@@ -25,11 +24,9 @@ class MissionHistory extends React.Component {
 
     return (
       <div>
-
         <h6> Mission History: {this.glyphs.join(' ')}  </h6>
       </div>
-      )
-  }
+      )}
 }
 
 export default MissionHistory;

@@ -4,7 +4,6 @@ class GameOwnerWaitingForPlayersScreen extends React.Component {
 
   constructor(props) {
     super(props);
-
   }
 
   render() {
@@ -14,13 +13,15 @@ class GameOwnerWaitingForPlayersScreen extends React.Component {
 
         <h2> Waiting for Players </h2>
 
-      <p>Access Code: {this.props.accessCode}</p>
+        <p>
+        Access Code: {this.props.accessCode}
+        </p>
 
-      Implement Player List here TODO
+        Implement Player List here TODO
 
-      <p>It isn't sufficently clear how the state will handle the player lists.</p>
-
-
+        <p>
+        It isn't sufficently clear how the state will handle the player lists.
+        </p>
 
         <button onClick={this.props.leaveButtonClickHandler}>
         {'Leave'}
@@ -30,11 +31,8 @@ class GameOwnerWaitingForPlayersScreen extends React.Component {
         {'Start'}
         </button>
 
-
-
       </div>
-      )
-  }
+      )}
 }
 
 export default GameOwnerWaitingForPlayersScreen;

@@ -7,7 +7,6 @@ class MissionVoteScreen extends React.Component {
 
   constructor(props) {
     super(props);
-    this.players = props.players
   }
 
   playersToString () {
@@ -21,10 +20,10 @@ class MissionVoteScreen extends React.Component {
     // will wrongly be included in the list of players on the mission.
     // Fixme
 
-    var pString = this.players.join(', and ');
-    if (this.players.length === 2) {
+    var pString = props.players.join(', and ');
+    if (this.props.players.length === 2) {
       // Remove oxford comma in case of only two
-      pString = this.players.join(' and ');
+      pString = this.props.players.join(' and ');
     }
     return pString;
   }
@@ -40,11 +39,13 @@ class MissionVoteScreen extends React.Component {
 
         <Timer seconds={30}/>
 
+        <p>
+        You are on a mission with {this.playersToString()}.
+        </p>
 
-        <p>You are on a mission with {this.playersToString()}.</p>
-
-
-        <p>Do you want the mission to fail or succeed?</p>
+        <p>
+        Do you want the mission to fail or succeed?
+        </p>
 
         <button onClick={this.props.failMissionButtonClickHandler}>
         {'Mission Fails'}
@@ -54,10 +55,12 @@ class MissionVoteScreen extends React.Component {
         {'Mission Succeeds'}
         </button>
 
-        <p>(Shown only to players on the Mission)</p>
+        <p>
+        (Shown only to players on the Mission)
+        </p>
+
       </div>
-      )
-  }
+      )}
 }
 
 export default MissionVoteScreen

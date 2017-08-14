@@ -14,14 +14,13 @@ class GameOwnerEnterNameScreen extends React.Component {
 
         <h2> Please Enter your Name </h2>
 
-      I do not presently know how to deal with the html form
+        I do not presently know how to deal with the html form
 
-     
-<form >
-  <input type="text" name="Name" value="Enter name"/>
+        <form >
+        <input type="text" name="Name" value="Enter name"/>
 
-  <input type="submit" value="Submit"/>
-</form> 
+        <input type="submit" value="Submit"/>
+        </form>
 
         <button onClick={this.props.createButtonClickHandler}>
         {'Create'}
@@ -31,14 +30,8 @@ class GameOwnerEnterNameScreen extends React.Component {
         {'Back'}
         </button>
 
-
- 
-
-      
-     </div> 
-    )
-  }
-  
+     </div>
+    )}
 }
 
 export default GameOwnerEnterNameScreen;
