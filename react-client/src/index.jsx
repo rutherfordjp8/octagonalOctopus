@@ -13,18 +13,17 @@ import MissionVoteScreen from './components/MissionVoteScreen.jsx';
 import AwaitMissionOutcomeScreen from './components/AwaitMissionOutcomeScreen.jsx';
 import MissionOutcomeScreen from './components/MissionOutcomeScreen.jsx';
 import AwaitAssassinScreen from './components/AwaitAssassinScreen.jsx';
-
+import MerlinChoiceScreen from './components/MerlinChoiceScreen.jsx';
 
 class App extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
 
-      pageID: 'MissionOutcomeScreen',
+      pageID: 'MerlinChoiceScreen',
 
 
       //pageID: 'GameOutcomeScreen',
-      //pageID: 'MerlinChoiceScreen',
 
       //pageID: 'WelcomeScreen',
       //pageID: 'GameOwnerEnterNameScreen',
@@ -37,6 +36,8 @@ class App extends React.Component {
       //pageID: 'MissionOutcomeScreen',
       //pageID: 'AwaitMissionOutcomeScreen',
       //pageID: 'AwaitAssassinScreen',
+      //pageID: 'MerlinChoiceScreen',
+
 
       // State like things that don't exist on the app's first render,
       // but depend on a Game having been created, joined by
@@ -152,7 +153,17 @@ class App extends React.Component {
         )},
 
 
-      MerlinChoiceScreen: function(pObj) { return 'MerlinChoiceScreen' + pObj['thing'] },
+      MerlinChoiceScreen: function(pObj) {
+
+        return (
+            <MerlinChoiceScreen
+          role={pObj['role']}
+          missionHistory={pObj['missionHistory']}
+          spyCount={pObj['spyCount']}
+          submitButtonClickHandler={pObj['submitButtonClickHandler']}
+            />
+        )
+      },
 
 
       MissionOutcomeScreen: function(pObj) {
@@ -246,7 +257,12 @@ class App extends React.Component {
         startButtonClickHandler: this.handleStartButtonClick,
       },
 
-      'MerlinChoiceScreen': {thing: 39},
+      'MerlinChoiceScreen': {
+        'role':this.state.role,
+        'missionHistory':this.state.missionHistory,
+        'spyCount':this.state.spyCount,
+        'submitButtonClickHandler':this.handleSubmitButtonClick,
+      },
 
       'MissionOutcomeScreen': {
         'role':this.state.role,
@@ -289,7 +305,7 @@ class App extends React.Component {
     this.handleFailMissionButtonClick = this.handleFailMissionButtonClick.bind(this);
     this.handlePassMissionButtonClick = this.handlePassMissionButtonClick.bind(this);
     this.handleNextButtonClick = this.handleNextButtonClick.bind(this);
-
+    this.handleSubmitButtonClick = this.handleSubmitButtonClick.bind(this);
     }
 
   handleNewButtonClick() {console.log("I CAN HAZ NEW CLICKS") };
@@ -301,6 +317,7 @@ class App extends React.Component {
   handleFailMissionButtonClick() {console.log("I CAN HAZ FAIL CLICKS") };
   handlePassMissionButtonClick() {console.log("I CAN HAZ PASS CLICKS") };
   handleNextButtonClick() {console.log("I CAN HAZ NEXT CLICKS") };
+  handleSubmitButtonClick() {console.log("I CAN HAZ SUBMIT CLICKS") };
 
     componentDidMount() {
     }
