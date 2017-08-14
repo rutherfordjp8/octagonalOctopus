@@ -6,16 +6,14 @@ import WelcomeScreen from './components/WelcomeScreen.jsx';
 import GameOwnerEnterNameScreen from './components/GameOwnerEnterNameScreen.jsx';
 import PlayerEnterNameScreen from './components/PlayerEnterNameScreen.jsx';
 import PlayerWaitingForPlayersScreen from './components/PlayerWaitingForPlayersScreen.jsx';
-
+import DiscussMissionPlayersScreen from './components/DiscussMissionPlayersScreen.jsx';
 class App extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
 
-      pageID: 'PlayerWaitingForPlayersScreen',
+      pageID: 'DiscussMissionPlayersScreen',
 
-      //pageID: 'PlayerWaitingForPlayersScreen',
-      //pageID: 'DiscussMissionPlayersScreen',
       //pageID: 'EnterMissionPlayersScreen',
       //pageID: 'GameOutcomeScreen',
       //pageID: 'MerlinChoiceScreen',
@@ -25,13 +23,13 @@ class App extends React.Component {
       //pageID: 'AwaitMissionOutcomeScreen',
       //pageID: 'GameOwnerWaitingForPlayersScreen',
 
-      //pageID: 'PlayerWaitingForPlayersScreen',
-
 
 
       //pageID: 'WelcomeScreen',
       //pageID: 'GameOwnerEnterNameScreen',
       //pageID: 'PlayerEnterNameScreen',
+      //pageID: 'PlayerWaitingForPlayersScreen',
+      //pageID: 'DiscussMissionPlayersScreen',
 
 
       // State like things that don't exist on the app's first render,
@@ -45,6 +43,10 @@ class App extends React.Component {
       roundsHistory: [null, null, null, null, null],
 
       missionParticipation: [],
+
+      // I presume that this will be sent over by the server for each
+      // round in state via sockets. Adopting a hard coded value to move fwd
+      missionSize: 3,
 
       // Work out if to have different click handling functions or if dispatch within one
       // newButtonClickHandler: this.handleButtonClick,
@@ -61,7 +63,14 @@ class App extends React.Component {
       AwaitAssassinScreen: function(pObj) {return 'AwaitAssassin +spyCount=' + pObj.spyCount },
       AwaitMissionOutcomeScreen: function(pObj) {return 'AwaitMissionOutcome' + pObj.role + pObj.history },
 
-      DiscussMissionPlayersScreen: function(pObj) { return 'DiscussMissionPlayersScreen' + pObj['thing'] },
+      DiscussMissionPlayersScreen: function(pObj) {
+        return (
+            <DiscussMissionPlayersScreen
+          missionSize={pObj['missionSize'] }
+            />
+        )
+      },
+
       EnterMissionPlayersScreen: function(pObj) { return 'MissionPlayersScreen' + pObj['thing'] },
       GameOutcomeScreen: function(pObj) { return 'GameOutocomeScreen' + pObj['thing'] },
 
@@ -106,7 +115,7 @@ class App extends React.Component {
     this.propsDispatch = {
       'AwaitAssassinScreen': {spyCount:this.state.spyCount},
       'AwaitMissionOutcomeScreen': {role:this.state.role, history:this.state.roundsHistory },
-      'DiscussMissionPlayersScreen': {thing:1000},
+      'DiscussMissionPlayersScreen': {'missionSize':this.state.missionSize},
       'EnterMissionPlayersScreen': {thing: 888888},
       'GameOutcomeScreen': {thing: 'tttt'},
 
