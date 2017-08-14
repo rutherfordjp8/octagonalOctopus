@@ -1,6 +1,8 @@
 import React from 'react';
 
-class DiscussMissionPlayers extends React.Component {
+import InfoPanel from './InfoPanel.jsx';
+
+class DiscussMissionPlayersScreen extends React.Component {
 
   constructor(props) {
     super(props);
@@ -20,4 +22,4 @@ class DiscussMissionPlayers extends React.Component {
   }
 }
 
-export default DiscussMissionPlayers;
+export default DiscussMissionPlayersScreen;

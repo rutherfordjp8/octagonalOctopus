@@ -1,6 +1,6 @@
 import React from 'react';
 
-class Stats extends React.Component {
+class InfoPanel extends React.Component {
 
   constructor(props) {
     super(props);
@@ -12,7 +12,7 @@ class Stats extends React.Component {
 
     return (
       <div>
-      <h6> Stats Panel </h6>
+      <h6> Info Panel </h6>
 
       Your role is {this.props.role}
 
@@ -25,4 +25,4 @@ class Stats extends React.Component {
   }
 }
 
-export default Stats;
+export default InfoPanel;
