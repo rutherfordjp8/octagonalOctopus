@@ -7,14 +7,17 @@ import GameOwnerEnterNameScreen from './components/GameOwnerEnterNameScreen.jsx'
 import PlayerEnterNameScreen from './components/PlayerEnterNameScreen.jsx';
 import PlayerWaitingForPlayersScreen from './components/PlayerWaitingForPlayersScreen.jsx';
 import DiscussMissionPlayersScreen from './components/DiscussMissionPlayersScreen.jsx';
+import EnterMissionPlayersScreen from './components/EnterMissionPlayersScreen.jsx';
+
+
 class App extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
 
-      pageID: 'DiscussMissionPlayersScreen',
+      pageID: 'EnterMissionPlayersScreen',
 
-      //pageID: 'EnterMissionPlayersScreen',
+
       //pageID: 'GameOutcomeScreen',
       //pageID: 'MerlinChoiceScreen',
       //pageID: 'MissionOutcomeScreen',
@@ -24,13 +27,12 @@ class App extends React.Component {
       //pageID: 'GameOwnerWaitingForPlayersScreen',
 
 
-
       //pageID: 'WelcomeScreen',
       //pageID: 'GameOwnerEnterNameScreen',
       //pageID: 'PlayerEnterNameScreen',
       //pageID: 'PlayerWaitingForPlayersScreen',
       //pageID: 'DiscussMissionPlayersScreen',
-
+      //pageID: 'EnterMissionPlayersScreen',
 
       // State like things that don't exist on the app's first render,
       // but depend on a a Game having been created, joined by
@@ -73,7 +75,19 @@ class App extends React.Component {
         )
       },
 
-      EnterMissionPlayersScreen: function(pObj) { return 'MissionPlayersScreen' + pObj['thing'] },
+      EnterMissionPlayersScreen: function(pObj) {
+
+        return (
+
+            <EnterMissionPlayersScreen
+          missionSize={pObj['missionSize']}
+          role={pObj['role']}
+          missionHistory={pObj['missionHistory']}
+            />
+
+        )
+      },
+
       GameOutcomeScreen: function(pObj) { return 'GameOutocomeScreen' + pObj['thing'] },
 
       GameOwnerEnterNameScreen: function(pObj) {
@@ -124,7 +138,12 @@ class App extends React.Component {
         'missionHistory':this.state.missionHistory
       },
 
-      'EnterMissionPlayersScreen': {thing: 888888},
+      'EnterMissionPlayersScreen': {
+        'missionSize':this.state.missionSize,
+        'role':this.state.role,
+        'missionHistory':this.state.missionHistory
+      },
+
       'GameOutcomeScreen': {thing: 'tttt'},
 
       'GameOwnerEnterNameScreen': {

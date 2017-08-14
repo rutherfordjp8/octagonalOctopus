@@ -1,6 +1,8 @@
 import React from 'react';
 
-class EnterMissonPlayer extends React.Component {
+import InfoPanel from './InfoPanel.jsx';
+
+class EnterMissonPlayersScreen extends React.Component {
 
   constructor(props) {
     super(props);
@@ -12,16 +14,15 @@ class EnterMissonPlayer extends React.Component {
     return (
       <div>
 
-      <Stats />
+      <h3> Decide who Goes on the Mission </h3>
 
-      <Timer />
+        <InfoPanel role={this.props.role} missionHistory={this.props.missionHistory} />
 
-        <h3> Enter Mission Players </h3>
+        <h5> Discuss Which {this.props.missionSize} Players to Send on the Mission and enter the results:</h5>
 
-        Enter the {this.props.missionCount} players that the group has
-        decided will go on the mission:
+      Appropriate widget here
 
-        Appropriate Widget here
+
 
         (Shown only to Game owner)
       </div>
@@ -29,4 +30,4 @@ class EnterMissonPlayer extends React.Component {
   }
 }
 
-export default EnterMissonPlayer;
+export default EnterMissonPlayersScreen;
