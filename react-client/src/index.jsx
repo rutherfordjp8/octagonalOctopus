@@ -40,20 +40,27 @@ class App extends React.Component {
       // players, and started.
       players: ['Sam', 'Pat', 'Chris'],
       role: 'Merlin',
+
+      // The nature of the other character info depends on game
+      // knowledge I lack. Discuss with those who know the fame. // FixMe
       otherCharInfo: {},
+
+      // Hard coded value for development. Should come from the server
+      // in an actual game // FixMe
       spyCount: 3,
 
       // Conforms to current pattern in the server
       // helper-functions.generateToken (should be passed in from the
-      // server via a socket; for now, hard coded.)
+      // server via a socket; for now, hard coded.) // FixMe
       accessCode: '8jsi7s',
 
-      missionHistory: [true, false, true, null, null],
+      missionHistory: [true, false, true, null, null], // FixMe
 
-      missionPlayers: [],
+      missionPlayers: [],  // FixMe
 
       // I presume that this will be sent over by the server for each
       // round in state via sockets. Adopting a hard coded value to move fwd
+      // Also, not loving the variable name. // FixMe
       missionSize: 3,
 
       // Work out if to have different click handling functions or if dispatch within one
