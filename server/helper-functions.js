@@ -76,7 +76,7 @@ module.exports.gameOutcome = (missionResults) => {
 
   const neededFailures = 3;
 
-  // Filter out all false values. Take then length and
+  // Filter out all false values. Take the length and
   // if it is greater than neededFailures return false (spies win).
   if (missionRessults.filter(e => !e).length >= neededFailures) { return false; }
 };
