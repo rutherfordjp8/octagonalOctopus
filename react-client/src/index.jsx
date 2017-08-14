@@ -11,6 +11,7 @@ import DiscussMissionPlayersScreen from './components/DiscussMissionPlayersScree
 import EnterMissionPlayersScreen from './components/EnterMissionPlayersScreen.jsx';
 import MissionVoteScreen from './components/MissionVoteScreen.jsx';
 import AwaitMissionOutcomeScreen from './components/AwaitMissionOutcomeScreen.jsx';
+import MissionOutcomeScreen from './components/MissionOutcomeScreen.jsx';
 import AwaitAssassinScreen from './components/AwaitAssassinScreen.jsx';
 
 
@@ -19,12 +20,11 @@ class App extends React.Component {
     super(props);
     this.state = {
 
-      pageID: 'AwaitAssassinScreen',
+      pageID: 'MissionOutcomeScreen',
 
 
       //pageID: 'GameOutcomeScreen',
       //pageID: 'MerlinChoiceScreen',
-      //pageID: 'MissionOutcomeScreen',
 
       //pageID: 'WelcomeScreen',
       //pageID: 'GameOwnerEnterNameScreen',
@@ -34,6 +34,7 @@ class App extends React.Component {
       //pageID: 'DiscussMissionPlayersScreen',
       //pageID: 'EnterMissionPlayersScreen',
       //pageID: 'MissionVoteScreen',
+      //pageID: 'MissionOutcomeScreen',
       //pageID: 'AwaitMissionOutcomeScreen',
       //pageID: 'AwaitAssassinScreen',
 
@@ -64,6 +65,12 @@ class App extends React.Component {
       // round in state via sockets. Adopting a hard coded value to move fwd
       // Also, not loving the variable name. // FixMe
       missionSize: 3,
+
+
+      // Hard coded data for dev. Should be sent each round by server FixMe
+      failVotes: 1,
+      successVotes: 2,
+
 
       // Work out if to have different click handling functions or if dispatch within one
       // newButtonClickHandler: this.handleButtonClick,
@@ -148,7 +155,18 @@ class App extends React.Component {
       MerlinChoiceScreen: function(pObj) { return 'MerlinChoiceScreen' + pObj['thing'] },
 
 
-      MissionOutcomeScreen: function(pObj) { return 'MissionOutcomeScreen' + pObj['thing'] },
+      MissionOutcomeScreen: function(pObj) {
+
+        return (
+
+            <MissionOutcomeScreen
+          role={pObj['role']}
+          missionHistory={pObj['missionHistory']}
+          failVotes={pObj['failVotes']}
+          successVotes={pObj['successVotes']}
+          nextButtonClickHandler={pObj['nextButtonClickHandler']}
+            />
+        )},
 
 
       MissionVoteScreen: function(pObj) {
@@ -229,7 +247,15 @@ class App extends React.Component {
       },
 
       'MerlinChoiceScreen': {thing: 39},
-      'MissionOutcomeScreen': {thing:'Orange'},
+
+      'MissionOutcomeScreen': {
+        'role':this.state.role,
+        'missionHistory':this.state.missionHistory,
+        'failVotes':this.state.failVotes,
+        'successVotes':this.state.successVotes,
+        'nextButtonClickHandler':this.handleNextButtonClick
+      },
+
       'MissionVoteScreen': {
         players: this.state.players,
         'role':this.state.role,
@@ -253,6 +279,7 @@ class App extends React.Component {
       }
     }
 
+
     this.handleNewButtonClick = this.handleNewButtonClick.bind(this);
     this.handleJoinButtonClick = this.handleJoinButtonClick.bind(this);
     this.handleCreateButtonClick = this.handleCreateButtonClick.bind(this);
@@ -261,8 +288,9 @@ class App extends React.Component {
     this.handleStartButtonClick = this.handleStartButtonClick.bind(this);
     this.handleFailMissionButtonClick = this.handleFailMissionButtonClick.bind(this);
     this.handlePassMissionButtonClick = this.handlePassMissionButtonClick.bind(this);
+    this.handleNextButtonClick = this.handleNextButtonClick.bind(this);
 
-  }
+    }
 
   handleNewButtonClick() {console.log("I CAN HAZ NEW CLICKS") };
   handleJoinButtonClick() {console.log("I CAN HAZ JOIN CLICKS") };
@@ -272,10 +300,10 @@ class App extends React.Component {
   handleStartButtonClick() {console.log("I CAN HAZ START CLICKS") };
   handleFailMissionButtonClick() {console.log("I CAN HAZ FAIL CLICKS") };
   handlePassMissionButtonClick() {console.log("I CAN HAZ PASS CLICKS") };
+  handleNextButtonClick() {console.log("I CAN HAZ NEXT CLICKS") };
 
-
-  componentDidMount() {
-  }
+    componentDidMount() {
+    }
 
   render () {
     return (
