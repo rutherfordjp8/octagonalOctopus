@@ -1,5 +1,5 @@
-var _ = require('underscore');
-var db = require('../database-mongo');
+const _ = require('underscore');
+const db = require('../database-mongo');
 
 // key represents number of players.
 // values represent the different roles that will be played
@@ -52,11 +52,11 @@ module.exports.generateRoles = (usernames) => {
   // to roles
 
   // output array of users roles
-  var userRoles = {}
+  let userRoles = {}
   // get the length of the usernames.
-  var key = Object.keys(usernames).length;
+  const key = Object.keys(usernames).length;
   // shuffle the roles
-  var shuffleRoles = _.shuffle(roles(key));
+  const shuffleRoles = _.shuffle(roles(key));
 
   // iterate through usernames
   for (let i = 0; i < usernames.length; i++) {
@@ -71,7 +71,7 @@ module.exports.merlinGuessResult = (token, merlinGuess) => {
   // return true or false
 
   // Callback for getMerlin
-  var returnMerlin = function(merlin) {
+  let returnMerlin = function(merlin) {
     return merlin === merlinGuess;
   }
 
@@ -98,10 +98,10 @@ module.exports.extraInfoAssignment = (token, userRoleMapping) => {
   // Merlin: all spies except Mordred (headspy)
   // Percival: can see Merlin and Morgana but does not know which is which.
   //************************
-  // Oberon: doesn't see any spies ** Not Special
 
-  let extraInfo = [],
-      numPlayers = Object.keys(userRoleMapping).length;
+
+  const numPlayers = Object.keys(userRoleMapping).length;
+  let extraInfo = [];
 
   // return all usernames of spies, headspy will be last.
   // if more than 6 players, Morgana will be last and
@@ -131,7 +131,7 @@ module.exports.extraInfoAssignment = (token, userRoleMapping) => {
   // Callback for database query.
   // Gets all info to return and assigns to
   // special roles to an object.
-  findInfo = (playerIds) => {
+  getInfo = (playerIds) => {
     let userId = playerIds[key],
         usersInfo = {},
         roleToUsers = {}, // roleToUsers example, {'Spies': [user1, user2], ...}
@@ -170,10 +170,10 @@ module.exports.extraInfoAssignment = (token, userRoleMapping) => {
       extraInfo.push(usersInfo);
     }
   }
-  db.getPlayerIdMapping(token, findInfo);
+
+  db.getPlayerIdMapping(token, getInfo);
 
   return extraInfo;
-  //******ADD MERLIN********
 }
 
 module.exports.generateToken = () => {
