@@ -44,7 +44,7 @@ module.exports.missionResult = (playerCount, roundNum, numFailures) => {
 
   // if numFailures is equal or greater to what is needed to fail for
   // the given amount of players return true, otherwise false.
-  return numFailures >= numFailuresNeeded[playerCount][roundNum];
+  return !(numFailures >= numFailuresNeeded[playerCount][roundNum]);
 };
 
 module.exports.generateRoles = (usernames) => {
