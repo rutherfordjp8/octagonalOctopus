@@ -21,15 +21,18 @@ class MissionOutcomeScreen extends React.Component {
 
         <Timer seconds={30}/>
 
-        <p>Fail votes: {this.props.failVotes}</p>
+        <p>
+        Fail votes: {this.props.failVotes}
+        </p>
 
-        <p>Success votes: {this.props.successVotes}</p>
+        <p>
+        Success votes: {this.props.successVotes}
+        </p>
 
-      NextButton with clickHandler=this.clickHandler
+        NextButton with clickHandler=this.clickHandler
 
       </div>
-      )
-  }
+      )}
 }
 
 export default MissionOutcomeScreen;

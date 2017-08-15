@@ -21,7 +21,13 @@ class App extends React.Component {
     super(props);
     this.state = {
 
-      pageID: 'GameOutcomeScreen',
+
+      // Especially while state is in development flux, it is
+      // important to ensure that state here and startState track each
+      // other.
+
+      pageID: 'PlayerEnterNameScreen',
+
 
       // These here for easy switching while developing
       //pageID: 'WelcomeScreen',
@@ -67,16 +73,50 @@ class App extends React.Component {
       // Also, not loving the variable name. // FixMe
       missionSize: 3,
 
-
       // Hard coded data for dev. Should be sent each round by server FixMe
       failVotes: 1,
       successVotes: 2,
-
 
       // Work out if to have different click handling functions or if dispatch within one
       // newButtonClickHandler: this.handleButtonClick,
       // joinButtonClickHandler: this.handleButtonClick,
     }
+
+    // This needs to zero out or restore to sane initial values *all*
+    // of the state. This will be a moving target as we develop so a
+    // likely pain point will be forgetting to undate some things,
+    // here. FixMe
+    this.startState = {
+      'pageID': 'WelcomeScreen',
+      'players': [],
+      'role': undefined,
+      'otherCharInfo': undefined,
+      'spyCount': undefined,
+      'accessCode': '234567',
+      'missonHistory': [null, null, null, null, null],
+      'missionPlayers': [],
+      'missionSize': undefined,
+      'failVotes': undefined,
+      'successVotes': undefined,
+    }
+
+
+    // These bindings need to occur before the functions are
+    // referenced in propsDispatch.
+    this.handleNewButtonClick = this.handleNewButtonClick.bind(this);
+    this.handleJoinButtonClick = this.handleJoinButtonClick.bind(this);
+    this.handleCreateButtonClick = this.handleCreateButtonClick.bind(this);
+    this.handleBackButtonClick = this.handleBackButtonClick.bind(this);
+    this.handleLeaveButtonClick = this.handleLeaveButtonClick.bind(this);
+    this.handleStartButtonClick = this.handleStartButtonClick.bind(this);
+    this.handleFailMissionButtonClick = this.handleFailMissionButtonClick.bind(this);
+    this.handlePassMissionButtonClick = this.handlePassMissionButtonClick.bind(this);
+    this.handleNextButtonClick = this.handleNextButtonClick.bind(this);
+    this.handlePlayerNameFormSubmitButtonClick = this.handlePlayerNameFormSubmitButtonClick.bind(this);
+    this.handleSubmitButtonClick = this.handleSubmitButtonClick.bind(this);
+    this.handleAgainButtonClick = this.handleAgainButtonClick.bind(this);
+
+
 
     // An object that contains the render functions for the various
     // screens as values. With this and the corresponding propsDispatch
@@ -139,11 +179,11 @@ class App extends React.Component {
           missionHistory={pObj['missionHistory']}
           againButtonClickHandler={pObj['againButtonClickHandler']}
             />
-        )
-      },
+        )},
 
 
       GameOwnerEnterNameScreen: function(pObj) {
+
         return (
             <GameOwnerEnterNameScreen
           createButtonClickHandler={pObj.createButtonClickHandler}
@@ -172,8 +212,7 @@ class App extends React.Component {
           spyCount={pObj['spyCount']}
           submitButtonClickHandler={pObj['submitButtonClickHandler']}
             />
-        )
-      },
+        )},
 
 
       MissionOutcomeScreen: function(pObj) {
@@ -191,6 +230,7 @@ class App extends React.Component {
 
 
       MissionVoteScreen: function(pObj) {
+
         return (
             <MissionVoteScreen
           players={pObj.players}
@@ -203,15 +243,18 @@ class App extends React.Component {
 
 
       PlayerEnterNameScreen: function(pObj) {
+
         return (
             <PlayerEnterNameScreen
           backButtonClickHandler={pObj.backButtonClickHandler}
           joinButtonClickHandler={pObj.joinButtonClickHandler}
+          submitButtonClickHandler={pObj.submitButtonClickHandler}
             />
         )},
 
 
       PlayerWaitingForPlayersScreen: function(pObj) {
+
         return (
             <PlayerWaitingForPlayersScreen
           leaveButtonClickHandler={pObj.leaveButtonClickHandler}
@@ -221,6 +264,7 @@ class App extends React.Component {
 
 
       WelcomeScreen: function(pObj) {
+
         return (
             <WelcomeScreen
           newButtonClickHandler={pObj.newButtonClickHandler}
@@ -296,7 +340,8 @@ class App extends React.Component {
 
       'PlayerEnterNameScreen':  {
         backButtonClickHandler:this.handleBackButtonClick,
-        joinButtonClickHandler:this.handleJoinButtonClick
+        joinButtonClickHandler:this.handleJoinButtonClick,
+        'submitButtonClickHandler': this.handlePlayerNameFormSubmitButtonClick,
       },
 
       'PlayerWaitingForPlayersScreen': {
@@ -309,30 +354,57 @@ class App extends React.Component {
       }
     }
 
+  }  // End of constructor. Flagged because stupid huge. FixMe Is it
+     // necessary it is so big?
 
-    this.handleNewButtonClick = this.handleNewButtonClick.bind(this);
-    this.handleJoinButtonClick = this.handleJoinButtonClick.bind(this);
-    this.handleCreateButtonClick = this.handleCreateButtonClick.bind(this);
-    this.handleBackButtonClick = this.handleBackButtonClick.bind(this);
-    this.handleLeaveButtonClick = this.handleLeaveButtonClick.bind(this);
-    this.handleStartButtonClick = this.handleStartButtonClick.bind(this);
-    this.handleFailMissionButtonClick = this.handleFailMissionButtonClick.bind(this);
-    this.handlePassMissionButtonClick = this.handlePassMissionButtonClick.bind(this);
-    this.handleNextButtonClick = this.handleNextButtonClick.bind(this);
-    this.handleSubmitButtonClick = this.handleSubmitButtonClick.bind(this);
-    this.handleAgainButtonClick = this.handleAgainButtonClick.bind(this);
-  }
 
-  handleNewButtonClick() {console.log("I CAN HAZ NEW CLICKS") };
-  handleJoinButtonClick() {console.log("I CAN HAZ JOIN CLICKS") };
+  // The first block of event handlers can be dealt with largely client side:
+
+  handleNewButtonClick() {
+    this.setState({'pageID': 'GameOwnerEnterNameScreen'})
+  };
+
+  handleJoinButtonClick() {
+    this.setState({'pageID': 'PlayerEnterNameScreen'})
+  };
+
+  handleBackButtonClick() {
+    this.setState({'pageID': 'WelcomeScreen'})
+  };
+
+  handleLeaveButtonClick() {
+    // FixMe The server needs to be informed that the client has left.
+    // Should this be by a POST or via the sockets?
+    this.setState({'pageID': 'WelcomeScreen'})
+  };
+
+  handleAgainButtonClick() {
+    this.setState(this.startState);
+    console.log("I CAN HAZ AGAIN CLICKS")
+    // Should likely also inform server, right? FixMe
+  };
+
+
+// End of largely client side event handlers
+
   handleCreateButtonClick() {console.log("I CAN HAZ CREATE CLICKS") };
-  handleBackButtonClick() {console.log("I CAN HAZ BACK CLICKS") };
-  handleLeaveButtonClick() {console.log("I CAN HAZ LEAVE CLICKS") };
   handleStartButtonClick() {console.log("I CAN HAZ START CLICKS") };
   handleFailMissionButtonClick() {console.log("I CAN HAZ FAIL CLICKS") };
   handlePassMissionButtonClick() {console.log("I CAN HAZ PASS CLICKS") };
   handleNextButtonClick() {console.log("I CAN HAZ NEXT CLICKS") };
-  handleSubmitButtonClick() {console.log("I CAN HAZ SUBMIT CLICKS") };
+
+  handlePlayerNameFormSubmitButtonClick(event) {
+    alert("SABMUT");
+    console.log(Object.keys(event.target), typeof event.target, event.target, 7777);
+    event.preventDefault();
+  };
+
+  handleSubmitButtonClick(event) {
+    alert(Object.keys(event));
+    console.log("I CAN HAZ SUBMIT CLICKS");
+    event.preventDefault();
+  };
+
   handleAgainButtonClick() {console.log("I CAN HAZ AGAIN CLICKS") };
 
   componentDidMount() {
