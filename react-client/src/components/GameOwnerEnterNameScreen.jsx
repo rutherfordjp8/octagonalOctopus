@@ -7,14 +7,27 @@ class GameOwnerEnterNameScreen extends React.Component {
 
     this.state = {
       nameFormValue: '',
-    }
+    };
 
     this.handleNameChange = this.handleNameChange.bind(this);
+    this.handleSubmit = this.handleSubmit.bind(this);
+    this.gettingHostUsername = this.gettingHostUsername.bind(this);
   }
 
   handleNameChange(event) {
+  console.log('****', this.props.hostsubmit);
     this.setState({nameFormValue: event.target.value});
   }
+
+  handleSubmit(event) {
+    event.preventDefault();
+  }
+
+  gettingHostUsername(event){
+    this.props.hostsubmit({username: this.state.nameFormValue});
+  }
+
+
 
   render() {
 
@@ -23,17 +36,16 @@ class GameOwnerEnterNameScreen extends React.Component {
 
         <h2> Please Enter your Name </h2>
 
-        I do not presently know how to deal with the html form
-
-        <form >
+        
+        <form onSubmit={this.handleSubmit} >
         <input
       type="text"
       name="Name"
-      value={this.state.accessCodeFormValue}
-      onChange={this.handleAccessCodeChange}
+      value={this.state.nameFormValue}
+      onChange={this.handleNameChange}
         />
 
-        <input type="submit" value="Submit"/>
+        <input type="submit" value="Submit" onClick={this.gettingHostUsername}/>
         </form>
 
         <button onClick={this.props.backButtonClickHandler}>

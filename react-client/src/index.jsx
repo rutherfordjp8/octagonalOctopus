@@ -15,10 +15,15 @@ import MissionOutcomeScreen from './components/MissionOutcomeScreen.jsx';
 import AwaitAssassinScreen from './components/AwaitAssassinScreen.jsx';
 import MerlinChoiceScreen from './components/MerlinChoiceScreen.jsx';
 import GameOutcomeScreen from './components/GameOutcomeScreen.jsx';
+import openSocket from 'socket.io-client';
+// const socket = window.openSocket('http://localhost:3000');
+//const socket = openSocket();
 
 class App extends React.Component {
   constructor(props) {
     super(props);
+    this.socket = openSocket();
+    // this.socket = openSocket('http://localhost:3000');
     this.state = {
 
 
@@ -76,11 +81,17 @@ class App extends React.Component {
       // Hard coded data for dev. Should be sent each round by server FixMe
       failVotes: 1,
       successVotes: 2,
+      gameRoom: '',
+      host: false
 
       // Work out if to have different click handling functions or if dispatch within one
       // newButtonClickHandler: this.handleButtonClick,
       // joinButtonClickHandler: this.handleButtonClick,
-    }
+    };
+
+    this.socket.on('updateState', (obj)=>{
+      this.updateStateFromServer(obj);
+    });
 
     // This needs to zero out or restore to sane initial values *all*
     // of the state. This will be a moving target as we develop so a
@@ -98,7 +109,7 @@ class App extends React.Component {
       'missionSize': undefined,
       'failVotes': undefined,
       'successVotes': undefined,
-    }
+    };
 
 
     // These bindings need to occur before the functions are
@@ -115,8 +126,10 @@ class App extends React.Component {
     this.handlePlayerNameFormSubmitButtonClick = this.handlePlayerNameFormSubmitButtonClick.bind(this);
     this.handleSubmitButtonClick = this.handleSubmitButtonClick.bind(this);
     this.handleAgainButtonClick = this.handleAgainButtonClick.bind(this);
-
-
+    this.updateStateFromServer = this.updateStateFromServer.bind(this);
+    this.hostSubmitUserName = this.hostSubmitUserName.bind(this);
+    this.playerSubmitInfo = this.playerSubmitInfo.bind(this);
+    //socket.emit = socket.emit.bind(this);
 
     // An object that contains the render functions for the various
     // screens as values. With this and the corresponding propsDispatch
@@ -188,7 +201,9 @@ class App extends React.Component {
             <GameOwnerEnterNameScreen
           createButtonClickHandler={pObj.createButtonClickHandler}
           backButtonClickHandler={pObj.backButtonClickHandler}
+          hostsubmit={pObj.hostSubmit}
             />
+          
         )},
 
 
@@ -249,6 +264,7 @@ class App extends React.Component {
           backButtonClickHandler={pObj.backButtonClickHandler}
           joinButtonClickHandler={pObj.joinButtonClickHandler}
           submitButtonClickHandler={pObj.submitButtonClickHandler}
+          getuserinfo={pObj.submitUserInfo}
             />
         )},
 
@@ -270,7 +286,7 @@ class App extends React.Component {
           newButtonClickHandler={pObj.newButtonClickHandler}
           joinButtonClickHandler={pObj.joinButtonClickHandler}
             />
-        )},
+        )}
     }
 
 
@@ -307,6 +323,7 @@ class App extends React.Component {
       'GameOwnerEnterNameScreen': {
         createButtonClickHandler:this.handleCreateButtonClick,
         backButtonClickHandler:this.handleBackButtonClick,
+        hostSubmit: this.hostSubmitUserName
       },
 
       'GameOwnerWaitingForPlayersScreen': {
@@ -342,6 +359,7 @@ class App extends React.Component {
         backButtonClickHandler:this.handleBackButtonClick,
         joinButtonClickHandler:this.handleJoinButtonClick,
         'submitButtonClickHandler': this.handlePlayerNameFormSubmitButtonClick,
+        submitUserInfo: this.playerSubmitInfo
       },
 
       'PlayerWaitingForPlayersScreen': {
@@ -359,7 +377,17 @@ class App extends React.Component {
 
 
   // The first block of event handlers can be dealt with largely client side:
+  componentDidMount() {
+    
+  }
 
+
+  updateStateFromServer(data) {
+    this.setState({roomname: data.roomname,
+                    id: data.id})
+  } 
+
+//
   handleNewButtonClick() {
     this.setState({'pageID': 'GameOwnerEnterNameScreen'})
   };
@@ -384,6 +412,19 @@ class App extends React.Component {
     // Should likely also inform server, right? FixMe
   };
 
+  hostSubmitUserName(val) {
+    console.log('&&&&&&', val);
+    this.setState({host: true});
+    
+      this.socket.emit('create', val);
+    } 
+
+  playerSubmitInfo(val) {
+    console.log(val);
+    this.setState({gameRoom: val.roomname});
+    this.socket.emit('join', val);
+  }
+
 
 // End of largely client side event handlers
 
@@ -407,8 +448,7 @@ class App extends React.Component {
 
   handleAgainButtonClick() {console.log("I CAN HAZ AGAIN CLICKS") };
 
-  componentDidMount() {
-  }
+
 
   render () {
     return (
