@@ -31,7 +31,7 @@ class App extends React.Component {
       // important to ensure that state here and startState track each
       // other.
 
-      pageID: 'PlayerEnterNameScreen',
+      pageID: 'AwaitMissionOutcomeScreen',
 
 
       // These here for easy switching while developing
@@ -81,8 +81,9 @@ class App extends React.Component {
       // Hard coded data for dev. Should be sent each round by server FixMe
       failVotes: 1,
       successVotes: 2,
-      gameRoom: '',
-      host: false
+      roomname: '',
+      host: false,
+      username: ''
 
       // Work out if to have different click handling functions or if dispatch within one
       // newButtonClickHandler: this.handleButtonClick,
@@ -414,14 +415,14 @@ class App extends React.Component {
 
   hostSubmitUserName(val) {
     console.log('&&&&&&', val);
-    this.setState({host: true});
+    this.setState({host: true, username: val.username});
     
       this.socket.emit('create', val);
     } 
 
   playerSubmitInfo(val) {
-    console.log(val);
-    this.setState({gameRoom: val.roomname});
+    console.log(val); 
+    this.setState({roomname: val.roomname, username: val.username});
     this.socket.emit('join', val);
   }
 
@@ -429,9 +430,18 @@ class App extends React.Component {
 // End of largely client side event handlers
 
   handleCreateButtonClick() {console.log("I CAN HAZ CREATE CLICKS") };
-  handleStartButtonClick() {console.log("I CAN HAZ START CLICKS") };
-  handleFailMissionButtonClick() {console.log("I CAN HAZ FAIL CLICKS") };
-  handlePassMissionButtonClick() {console.log("I CAN HAZ PASS CLICKS") };
+  handleStartButtonClick() {
+    this.socket.emit('startgame', {roomname: this.state.gameRoom})
+   };
+
+  handleFailMissionButtonClick() {
+    this.socket.emit('missionvote', {vote: false, roomname: this.state.gameRoom});
+   };
+
+  handlePassMissionButtonClick() {
+    this.socket.emit('missionvote', {vote: true, roomname: this.state.gameRoom});
+   };
+
   handleNextButtonClick() {console.log("I CAN HAZ NEXT CLICKS") };
 
   handlePlayerNameFormSubmitButtonClick(event) {

@@ -15,7 +15,6 @@ class GameOwnerEnterNameScreen extends React.Component {
   }
 
   handleNameChange(event) {
-  console.log('****', this.props.hostsubmit);
     this.setState({nameFormValue: event.target.value});
   }
 
