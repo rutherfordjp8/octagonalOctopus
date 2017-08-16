@@ -53,7 +53,7 @@ describe('gameOutcome', function() {
   it('should return true if spies lost', function(done){
     let missions = [true, true, true, false, false];
     let results = helperFunctions.gameOutcome(missions);
-
+    console.log(results);
     assert.equal(results, true);
     done();
   })
