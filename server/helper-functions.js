@@ -89,7 +89,9 @@ module.exports.gameOutcome = (missionResults) => {
 
   // Filter out all false values. Take the length and
   // if it is greater than neededFailures return false (spies win).
-  if (missionRessults.filter(e => !e).length >= neededFailures) { return false; }
+  if (missionResults.filter(e => !e).length >= neededFailures) { return false; }
+  // otherwise return true;
+  return true;
 };
 
 module.exports.extraInfoAssignment = (token, userRoleMapping) => {
