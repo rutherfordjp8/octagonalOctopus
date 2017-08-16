@@ -16,22 +16,22 @@ server.listen(port, () => {
   console.log('listening to port 3000');
 });
 
-io.on('connection', (socket) => {
-  console.log(socket.id);
-  console.log('hello *** abhi ****');
+// io.on('connection', (socket) => {
+//   console.log(socket.id);
+//   console.log('hello *** abhi ****');
   
-  //socket.emit('test', {testdata: 'data'});
- socket.on('create', (data)=>{
-  console.log(data);
-    });
+//   //socket.emit('test', {testdata: 'data'});
+//  socket.on('create', (data)=>{
+//   console.log(data);
+//     });
  
-  socket.on('join', (data) => {
-    console.log(data);
+//   socket.on('join', (data) => {
+//     console.log(data);
     // socket.join(roomname)
     // write to document in database
     // database should store username and client id mapping
     // broadcast to players in game that new player joined
-  });
+  // });
 
 
   // socket.on('create', (data) => {
