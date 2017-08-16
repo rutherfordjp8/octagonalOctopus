@@ -52,16 +52,16 @@ module.exports.generateRoles = (usernames) => {
   // to roles
 
   // output array of users roles
-  let userRoles = {}
+  let userRoles = {},
+      shuffleRoles;
   // get the length of the usernames.
-  const key = Object.keys(usernames).length;
+  const key = usernames.length;
   // shuffle the roles
-  const shuffleRoles = _.shuffle(roles(key));
-
+  shuffleRoles = _.shuffle(roles[key]);
   // iterate through usernames
   for (let i = 0; i < usernames.length; i++) {
     //add username as key and role as value
-    userRoles.usernames[i] = shuffleRoles[i];
+    userRoles[usernames[i]] = shuffleRoles[i];
   }
   return userRoles;
 };
@@ -70,12 +70,16 @@ module.exports.merlinGuessResult = (token, merlinGuess) => {
   // query database for real merlin
   // return true or false
 
+  let merlin;
   // Callback for getMerlin
-  let returnMerlin = function(merlin) {
-    return merlin === merlinGuess;
+  let getMerlin = function(realMerlin) {
+    console.log('Real Merlin********', realMerlin);
+    merlin = realMerlin
   }
 
   db.getMerlin(token, returnMerlin);
+  console.log(merlin);
+  return merlin;
 };
 
 module.exports.gameOutcome = (missionResults) => {
@@ -121,9 +125,9 @@ module.exports.extraInfoAssignment = (token, userRoleMapping) => {
         morgana = key;
       }
     }
-    // add headspy (Mordred).
+    // add headspy (Mordred) to end of array.
     spies.push(headspy);
-    // if morgana exists, add him. Otherwise do nothing.
+    // if morgana exists, add him to end of array. Otherwise do nothing.
     morgana !== undefined ? spies.push(morgana) : false;
     return spies;
   }
