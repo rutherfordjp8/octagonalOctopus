@@ -23,6 +23,7 @@ class App extends React.Component {
   constructor(props) {
     super(props);
     this.socket = openSocket();
+    
     // this.socket = openSocket('http://localhost:3000');
     this.state = {
 
@@ -31,7 +32,7 @@ class App extends React.Component {
       // important to ensure that state here and startState track each
       // other.
 
-      pageID: 'AwaitMissionOutcomeScreen',
+      pageID: 'WelcomeScreen',
 
 
       // These here for easy switching while developing
@@ -90,10 +91,6 @@ class App extends React.Component {
       // joinButtonClickHandler: this.handleButtonClick,
     };
 
-    this.socket.on('updateState', (obj)=>{
-      this.updateStateFromServer(obj);
-    });
-
     // This needs to zero out or restore to sane initial values *all*
     // of the state. This will be a moving target as we develop so a
     // likely pain point will be forgetting to undate some things,
@@ -115,6 +112,7 @@ class App extends React.Component {
 
     // These bindings need to occur before the functions are
     // referenced in propsDispatch.
+
     this.handleNewButtonClick = this.handleNewButtonClick.bind(this);
     this.handleJoinButtonClick = this.handleJoinButtonClick.bind(this);
     this.handleCreateButtonClick = this.handleCreateButtonClick.bind(this);
@@ -140,239 +138,156 @@ class App extends React.Component {
     // with the props of the other.
     this.screenDispatch = {
 
-      AwaitAssassinScreen: function(pObj) {
+      AwaitAssassinScreen: ()=> {
 
         return (
             <AwaitAssassinScreen
-          role={pObj['role']}
-          missionHistory={pObj['missionHistory']}
-          spyCount={pObj['spyCount']}
+          role={this.state.role}
+          missionHistory={this.state.missionHistory}
+          spyCount={this.state.spyCount}
             />
         )},
 
 
-      AwaitMissionOutcomeScreen: function(pObj) {
+      AwaitMissionOutcomeScreen: ()=> {
 
         return (
             <AwaitMissionOutcomeScreen
-          role={pObj['role']}
-          missionHistory={pObj['missionHistory']}
+          role={this.state.role}
+          missionHistory={this.state.missionHistory}
             />
         )},
 
 
-      DiscussMissionPlayersScreen: function(pObj) {
+      DiscussMissionPlayersScreen: ()=> {
         return (
             <DiscussMissionPlayersScreen
-          missionSize={pObj['missionSize']}
-          role={pObj['role']}
-          missionHistory={pObj['missionHistory']}
+          missionSize={this.state.missionSize}
+          role={this.state.role}
+          missionHistory={this.state.missionHistory}
             />
         )},
 
 
-      EnterMissionPlayersScreen: function(pObj) {
+      EnterMissionPlayersScreen: ()=> {
 
         return (
 
             <EnterMissionPlayersScreen
-          missionSize={pObj['missionSize']}
-          role={pObj['role']}
-          missionHistory={pObj['missionHistory']}
+          missionSize={this.state.missionSize}
+          role={this.state.role}
+          missionHistory={this.state.missionHistory}
             />
 
         )},
 
 
-      GameOutcomeScreen: function(pObj) {
+      GameOutcomeScreen: ()=> {
 
         return (
 
             <GameOutcomeScreen
-          role={pObj['role']}
-          missionHistory={pObj['missionHistory']}
-          againButtonClickHandler={pObj['againButtonClickHandler']}
+          role={this.state.role}
+          missionHistory={this.state.missionHistory}
+          againButtonClickHandler={this.handleAgainButtonClick}
             />
         )},
 
 
-      GameOwnerEnterNameScreen: function(pObj) {
+      GameOwnerEnterNameScreen: ()=> {
 
         return (
             <GameOwnerEnterNameScreen
-          createButtonClickHandler={pObj.createButtonClickHandler}
-          backButtonClickHandler={pObj.backButtonClickHandler}
-          hostsubmit={pObj.hostSubmit}
+          createButtonClickHandler={this.createButtonClickHandler}
+          backButtonClickHandler={this.backButtonClickHandler}
+          hostsubmit={this.hostSubmit}
             />
           
         )},
 
 
-      GameOwnerWaitingForPlayersScreen: function(pObj) {
+      GameOwnerWaitingForPlayersScreen: ()=> {
 
         return (
             <GameOwnerWaitingForPlayersScreen
-          leaveButtonClickHandler={pObj.leaveButtonClickHandler}
-          startButtonClickHandler={pObj.startButtonClickHandler}
-          accessCode={pObj.accessCode}
+          leaveButtonClickHandler={this.leaveButtonClickHandler}
+          startButtonClickHandler={this.startButtonClickHandler}
+          accessCode={this.state.accessCode}
             />
         )},
 
 
-      MerlinChoiceScreen: function(pObj) {
+      MerlinChoiceScreen: ()=> {
 
         return (
             <MerlinChoiceScreen
-          role={pObj['role']}
-          missionHistory={pObj['missionHistory']}
-          spyCount={pObj['spyCount']}
-          submitButtonClickHandler={pObj['submitButtonClickHandler']}
+          role={this.state.role}
+          missionHistory={this.state.missionHistory}
+          spyCount={this.state.spyCount}
+          submitButtonClickHandler={this.handleSubmitButtonClick}
             />
         )},
 
 
-      MissionOutcomeScreen: function(pObj) {
+      MissionOutcomeScreen: ()=> {
 
         return (
 
             <MissionOutcomeScreen
-          role={pObj['role']}
-          missionHistory={pObj['missionHistory']}
-          failVotes={pObj['failVotes']}
-          successVotes={pObj['successVotes']}
-          nextButtonClickHandler={pObj['nextButtonClickHandler']}
+          role={this.state.role}
+          missionHistory={this.state.missionHistory}
+          failVotes={this.state.failVotes}
+          successVotes={this.state.successVotes}
+          nextButtonClickHandler={this.handleNextButtonClick}
             />
         )},
 
 
-      MissionVoteScreen: function(pObj) {
+      MissionVoteScreen: ()=> {
 
         return (
             <MissionVoteScreen
-          players={pObj.players}
-          role={pObj['role']}
-          missionHistory={pObj['missionHistory']}
-          failMissionButtonClickHandler={pObj['failMissionButtonClickHandler']}
-          passMissionButtonClickHandler={pObj['passMissionButtonClickHandler']}
+          players={this.players}
+          role={this.state.role}
+          missionHistory={this.state.missionHistory}
+          failMissionButtonClickHandler={this.handleFailMissionButtonClick}
+          passMissionButtonClickHandler={this.handlePassMissionButtonClick}
             />
         )},
 
 
-      PlayerEnterNameScreen: function(pObj) {
+      PlayerEnterNameScreen: ()=> {
 
         return (
             <PlayerEnterNameScreen
-          backButtonClickHandler={pObj.backButtonClickHandler}
-          joinButtonClickHandler={pObj.joinButtonClickHandler}
-          submitButtonClickHandler={pObj.submitButtonClickHandler}
-          getuserinfo={pObj.submitUserInfo}
+          backButtonClickHandler={this.backButtonClickHandler}
+          joinButtonClickHandler={this.joinButtonClickHandler}
+          submitButtonClickHandler={this.submitButtonClickHandler}
+          getuserinfo={this.submitUserInfo}
             />
         )},
 
 
-      PlayerWaitingForPlayersScreen: function(pObj) {
+      PlayerWaitingForPlayersScreen: ()=> {
 
         return (
             <PlayerWaitingForPlayersScreen
-          leaveButtonClickHandler={pObj.leaveButtonClickHandler}
+          leaveButtonClickHandler={this.leaveButtonClickHandler}
             />
 
         )},
 
 
-      WelcomeScreen: function(pObj) {
+      WelcomeScreen: ()=> {
 
         return (
             <WelcomeScreen
-          newButtonClickHandler={pObj.newButtonClickHandler}
-          joinButtonClickHandler={pObj.joinButtonClickHandler}
+            socket={this.socket}
+          newButtonClickHandler={this.newButtonClickHandler}
+          joinButtonClickHandler={this.joinButtonClickHandler}
             />
         )}
     }
-
-
-    this.propsDispatch = {
-      'AwaitAssassinScreen': {
-        'spyCount':this.state.spyCount,
-        'role':this.state.role,
-        'missionHistory':this.state.missionHistory,
-      },
-
-      'AwaitMissionOutcomeScreen': {
-        'role':this.state.role,
-        'missionHistory':this.state.missionHistory,
-      },
-
-      'DiscussMissionPlayersScreen': {
-        'missionSize':this.state.missionSize,
-        'role':this.state.role,
-        'missionHistory':this.state.missionHistory
-      },
-
-      'EnterMissionPlayersScreen': {
-        'missionSize':this.state.missionSize,
-        'role':this.state.role,
-        'missionHistory':this.state.missionHistory
-      },
-
-      'GameOutcomeScreen': {
-        'role':this.state.role,
-        'missionHistory':this.state.missionHistory,
-        'againButtonClickHandler': this.handleAgainButtonClick
-      },
-
-      'GameOwnerEnterNameScreen': {
-        createButtonClickHandler:this.handleCreateButtonClick,
-        backButtonClickHandler:this.handleBackButtonClick,
-        hostSubmit: this.hostSubmitUserName
-      },
-
-      'GameOwnerWaitingForPlayersScreen': {
-        accessCode: this.state.accessCode,
-        leaveButtonClickHandler: this.handleLeaveButtonClick,
-        startButtonClickHandler: this.handleStartButtonClick,
-      },
-
-      'MerlinChoiceScreen': {
-        'role':this.state.role,
-        'missionHistory':this.state.missionHistory,
-        'spyCount':this.state.spyCount,
-        'submitButtonClickHandler':this.handleSubmitButtonClick,
-      },
-
-      'MissionOutcomeScreen': {
-        'role':this.state.role,
-        'missionHistory':this.state.missionHistory,
-        'failVotes':this.state.failVotes,
-        'successVotes':this.state.successVotes,
-        'nextButtonClickHandler':this.handleNextButtonClick
-      },
-
-      'MissionVoteScreen': {
-        players: this.state.players,
-        'role':this.state.role,
-        'missionHistory':this.state.missionHistory,
-        failMissionButtonClickHandler:this.handleFailMissionButtonClick,
-        passMissionButtonClickHandler:this.handlePassMissionButtonClick,
-      },
-
-      'PlayerEnterNameScreen':  {
-        backButtonClickHandler:this.handleBackButtonClick,
-        joinButtonClickHandler:this.handleJoinButtonClick,
-        'submitButtonClickHandler': this.handlePlayerNameFormSubmitButtonClick,
-        submitUserInfo: this.playerSubmitInfo
-      },
-
-      'PlayerWaitingForPlayersScreen': {
-        leaveButtonClickHandler: this.handleLeaveButtonClick,
-      },
-
-      'WelcomeScreen': {
-        newButtonClickHandler:this.handleNewButtonClick,
-        joinButtonClickHandler:this.handleJoinButtonClick
-      }
-    }
-
   }  // End of constructor. Flagged because stupid huge. FixMe Is it
      // necessary it is so big?
 
@@ -380,7 +295,10 @@ class App extends React.Component {
   // The first block of event handlers can be dealt with largely client side:
   componentDidMount() {
     
-  }
+   this.socket.on('updateState', (obj)=>{
+      this.updateStateFromServer(obj); 
+  })
+ }
 
 
   updateStateFromServer(data) {
@@ -430,6 +348,7 @@ class App extends React.Component {
 // End of largely client side event handlers
 
   handleCreateButtonClick() {console.log("I CAN HAZ CREATE CLICKS") };
+
   handleStartButtonClick() {
     this.socket.emit('startgame', {roomname: this.state.gameRoom})
    };
@@ -463,7 +382,7 @@ class App extends React.Component {
   render () {
     return (
         <div>
-        {this.screenDispatch[this.state.pageID](this.propsDispatch[this.state.pageID])}
+        {this.screenDispatch[this.state.pageID]()}
       </div>)
   }
 }

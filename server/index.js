@@ -16,9 +16,16 @@ server.listen(port, () => {
   console.log('listening to port 3000');
 });
 
-// io.on('connection', (socket) => {
-//   console.log(socket.id);
-//   console.log('hello *** abhi ****');
+io.on('connection', (socket) => {
+  console.log(socket.id);
+  console.log('hello *** abhi ****');
+
+socket.on('testhost', (data)=>{
+  console.log(data);
+  socket.emit('sendingback', {pageID: 'WelcomeScreen' });
+});
+
+});
   
 //   //socket.emit('test', {testdata: 'data'});
 //  socket.on('create', (data)=>{
@@ -45,40 +52,40 @@ server.listen(port, () => {
   //   // database should store username and client id mapping
   // });
   
-  socket.on('leave', (data) => {
-    // socket.leave(roomname);
-    // remove client from database
-    // 
-  });
+//   socket.on('leave', (data) => {
+//     // socket.leave(roomname);
+//     // remove client from database
+//     // 
+//   });
   
-  socket.on('start game', (data) => {
-    // retrieve all saved players from database
-    // call random role generating function
-    // store roles into database
-    // send out individual emits to each client depending on role
-  });
+//   socket.on('start game', (data) => {
+//     // retrieve all saved players from database
+//     // call random role generating function
+//     // store roles into database
+//     // send out individual emits to each client depending on role
+//   });
   
-  socket.on('mission participants', (data) => {
-    // find client id of mission participants
-    // emit something so frontend knows to render vote page
-    // emit static page for those not participating
-  });
+//   socket.on('mission participants', (data) => {
+//     // find client id of mission participants
+//     // emit something so frontend knows to render vote page
+//     // emit static page for those not participating
+//   });
   
-  socket.on('mission votes', (data) => {
-    // call helper function to determine whether failed or succeeded
-    // emit to all players the result
-    // store the result to the result array in database
-    // if last round, check if good people won. If so, socket emit to only assassin to enter merlin
-    // otherwise, emit to everyone all data results
-  });
+//   socket.on('mission votes', (data) => {
+//     // call helper function to determine whether failed or succeeded
+//     // emit to all players the result
+//     // store the result to the result array in database
+//     // if last round, check if good people won. If so, socket emit to only assassin to enter merlin
+//     // otherwise, emit to everyone all data results
+//   });
   
-  socket.on('entered merlin', (data) => {
-    // check if guess is correct
-    // if so, send success and all other data
-    // otherwise, send failure and all other data
-  });
+//   socket.on('entered merlin', (data) => {
+//     // check if guess is correct
+//     // if so, send success and all other data
+//     // otherwise, send failure and all other data
+//   });
   
-});
+// });
 
 
 
