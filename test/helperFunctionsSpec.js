@@ -39,13 +39,24 @@ describe('generateRoles', function() {
 
 describe('merlinGuessResult', function() {
   it('should return true if merlin guess is correct', function(done){
-    db.createGame('12345', 'hostName', 'aaaaa', function(){
-      db.addRoles('12345', {'user': 'Merlin'}, () =>{
-        let merlinGuess = helperFunctions.merlinGuessResult('12345','user');
-        assert.equal(merlinGuess, true);
+    db.createGame('54321', 'hostName', 'bbbbb', () => {
+      db.addRoles('54321', {'user': 'Merlin'}, () =>{
+        let merlinGuess = function(result){assert.equal(result, true)};
+        console.log('MERLIN GUESS', merlinGuessResult('54321','user', merlinGuess));
+        helperFunctions.merlinGuessResult('54321','user', merlinGuess);
         done();
       })
     })
+  })
+  it('should return false if merlin guess is not correct', function(done){
+    // db.createGame('54321', 'hostName', 'bbbbb', () => {
+    //   db.addRoles('54321', {'user': 'Merlin'}, () =>{
+    //     let merlinGuess = function(result){assert.equal(result, false)};
+    //
+    //     helperFunctions.merlinGuessResult('54321','notuser', merlinGuess);
+    //     done();
+    //   })
+    // })
   })
 })
 
@@ -53,15 +64,37 @@ describe('gameOutcome', function() {
   it('should return true if spies lost', function(done){
     let missions = [true, true, true, false, false];
     let results = helperFunctions.gameOutcome(missions);
-    console.log(results);
     assert.equal(results, true);
     done();
   })
   it('should return false if spies won', function(done){
     let missions = [true, true, false, false, false];
     let results = helperFunctions.gameOutcome(missions);
-
     assert.equal(results, false);
+    done();
+  })
+})
+
+describe('extraInfoAssignment', function() {
+  it('should return an object with extra info for special characters', function(done){
+
+    done();
+  })
+})
+
+describe('generateToken', function() {
+  it('should return a generated token with length of 6', function(done){
+    let token = helperFunctions.generateToken();
+
+    assert.equal(token.length, 6);
+    done();
+  })
+  it('should return a randomly generated token', function(done){
+    let token1 = helperFunctions.generateToken(),
+        token2 = helperFunctions.generateToken(),
+        compareTokens = token1 !== token2;
+
+    assert.equal(compareTokens, true);
     done();
   })
 })
