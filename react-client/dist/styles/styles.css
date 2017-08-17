@@ -1,0 +1,10 @@
+body {
+  background: #bcbfc4;
+  font-family: fantasy;
+  margin: auto;
+  width: 80%;
+  border-radius: 20px;
+  background: blue;
+  /*border: 3px solid green;*/
+  padding: 10px;
+}
