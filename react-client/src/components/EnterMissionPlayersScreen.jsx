@@ -6,6 +6,20 @@ class EnterMissonPlayersScreen extends React.Component {
 
   constructor(props) {
     super(props);
+    this.state = {selected: []};
+    this.selectedForMission = this.selectedForMission.bind(this);
+    this.sendNames = this.sendNames.bind(this);
+  }
+
+  selectedForMission(event) {
+  
+    this.setState({selected: this.state.selected.concat([event.target.value])});
+    
+  }
+
+  sendNames(){
+    this.props.socket.emit('missionparticipants', {participants: this.state.selected, 
+                                        roomname: this.props.roomname});
   }
 
   render() {
@@ -21,9 +35,13 @@ class EnterMissonPlayersScreen extends React.Component {
         Discuss Which {this.props.missionSize} Players to Send on the Mission and enter the results:
         </h5>
 
-        Appropriate widget here
+        <ul>
+        {this.props.players.map((player, index)=>{
+          return (<li key={index}>{player} <label><input onClick={this.selectedForMission} type='radio' value={player}/>Select</label></li>)
+        })}
 
-        (Shown only to Game owner)
+        </ul>
+        <button onClick={this.sendNames}> Submit Players </button>
       </div>
       )}
 }

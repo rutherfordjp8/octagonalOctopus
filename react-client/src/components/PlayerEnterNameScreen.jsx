@@ -5,16 +5,16 @@ class PlayerEnterNameScreen extends React.Component {
   constructor(props) {
     super(props);
 
-    console.log(props);
     this.state = {
-      accessCodeFormValue: '',
-      nameFormValue: '',
+      roomname: '',
+      nameFormValue: ''
     };
 
-    this.handleNameChange = this.handleNameChange.bind(this);
-    this.handleAccessCodeChange = this.handleAccessCodeChange.bind(this);
-   this.handleSubmit = this.handleSubmit.bind(this);
-   this.socketUserInfo= this.socketUserInfo.bind(this);
+  this.handleNameChange = this.handleNameChange.bind(this);
+  this.handleAccessCodeChange = this.handleAccessCodeChange.bind(this);
+  this.handleSubmit = this.handleSubmit.bind(this);
+  this.socketUserInfo= this.socketUserInfo.bind(this);
+  this.backtoWelcome = this.backtoWelcome.bind(this);
   }
 
   handleNameChange(event) {
@@ -22,15 +22,19 @@ class PlayerEnterNameScreen extends React.Component {
   }
 
   handleAccessCodeChange(event) {
-    this.setState({accessCodeFormValue: event.target.value});
+    this.setState({roomname: event.target.value});
   }
   handleSubmit(event) {
     event.preventDefault();
   }
 
   socketUserInfo(event) {
-    this.props.getuserinfo({username: this.state.nameFormValue,
-                            roomname: this.state.accessCodeFormValue});
+    this.props.socket.emit('join', {username: this.state.nameFormValue,
+                                    roomname: this.state.roomname});
+  }
+
+  backtoWelcome(event){
+    this.props.socket.emit('welcomePage', 'hi');
   }
 
   render() {
@@ -39,8 +43,6 @@ class PlayerEnterNameScreen extends React.Component {
       <div>
 
         <h2> Join a Game of Defintely Not Avalon </h2>
-
-      
 
         <form onSubmit={this.handleSubmit}>
         <input
@@ -62,12 +64,9 @@ class PlayerEnterNameScreen extends React.Component {
         <input type="submit" value="Join" onClick={this.socketUserInfo}/>
         </form>
 
-        <button onClick={this.props.backButtonClickHandler}>
-        {'Back'}
+        <button onClick={this.backtoWelcome}>
+        Back
         </button>
-
-     
-
       </div>
       )};
 }

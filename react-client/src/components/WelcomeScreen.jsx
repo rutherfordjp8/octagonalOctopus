@@ -1,18 +1,29 @@
 import React from 'react';
-
 class WelcomeScreen extends React.Component {
 
   constructor(props) {
     super(props);
-
+    this.player = this.player.bind(this);
+    this.host = this.host.bind(this);
+    
   }
+
+
+  player(){
+    this.props.socket.emit('iwannajoin', 'hi');
+    }
+
+    host(){
+      this.props.socket.emit('iwannacreate', 'hi');
+    }
+ 
+
 
   render() {
 
     return (
       <div>
-
-        <h2> Welcome to Definitely Not Avalon </h2>
+     <h2> Welcome to Definitely Not Avalon </h2>
 
         <p>
             Clicking 'New Game' will make you the owner of a game and
@@ -26,15 +37,13 @@ class WelcomeScreen extends React.Component {
             join that game.
         </p>
 
-        <button onClick={this.props.newButtonClickHandler}>
-        {'New Game'}
+        <button onClick={this.host}>
+        New Game
         </button>
 
-        <button onClick={this.props.joinButtonClickHandler}>
-        {'Join'}
+        <button onClick={this.player}>
+        Join
         </button>
-
-
       </div>
     )}
 }

@@ -7,12 +7,15 @@ class GameOwnerEnterNameScreen extends React.Component {
 
     this.state = {
       nameFormValue: '',
+      pageID: 'now'
     };
 
     this.handleNameChange = this.handleNameChange.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
     this.gettingHostUsername = this.gettingHostUsername.bind(this);
+    this.backtoWelcome = this.backtoWelcome.bind(this);
   }
+  
 
   handleNameChange(event) {
     this.setState({nameFormValue: event.target.value});
@@ -23,15 +26,17 @@ class GameOwnerEnterNameScreen extends React.Component {
   }
 
   gettingHostUsername(event){
-    this.props.hostsubmit({username: this.state.nameFormValue});
+    this.props.socket.emit('create', {username: this.state.nameFormValue});
   }
 
-
+  backtoWelcome(){
+    this.props.socket.emit('welcomePage');
+  }
 
   render() {
 
     return (
-      <div>
+          <div>
 
         <h2> Please Enter your Name </h2>
 
@@ -47,8 +52,8 @@ class GameOwnerEnterNameScreen extends React.Component {
         <input type="submit" value="Submit" onClick={this.gettingHostUsername}/>
         </form>
 
-        <button onClick={this.props.backButtonClickHandler}>
-        {'Back'}
+        <button onClick={this.backtoWelcome}>
+        Back
         </button>
 
      </div>

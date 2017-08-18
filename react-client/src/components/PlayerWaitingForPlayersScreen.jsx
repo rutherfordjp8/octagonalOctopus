@@ -13,11 +13,13 @@ class PlayerWaitingForPlayersScreen extends React.Component {
 
         <h2> Waiting for Players </h2>
 
-        Implement Player List here TODO
+          <ul>
+        {this.props.players.map((player, index)=>{
+          return (<li key={index}>{player}</li>)
+        })}
+        </ul>
 
-        <p>
-        It isn't sufficently clear how the state will handle the player lists.
-        </p>
+        <p> Patience is a virtue.....</p>
 
         <button onClick={this.props.leaveButtonClickHandler}>
         {'Leave'}

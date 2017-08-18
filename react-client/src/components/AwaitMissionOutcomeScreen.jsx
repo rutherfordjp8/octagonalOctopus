@@ -21,12 +21,6 @@ class AwaitMissionOutcomeScreen extends React.Component {
         <p></p>
 
         <Timer seconds={30}/>
-
-        <p>
-        (Shown to all players not on the mission. As players vote, they
-        are taken here. Except the last to vote, which triggers all
-        players being sent to the MissionOutcomeScreen)
-        </p>
         
       </div>
     )}

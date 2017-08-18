@@ -6,7 +6,6 @@ class InfoPanel extends React.Component {
 
   constructor(props) {
     super(props);
-
   }
 
   render() {
@@ -15,11 +14,7 @@ class InfoPanel extends React.Component {
       <div>
         <h5> Info Panel </h5>
 
-        Your role: {this.props.role}
-
-        <MissionHistory missionHistory={this.props.missionHistory}/>
-
-        Other Knowledge (A component?)
+        Your role: {this.props.info}
 
       </div>
       )}
