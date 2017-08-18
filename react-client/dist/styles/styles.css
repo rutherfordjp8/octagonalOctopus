@@ -1,10 +1,177 @@
+/**********************
+  --A component will have an id with its name.
+  --If any buttons exists on that component it will have
+  a classname called *componentname*Input containing the buttons.
+  --If it contains a form, it will be inside the *componentname*Input
+  with *componentname*Form.
+  --If it contains a backButton, it will be inside the *componentname*Input
+  with .backButton.
+**********************/
+
 body {
-  background: #bcbfc4;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  resize: vertical;
+  background-image: url("bg.png"), url("bgTexture.jpg");
+  background-repeat: no-repeat, repeat;
+  background-size: 100%, auto;
+  background-color: black;
   font-family: fantasy;
-  margin: auto;
-  width: 80%;
-  border-radius: 20px;
-  background: blue;
-  /*border: 3px solid green;*/
-  padding: 10px;
+  overflow: auto;
 }
+
+#app {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 50%;
+  padding: 20px;
+  background: #00001a;
+  color: white;
+  border-radius: 15px;
+  opacity: 0.5;
+  overflow: auto;
+}
+
+/* Most components and inputs within components will have these styles */
+#welcomeScreen, #playerEnterNameScreen, #playerEnterNameScreenInput,
+#gameOwnerEnterNameScreen, #gameOwnerEnterNameScreenInput,
+#gameOwnerWaitingForPlayersScreen, #missionVoteScreen{
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+/*#welcomeScreen h2 {
+  padding: 5px;
+  border-radius: 20px;
+  border-width: 2px;
+}*/
+
+/*#playerEnterNameScreen {
+  display: flex;
+  flex-direction: column;
+}*/
+
+/*#playerEnterNameScreenInput, #gameOwnerEnterNameScreenInput {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}*/
+
+#playerEnterNameScreenInput .playerEnterNameScreenForm, #gameOwnerEnterNameScreenInput .gameOwnerEnterNameScreenForm  {
+  display: flex;
+  order: 1;
+}
+
+#playerEnterNameScreenInput .backButton, #gameOwnerEnterNameScreenInput .backButton {
+  align-self: flex-start;
+  text-align: center;
+  width: 50px;
+  margin: 5px;
+  margin-top: 10px;
+  order: 2;
+}
+
+.gameOwnerWaitingForPlayersScreenInput, .missionVoteScreenInput {
+  flex-direction: row;
+}
+
+/*#gameOwnerEnterNameScreen {
+  display: flex;
+  flex-direction: column;
+
+}*/
+
+/*#gameOwnerEnterNameScreenInput {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}*/
+
+/*#gameOwnerEnterNameScreenInput .gameOwnerEnterNameScreenForm {
+  display: flex;
+  order: 1;
+}*/
+
+/*#gameOwnerEnterNameScreenInput .backButton {
+  align-self: flex-start;
+  margin-top: 15px;
+  order: 2;
+}*/
+
+#accessCode {
+  font-family: monospace;
+  font-size: 20px;
+  text-align: center;
+  text-decoration: underline;
+  color: black;
+  background: white;
+  align-self: center;
+}
+
+/*.backButton {
+  margin: 5px;
+  width: 50px;
+  text-align: center;
+}*/
+
+p {
+  text-align: left;
+  align-self: flex-start;
+}
+
+h1, h3, h4, h5 {
+  text-align: center;
+}
+
+h2 {
+  text-align: center;
+  padding: 5px;
+  border-bottom: solid;
+  border-width: 2px;
+  border-radius: 20px;
+}
+
+input {
+  margin: 5px;
+}
+
+/*****Change Input Text Border to Red*****/
+/*input[type=text] {
+    border:1px solid gray;
+    border-radius:7px;
+    font-size:15px;
+    padding:5px;
+}
+
+input[type=text]:focus {
+    outline:none;
+    border-color:red;
+    box-shadow:0 0 10px red;
+}*/
+
+
+button {
+  margin: 5px;
+  width: 100px;
+  text-align: center;
+  align-self: center;
+}
+
+/****Hover on buttons turns text red****/
+button:hover, .submit:hover {
+  color: red;
+}
+
+/*button {
+  padding: 5px;
+  margin: 5px;
+  width: 100px;
+  height: 30px;
+  font-size: 12px;
+  border-radius: 7px;
+  text-align: center;
+  align-self: center;
+}*/
