@@ -1,5 +1,4 @@
 import React from 'react';
-import GameOwnerWaitingForPlayersScreen from './GameOwnerWaitingForPlayersScreen.jsx';
 
 class GameOwnerEnterNameScreen extends React.Component {
 
@@ -14,13 +13,9 @@ class GameOwnerEnterNameScreen extends React.Component {
     this.handleNameChange = this.handleNameChange.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
     this.gettingHostUsername = this.gettingHostUsername.bind(this);
-    this.sendMsg = this.sendMsg.bind(this);
+    this.backtoWelcome = this.backtoWelcome.bind(this);
   }
-  componentDidMount(){
-    this.props.socket.on('sendingback', (data)=>{
-      this.setState({pageID: 'later'});
-    })
-  }
+  
 
   handleNameChange(event) {
     this.setState({nameFormValue: event.target.value});
@@ -31,15 +26,17 @@ class GameOwnerEnterNameScreen extends React.Component {
   }
 
   gettingHostUsername(event){
-    this.props.hostsubmit({username: this.state.nameFormValue});
+    this.props.socket.emit('create', {username: this.state.nameFormValue});
   }
 
-  sendMsg(){
-    this.props.socket.emit('testhost', {username: this.state.nameFormValue});
+  backtoWelcome(){
+    this.props.socket.emit('welcomePage');
   }
-  now(){
-    return(
-    <div>
+
+  render() {
+
+    return (
+          <div>
 
         <h2> Please Enter your Name </h2>
 
@@ -52,31 +49,12 @@ class GameOwnerEnterNameScreen extends React.Component {
       onChange={this.handleNameChange}
         />
 
-        <input type="submit" value="Submit" onClick={this.sendMsg}/>
+        <input type="submit" value="Submit" onClick={this.gettingHostUsername}/>
         </form>
 
-        <button onClick={this.props.backButtonClickHandler}>
-        {'Back'}
+        <button onClick={this.backtoWelcome}>
+        Back
         </button>
-
-     </div>
-     )
-  }
-
-  later(){
-    return(
-    <div>
-    <GameOwnerWaitingForPlayersScreen />
-    </div>
-    )
-  }
-
-
-  render() {
-
-    return (
-      <div>
-      {this[this.state.pageID]()}
 
      </div>
     )}

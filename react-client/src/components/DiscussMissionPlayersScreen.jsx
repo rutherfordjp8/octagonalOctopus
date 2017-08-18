@@ -18,9 +18,6 @@ class DiscussMissionPlayersScreen extends React.Component {
 
         <InfoPanel role={this.props.role} missionHistory={this.props.missionHistory} />
 
-        <p>
-        (Shown to all players except for game owner)
-        </p>
 
       </div>
       )}

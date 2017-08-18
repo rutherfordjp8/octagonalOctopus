@@ -29,7 +29,7 @@ class MissionOutcomeScreen extends React.Component {
         Success votes: {this.props.successVotes}
         </p>
 
-        NextButton with clickHandler=this.clickHandler
+        
 
       </div>
       )}

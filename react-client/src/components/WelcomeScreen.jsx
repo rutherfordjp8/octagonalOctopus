@@ -1,52 +1,28 @@
 import React from 'react';
-import GameOwnerEnterNameScreen from './GameOwnerEnterNameScreen.jsx';
-import PlayerEnterNameScreen from './PlayerEnterNameScreen.jsx';
 class WelcomeScreen extends React.Component {
 
   constructor(props) {
     super(props);
-    this.state = {page: 'Start'};
     this.player = this.player.bind(this);
     this.host = this.host.bind(this);
-    this.PlayerEnterNameScreen = this.PlayerEnterNameScreen.bind(this);
-    this.GameOwnerEnterNameScreen = this.GameOwnerEnterNameScreen.bind(this);
     
   }
 
-  PlayerEnterNameScreen() {
-
-    return (
-    <PlayerEnterNameScreen
-    backButtonClickHandler={this.backButtonClickHandler}
-    joinButtonClickHandler={this.joinButtonClickHandler}
-    submitButtonClickHandler={this.submitButtonClickHandler}
-    getuserinfo={this.submitUserInfo}
-      />
-  )}
-
-  GameOwnerEnterNameScreen() {
-
-        return (
-            <GameOwnerEnterNameScreen
-            socket={this.props.socket}
-          createButtonClickHandler={this.createButtonClickHandler}
-          backButtonClickHandler={this.backButtonClickHandler}
-          hostsubmit={this.hostSubmit}
-            />
-          
-        )}
 
   player(){
-    this.setState({page: 'PlayerEnterNameScreen'});
+    this.props.socket.emit('iwannajoin', 'hi');
     }
 
     host(){
-      this.setState({page: 'GameOwnerEnterNameScreen'})
+      this.props.socket.emit('iwannacreate', 'hi');
     }
+ 
 
-  Start() {
-    return(
-    <div>
+
+  render() {
+
+    return (
+      <div>
      <h2> Welcome to Definitely Not Avalon </h2>
 
         <p>
@@ -62,22 +38,12 @@ class WelcomeScreen extends React.Component {
         </p>
 
         <button onClick={this.host}>
-        {'New Game'}
+        New Game
         </button>
 
         <button onClick={this.player}>
-        {'Join'}
+        Join
         </button>
-        </div>
-        )
-  }  
-
-
-  render() {
-
-    return (
-      <div>
-      {this[this.state.page]()} 
       </div>
     )}
 }

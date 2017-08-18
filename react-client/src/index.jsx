@@ -15,368 +15,274 @@ import MissionOutcomeScreen from './components/MissionOutcomeScreen.jsx';
 import AwaitAssassinScreen from './components/AwaitAssassinScreen.jsx';
 import MerlinChoiceScreen from './components/MerlinChoiceScreen.jsx';
 import GameOutcomeScreen from './components/GameOutcomeScreen.jsx';
+import InfoPanel from './components/InfoPanel.jsx';
 import openSocket from 'socket.io-client';
-// const socket = window.openSocket('http://localhost:3000');
-//const socket = openSocket();
+
 
 class App extends React.Component {
   constructor(props) {
     super(props);
+
     this.socket = openSocket();
+    //new game created by host
+
+    this.socket.on('newgame', (data)=>{
+      this.setState({roomname: data.roomname,
+                      pageID: 'GameOwnerWaitingForPlayersScreen'
+                    });
+    });
+
+    //send host to create page
+    this.socket.on('sendtocreate', (data)=>{
+      this.setState({pageID: 'GameOwnerEnterNameScreen'});
+    });
+
+    //send player to join game page
+    this.socket.on('sendtojoin', (data)=>{
+      this.setState({pageID: 'PlayerEnterNameScreen'});
+    });
+
+    this.socket.on('updateState', (data)=>{
+      this.setState({roomname: data.roomname,
+                    id: data.id})
+    });
+
+    //player tryingt to join game
+    this.socket.on('newplayer', (data)=>{
+      this.setState({players: data.allplayers,
+                    pageID: 'PlayerWaitingForPlayersScreen'
+                    });
+    });
+
+    //host presses start and moves to page where he can enter the names
+    this.socket.on('hoststart', (data)=>{
+      var arr = Object.keys(data.playerroles);
+      this.setState({role: arr[0],
+                      username: data.playerroles.role,
+                      pageID: 'EnterMissionPlayersScreen'});
+    });
+
+    //players should be moved to the next page after host starts
+    this.socket.on('playerstart', (data)=>{
+
+      var arr = Object.keys(data.playerroles);
+
+      this.setState({role: arr[0],
+                      username: data.playerroles.role,
+                      pageID: 'DiscussMissionPlayersScreen'});
+    });
+
+    //players on mission should go to voting page
+    this.socket.on('missionvote', (data)=>{
+      this.setState({missionPlayers: data.missionPlayers,
+                      pageID: 'MissionVoteScreen'});
+    });
+
+    //players not on mission go here i dont need data i just need you to emit to setState
+    this.socket.on('nomissionwaiting', (data)=>{
+      this.setState({pageID: 'AwaitMissionOutcomeScreen'});
+    });
+
+    //send them back to welcome page if they hit back
+     this.socket.on('welcome', (data)=>{
+      this.setState({pageID: 'WelcomeScreen'});
+    });
+
+    //result of mission
+    this.socket.on('missionresult', (data)=>{
+      var pass = 0;
+      var fail = 0;
+      data.results.forEach((vote)=>{
+        vote ? pass++ : fail++;
+      });
+
+      this.setState({failVotes: fail,
+                      successVotes: pass,
+                      pageID: 'MissionOutcomeScreen'});
+    });
     
-    // this.socket = openSocket('http://localhost:3000');
     this.state = {
-
-
-      // Especially while state is in development flux, it is
-      // important to ensure that state here and startState track each
-      // other.
 
       pageID: 'WelcomeScreen',
 
+      players: ['abhi', 'yang', 'rutherford', 'patricks bf'],
+      role: '',
 
-      // These here for easy switching while developing
-      //pageID: 'WelcomeScreen',
-      //pageID: 'GameOwnerEnterNameScreen',
-      //pageID: 'PlayerEnterNameScreen',
-      //pageID: 'GameOwnerWaitingForPlayersScreen',
-      //pageID: 'PlayerWaitingForPlayersScreen',
-      //pageID: 'DiscussMissionPlayersScreen',
-      //pageID: 'EnterMissionPlayersScreen',
-      //pageID: 'MissionVoteScreen',
-      //pageID: 'MissionOutcomeScreen',
-      //pageID: 'AwaitMissionOutcomeScreen',
-      //pageID: 'AwaitAssassinScreen',
-      //pageID: 'MerlinChoiceScreen',
-      //pageID: 'GameOutcomeScreen',
-
-
-      // State like things that don't exist on the app's first render,
-      // but depend on a Game having been created, joined by
-      // players, and started.
-      players: ['Sam', 'Pat', 'Chris'],
-      role: 'Merlin',
-
-      // The nature of the other character info depends on game
-      // knowledge I lack. Discuss with those who know the fame. // FixMe
-      otherCharInfo: {},
-
-      // Hard coded value for development. Should come from the server
-      // in an actual game // FixMe
       spyCount: 3,
 
-      // Conforms to current pattern in the server
-      // helper-functions.generateToken (should be passed in from the
-      // server via a socket; for now, hard coded.) // FixMe
-      accessCode: '8jsi7s',
+      accessCode: '',
 
-      missionHistory: [true, false, true, null, null], // FixMe
+      missionHistory: [true, false, true, null, null],
 
-      missionPlayers: [],  // FixMe
+      missionPlayers: ['abhi', 'yang', 'rutherford', 'patricks bf'],  
 
-      // I presume that this will be sent over by the server for each
-      // round in state via sockets. Adopting a hard coded value to move fwd
-      // Also, not loving the variable name. // FixMe
       missionSize: 3,
 
-      // Hard coded data for dev. Should be sent each round by server FixMe
-      failVotes: 1,
-      successVotes: 2,
+      failVotes: 0,
+
+      successVotes: 0,
+
       roomname: '',
+
       host: false,
-      username: ''
 
-      // Work out if to have different click handling functions or if dispatch within one
-      // newButtonClickHandler: this.handleButtonClick,
-      // joinButtonClickHandler: this.handleButtonClick,
+      username: ''      
     };
+   
+  this.screenDispatch = {
 
-    // This needs to zero out or restore to sane initial values *all*
-    // of the state. This will be a moving target as we develop so a
-    // likely pain point will be forgetting to undate some things,
-    // here. FixMe
-    this.startState = {
-      'pageID': 'WelcomeScreen',
-      'players': [],
-      'role': undefined,
-      'otherCharInfo': undefined,
-      'spyCount': undefined,
-      'accessCode': '234567',
-      'missonHistory': [null, null, null, null, null],
-      'missionPlayers': [],
-      'missionSize': undefined,
-      'failVotes': undefined,
-      'successVotes': undefined,
-    };
+    PlayerEnterNameScreen: ()=> {
+      return (
+        <PlayerEnterNameScreen
+        socket={this.socket}
+        />
+    )},
 
+    GameOwnerEnterNameScreen: ()=> {
 
-    // These bindings need to occur before the functions are
-    // referenced in propsDispatch.
+      return (
+        <GameOwnerEnterNameScreen
+        socket={this.socket}
+        />
+    )},
 
-    this.handleNewButtonClick = this.handleNewButtonClick.bind(this);
-    this.handleJoinButtonClick = this.handleJoinButtonClick.bind(this);
-    this.handleCreateButtonClick = this.handleCreateButtonClick.bind(this);
-    this.handleBackButtonClick = this.handleBackButtonClick.bind(this);
-    this.handleLeaveButtonClick = this.handleLeaveButtonClick.bind(this);
-    this.handleStartButtonClick = this.handleStartButtonClick.bind(this);
-    this.handleFailMissionButtonClick = this.handleFailMissionButtonClick.bind(this);
-    this.handlePassMissionButtonClick = this.handlePassMissionButtonClick.bind(this);
-    this.handleNextButtonClick = this.handleNextButtonClick.bind(this);
-    this.handlePlayerNameFormSubmitButtonClick = this.handlePlayerNameFormSubmitButtonClick.bind(this);
-    this.handleSubmitButtonClick = this.handleSubmitButtonClick.bind(this);
-    this.handleAgainButtonClick = this.handleAgainButtonClick.bind(this);
-    this.updateStateFromServer = this.updateStateFromServer.bind(this);
-    this.hostSubmitUserName = this.hostSubmitUserName.bind(this);
-    this.playerSubmitInfo = this.playerSubmitInfo.bind(this);
-    //socket.emit = socket.emit.bind(this);
+    AwaitAssassinScreen: ()=> {
 
-    // An object that contains the render functions for the various
-    // screens as values. With this and the corresponding propsDispatch
-    // object, the server can send to the app a single string (one of
-    // the keys of these two objects) and the App render function can
-    // then simply call the function that is the value of the one object
-    // with the props of the other.
-    this.screenDispatch = {
+      return (
+        <AwaitAssassinScreen
+        role={this.state.role}
+        missionHistory={this.state.missionHistory}
+        spyCount={this.state.spyCount}
+        socket={this.socket}
+        roomname={this.state.roomname}
+        />
+      )},
 
-      AwaitAssassinScreen: ()=> {
+    AwaitMissionOutcomeScreen: ()=> {
 
-        return (
-            <AwaitAssassinScreen
-          role={this.state.role}
-          missionHistory={this.state.missionHistory}
-          spyCount={this.state.spyCount}
-            />
-        )},
+      return (
+        <AwaitMissionOutcomeScreen
+        role={this.state.role}
+        missionHistory={this.state.missionHistory}
+        socket={this.socket}
+        roomname={this.state.roomname}
+        />
+      )},
 
 
-      AwaitMissionOutcomeScreen: ()=> {
-
-        return (
-            <AwaitMissionOutcomeScreen
-          role={this.state.role}
-          missionHistory={this.state.missionHistory}
-            />
-        )},
-
-
-      DiscussMissionPlayersScreen: ()=> {
-        return (
-            <DiscussMissionPlayersScreen
-          missionSize={this.state.missionSize}
-          role={this.state.role}
-          missionHistory={this.state.missionHistory}
-            />
-        )},
+    DiscussMissionPlayersScreen: ()=> {
+      return (
+        <DiscussMissionPlayersScreen
+        missionSize={this.state.missionSize}
+        role={this.state.role}
+        missionHistory={this.state.missionHistory}
+        socket={this.socket}
+        roomname={this.state.roomname}
+        />
+      )},
 
 
-      EnterMissionPlayersScreen: ()=> {
+    EnterMissionPlayersScreen: ()=> {
 
-        return (
+      return (
 
-            <EnterMissionPlayersScreen
-          missionSize={this.state.missionSize}
-          role={this.state.role}
-          missionHistory={this.state.missionHistory}
-            />
+        <EnterMissionPlayersScreen
+        missionSize={this.state.missionSize}
+        role={this.state.role}
+        missionHistory={this.state.missionHistory}
+        socket={this.socket}
+        players={this.state.players}
+        roomname={this.state.roomname}
+        />
 
-        )},
-
-
-      GameOutcomeScreen: ()=> {
-
-        return (
-
-            <GameOutcomeScreen
-          role={this.state.role}
-          missionHistory={this.state.missionHistory}
-          againButtonClickHandler={this.handleAgainButtonClick}
-            />
-        )},
+      )},
 
 
-      GameOwnerEnterNameScreen: ()=> {
+    GameOutcomeScreen: ()=> {
 
-        return (
-            <GameOwnerEnterNameScreen
-          createButtonClickHandler={this.createButtonClickHandler}
-          backButtonClickHandler={this.backButtonClickHandler}
-          hostsubmit={this.hostSubmit}
-            />
-          
-        )},
+      return (
 
+        <GameOutcomeScreen
+        role={this.state.role}
+        missionHistory={this.state.missionHistory}
+        socket={this.socket}
+        roomname={this.state.roomname}
+        />
+      )},
 
-      GameOwnerWaitingForPlayersScreen: ()=> {
+    GameOwnerWaitingForPlayersScreen: ()=> {
 
-        return (
-            <GameOwnerWaitingForPlayersScreen
-          leaveButtonClickHandler={this.leaveButtonClickHandler}
-          startButtonClickHandler={this.startButtonClickHandler}
-          accessCode={this.state.accessCode}
-            />
-        )},
-
-
-      MerlinChoiceScreen: ()=> {
-
-        return (
-            <MerlinChoiceScreen
-          role={this.state.role}
-          missionHistory={this.state.missionHistory}
-          spyCount={this.state.spyCount}
-          submitButtonClickHandler={this.handleSubmitButtonClick}
-            />
-        )},
+      return (
+        <GameOwnerWaitingForPlayersScreen
+        accessCode={this.state.accessCode}
+        players={this.state.players}
+        socket={this.socket}
+        roomname={this.state.roomname}
+        />
+      )},
 
 
-      MissionOutcomeScreen: ()=> {
+    MerlinChoiceScreen: ()=> {
 
-        return (
-
-            <MissionOutcomeScreen
-          role={this.state.role}
-          missionHistory={this.state.missionHistory}
-          failVotes={this.state.failVotes}
-          successVotes={this.state.successVotes}
-          nextButtonClickHandler={this.handleNextButtonClick}
-            />
-        )},
-
-
-      MissionVoteScreen: ()=> {
-
-        return (
-            <MissionVoteScreen
-          players={this.players}
-          role={this.state.role}
-          missionHistory={this.state.missionHistory}
-          failMissionButtonClickHandler={this.handleFailMissionButtonClick}
-          passMissionButtonClickHandler={this.handlePassMissionButtonClick}
-            />
-        )},
+      return (
+        <MerlinChoiceScreen
+        role={this.state.role}
+        missionHistory={this.state.missionHistory}
+        spyCount={this.state.spyCount}
+        socket={this.socket}
+        roomname={this.state.roomname}
+        />
+      )},
 
 
-      PlayerEnterNameScreen: ()=> {
+    MissionOutcomeScreen: ()=> {
 
-        return (
-            <PlayerEnterNameScreen
-          backButtonClickHandler={this.backButtonClickHandler}
-          joinButtonClickHandler={this.joinButtonClickHandler}
-          submitButtonClickHandler={this.submitButtonClickHandler}
-          getuserinfo={this.submitUserInfo}
-            />
-        )},
+      return (
 
-
-      PlayerWaitingForPlayersScreen: ()=> {
-
-        return (
-            <PlayerWaitingForPlayersScreen
-          leaveButtonClickHandler={this.leaveButtonClickHandler}
-            />
-
-        )},
+        <MissionOutcomeScreen
+        role={this.state.role}
+        missionHistory={this.state.missionHistory}
+        failVotes={this.state.failVotes}
+        successVotes={this.state.successVotes}
+        socket={this.socket}
+        roomname={this.state.roomname}
+        />
+      )},
 
 
-      WelcomeScreen: ()=> {
+    MissionVoteScreen: ()=> {
 
-        return (
-            <WelcomeScreen
-            socket={this.socket}
-          newButtonClickHandler={this.newButtonClickHandler}
-          joinButtonClickHandler={this.joinButtonClickHandler}
-            />
-        )}
+      return (
+        <MissionVoteScreen
+        players={this.players}
+        role={this.state.role}
+        missionHistory={this.state.missionHistory}
+        socket={this.socket}
+        roomname={this.state.roomname}
+        missionPlayers = {this.state.missionPlayers}
+        />
+      )},
+
+    PlayerWaitingForPlayersScreen: ()=> {
+
+      return (
+        <PlayerWaitingForPlayersScreen
+        players={this.state.players}
+        socket={this.socket}
+        roomname={this.state.roomname}
+        />
+      )},
+
+
+    WelcomeScreen: ()=> {
+
+      return (
+        <WelcomeScreen
+        socket={this.socket}
+        />
+      )}
     }
-  }  // End of constructor. Flagged because stupid huge. FixMe Is it
-     // necessary it is so big?
-
-
-  // The first block of event handlers can be dealt with largely client side:
-  componentDidMount() {
-    
-   this.socket.on('updateState', (obj)=>{
-      this.updateStateFromServer(obj); 
-  })
- }
-
-
-  updateStateFromServer(data) {
-    this.setState({roomname: data.roomname,
-                    id: data.id})
-  } 
-
-//
-  handleNewButtonClick() {
-    this.setState({'pageID': 'GameOwnerEnterNameScreen'})
-  };
-
-  handleJoinButtonClick() {
-    this.setState({'pageID': 'PlayerEnterNameScreen'})
-  };
-
-  handleBackButtonClick() {
-    this.setState({'pageID': 'WelcomeScreen'})
-  };
-
-  handleLeaveButtonClick() {
-    // FixMe The server needs to be informed that the client has left.
-    // Should this be by a POST or via the sockets?
-    this.setState({'pageID': 'WelcomeScreen'})
-  };
-
-  handleAgainButtonClick() {
-    this.setState(this.startState);
-    console.log("I CAN HAZ AGAIN CLICKS")
-    // Should likely also inform server, right? FixMe
-  };
-
-  hostSubmitUserName(val) {
-    console.log('&&&&&&', val);
-    this.setState({host: true, username: val.username});
-    
-      this.socket.emit('create', val);
-    } 
-
-  playerSubmitInfo(val) {
-    console.log(val); 
-    this.setState({roomname: val.roomname, username: val.username});
-    this.socket.emit('join', val);
-  }
-
-
-// End of largely client side event handlers
-
-  handleCreateButtonClick() {console.log("I CAN HAZ CREATE CLICKS") };
-
-  handleStartButtonClick() {
-    this.socket.emit('startgame', {roomname: this.state.gameRoom})
-   };
-
-  handleFailMissionButtonClick() {
-    this.socket.emit('missionvote', {vote: false, roomname: this.state.gameRoom});
-   };
-
-  handlePassMissionButtonClick() {
-    this.socket.emit('missionvote', {vote: true, roomname: this.state.gameRoom});
-   };
-
-  handleNextButtonClick() {console.log("I CAN HAZ NEXT CLICKS") };
-
-  handlePlayerNameFormSubmitButtonClick(event) {
-    alert("SABMUT");
-    console.log(Object.keys(event.target), typeof event.target, event.target, 7777);
-    event.preventDefault();
-  };
-
-  handleSubmitButtonClick(event) {
-    alert(Object.keys(event));
-    console.log("I CAN HAZ SUBMIT CLICKS");
-    event.preventDefault();
-  };
-
-  handleAgainButtonClick() {console.log("I CAN HAZ AGAIN CLICKS") };
-
+  }  
 
 
   render () {

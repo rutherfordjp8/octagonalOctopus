@@ -16,16 +16,35 @@ server.listen(port, () => {
   console.log('listening to port 3000');
 });
 
-io.on('connection', (socket) => {
-  console.log(socket.id);
-  console.log('hello *** abhi ****');
+// io.on('connection', (socket) => {
+//   console.log(socket.id);
+//   console.log('hello *** abhi ****');
+// socket.on('missionvote', (data)=>{
+//   console.log(data);
+// })
+// socket.on('iwannacreate', (data)=>{
+// socket.emit('sendtocreate', {nothing:2})
+// });
+// socket.on('welcomePage', (data)=>{
+//   socket.emit('welcome', 'hi')
+// })
+// socket.on('iwannajoin', (data)=>{
+//   socket.emit('sendtojoin', {nothing:2})
+// })
+// socket.on('join', (data)=>{
+//   console.log(data)
+//   // socket.emit('sendtojoin', {nothing:2})
+// })
+// socket.on('create', (data)=>{
+//   console.log(data)
+//   // socket.emit('sendtojoin', {nothing:2})
+// })
+// socket.on('testhost', (data)=>{
+//   console.log('test host get data', data);
+//   socket.emit('pagechanger', {pageID: 'AwaitAssassinScreen' });
+// });
 
-socket.on('testhost', (data)=>{
-  console.log(data);
-  socket.emit('sendingback', {pageID: 'WelcomeScreen' });
-});
-
-});
+// });
   
 //   //socket.emit('test', {testdata: 'data'});
 //  socket.on('create', (data)=>{

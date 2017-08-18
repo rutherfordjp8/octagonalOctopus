@@ -16,12 +16,13 @@ class GameOwnerWaitingForPlayersScreen extends React.Component {
         <p>
         Access Code: {this.props.accessCode}
         </p>
-
-        Implement Player List here TODO
-
-        <p>
-        It isn't sufficently clear how the state will handle the player lists.
-        </p>
+        <ul>
+        {this.props.players.map((player, index)=>{
+          return (<li key={index}>{player}</li>)
+        })}
+        </ul>
+        
+        <p> Patience is a virtue.....</p>
 
         <button onClick={this.props.leaveButtonClickHandler}>
         {'Leave'}
