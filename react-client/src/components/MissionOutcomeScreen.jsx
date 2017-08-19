@@ -8,6 +8,7 @@ class MissionOutcomeScreen extends React.Component {
   constructor(props) {
     super(props);
 
+    this.nextPage = this.nextPage.bind(this);
     }
 
   render() {
@@ -29,10 +30,20 @@ class MissionOutcomeScreen extends React.Component {
         Success votes: {this.props.successVotes}
         </p>
 
-        
+        <button onClick={this.nextPage}>
+        Next Mission!
+        </button>
 
       </div>
       )}
+
+  nextPage() {
+    if (this.props.host) {
+      this.props.nextPage('EnterMissionPlayersScreen')
+    } else {
+      this.props.nextPage('DiscussMissionPlayersScreen')
+    }
+  }
 }
 
 export default MissionOutcomeScreen;

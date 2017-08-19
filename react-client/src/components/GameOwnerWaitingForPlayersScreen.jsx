@@ -4,6 +4,7 @@ class GameOwnerWaitingForPlayersScreen extends React.Component {
 
   constructor(props) {
     super(props);
+    this.startButtonClickHandler = this.startButtonClickHandler.bind(this);
   }
 
   render() {
@@ -28,12 +29,17 @@ class GameOwnerWaitingForPlayersScreen extends React.Component {
         {'Leave'}
         </button>
 
-        <button onClick={this.props.startButtonClickHandler}>
+        <button onClick={this.startButtonClickHandler}>
         {'Start'}
         </button>
 
       </div>
-      )}
+    )
+  }
+
+  startButtonClickHandler() {
+    this.props.socket.emit('start game', {roomname: this.props.accessCode});
+  }
 }
 
 export default GameOwnerWaitingForPlayersScreen;

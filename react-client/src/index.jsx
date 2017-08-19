@@ -23,11 +23,43 @@ class App extends React.Component {
   constructor(props) {
     super(props);
 
+    this.state = {
+
+      pageID: 'WelcomeScreen',
+
+      players: ['abhi', 'yang', 'rutherford', 'patricks bf'],
+
+      role: '',
+
+      spyCount: 3,
+
+      accessCode: '',
+
+      missionHistory: [true, false, true, null, null],
+
+      missionPlayers: ['abhi', 'yang', 'rutherford', 'patricks bf'],  
+
+      missionSize: 3,
+
+      failVotes: 0,
+
+      successVotes: 0,
+
+      roomname: '',
+
+      host: false,
+
+      username: ''      
+    };
+
+    this.nextPage = this.nextPage.bind(this);
+
     this.socket = openSocket();
     //new game created by host
 
     this.socket.on('newgame', (data)=>{
-      this.setState({roomname: data.roomname,
+      this.setState({accessCode: data.accessCode,
+                      players: data.allplayers,
                       pageID: 'GameOwnerWaitingForPlayersScreen'
                     });
     });
@@ -50,30 +82,36 @@ class App extends React.Component {
     //player tryingt to join game
     this.socket.on('newplayer', (data)=>{
       this.setState({players: data.allplayers,
+                    accessCode: data.accessCode,
                     pageID: 'PlayerWaitingForPlayersScreen'
                     });
     });
 
+    this.socket.on('playerjoined', (data) => {
+      this.setState({players: data.allplayers});
+    });
+
     //host presses start and moves to page where he can enter the names
     this.socket.on('hoststart', (data)=>{
-      var arr = Object.keys(data.playerroles);
-      this.setState({role: arr[0],
-                      username: data.playerroles.role,
-                      pageID: 'EnterMissionPlayersScreen'});
-    });
+      this.setState({role: data.role,
+                    host: true,
+                    pageID: 'EnterMissionPlayersScreen',
+                    missionSize: data.missionSize
+                  });
+    }); //FIXME: the server will only send the role, not the username
+    // save username when form is submitted
 
     //players should be moved to the next page after host starts
     this.socket.on('playerstart', (data)=>{
-
-      var arr = Object.keys(data.playerroles);
-
-      this.setState({role: arr[0],
-                      username: data.playerroles.role,
+      this.setState({role: data.role,
+                      missionSize: data.missionSize,
                       pageID: 'DiscussMissionPlayersScreen'});
-    });
+    }); //FIXME: the server will only send the role, not the username
+    // save username when form is submitted
 
     //players on mission should go to voting page
     this.socket.on('missionvote', (data)=>{
+      console.log('mission vote emit got through')
       this.setState({missionPlayers: data.missionPlayers,
                       pageID: 'MissionVoteScreen'});
     });
@@ -98,36 +136,10 @@ class App extends React.Component {
 
       this.setState({failVotes: fail,
                       successVotes: pass,
-                      pageID: 'MissionOutcomeScreen'});
+                      missionSize: data.missionSize,
+                      pageID: 'MissionOutcomeScreen'}, () => {console.log(this.state.missionSize)});
     });
-    
-    this.state = {
 
-      pageID: 'WelcomeScreen',
-
-      players: ['abhi', 'yang', 'rutherford', 'patricks bf'],
-      role: '',
-
-      spyCount: 3,
-
-      accessCode: '',
-
-      missionHistory: [true, false, true, null, null],
-
-      missionPlayers: ['abhi', 'yang', 'rutherford', 'patricks bf'],  
-
-      missionSize: 3,
-
-      failVotes: 0,
-
-      successVotes: 0,
-
-      roomname: '',
-
-      host: false,
-
-      username: ''      
-    };
    
   this.screenDispatch = {
 
@@ -154,7 +166,7 @@ class App extends React.Component {
         missionHistory={this.state.missionHistory}
         spyCount={this.state.spyCount}
         socket={this.socket}
-        roomname={this.state.roomname}
+        roomname={this.state.accessCode}
         />
       )},
 
@@ -165,7 +177,8 @@ class App extends React.Component {
         role={this.state.role}
         missionHistory={this.state.missionHistory}
         socket={this.socket}
-        roomname={this.state.roomname}
+        roomname={this.state.accessCode}
+        host={this.state.host}
         />
       )},
 
@@ -177,7 +190,7 @@ class App extends React.Component {
         role={this.state.role}
         missionHistory={this.state.missionHistory}
         socket={this.socket}
-        roomname={this.state.roomname}
+        roomname={this.state.accessCode}
         />
       )},
 
@@ -185,14 +198,13 @@ class App extends React.Component {
     EnterMissionPlayersScreen: ()=> {
 
       return (
-
         <EnterMissionPlayersScreen
         missionSize={this.state.missionSize}
         role={this.state.role}
         missionHistory={this.state.missionHistory}
         socket={this.socket}
         players={this.state.players}
-        roomname={this.state.roomname}
+        roomname={this.state.accessCode}
         />
 
       )},
@@ -206,7 +218,7 @@ class App extends React.Component {
         role={this.state.role}
         missionHistory={this.state.missionHistory}
         socket={this.socket}
-        roomname={this.state.roomname}
+        roomname={this.state.accessCode}
         />
       )},
 
@@ -217,7 +229,7 @@ class App extends React.Component {
         accessCode={this.state.accessCode}
         players={this.state.players}
         socket={this.socket}
-        roomname={this.state.roomname}
+        roomname={this.state.accessCode}
         />
       )},
 
@@ -230,7 +242,7 @@ class App extends React.Component {
         missionHistory={this.state.missionHistory}
         spyCount={this.state.spyCount}
         socket={this.socket}
-        roomname={this.state.roomname}
+        roomname={this.state.accessCode}
         />
       )},
 
@@ -245,7 +257,9 @@ class App extends React.Component {
         failVotes={this.state.failVotes}
         successVotes={this.state.successVotes}
         socket={this.socket}
-        roomname={this.state.roomname}
+        roomname={this.state.accessCode}
+        nextPage={this.nextPage}
+        host = {this.state.host}
         />
       )},
 
@@ -258,7 +272,7 @@ class App extends React.Component {
         role={this.state.role}
         missionHistory={this.state.missionHistory}
         socket={this.socket}
-        roomname={this.state.roomname}
+        roomname={this.state.accessCode}
         missionPlayers = {this.state.missionPlayers}
         />
       )},
@@ -269,7 +283,7 @@ class App extends React.Component {
         <PlayerWaitingForPlayersScreen
         players={this.state.players}
         socket={this.socket}
-        roomname={this.state.roomname}
+        roomname={this.state.accessCode}
         />
       )},
 
@@ -284,6 +298,9 @@ class App extends React.Component {
     }
   }  
 
+  nextPage(pageID) {
+    this.setState({pageID})
+  }
 
   render () {
     return (

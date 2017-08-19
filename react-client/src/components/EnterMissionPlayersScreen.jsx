@@ -11,19 +11,7 @@ class EnterMissonPlayersScreen extends React.Component {
     this.sendNames = this.sendNames.bind(this);
   }
 
-  selectedForMission(event) {
-  
-    this.setState({selected: this.state.selected.concat([event.target.value])});
-    
-  }
-
-  sendNames(){
-    this.props.socket.emit('missionparticipants', {participants: this.state.selected, 
-                                        roomname: this.props.roomname});
-  }
-
   render() {
-
     return (
       <div>
 
@@ -44,6 +32,15 @@ class EnterMissonPlayersScreen extends React.Component {
         <button onClick={this.sendNames}> Submit Players </button>
       </div>
       )}
+
+  selectedForMission(event) {
+    this.setState({selected: this.state.selected.concat([event.target.value])});
+  }
+
+  sendNames(){
+    this.props.socket.emit('missionparticipants', {participants: this.state.selected, 
+                                        roomname: this.props.roomname});
+  }
 }
 
 export default EnterMissonPlayersScreen;

@@ -10,7 +10,6 @@ class DiscussMissionPlayersScreen extends React.Component {
   }
 
   render() {
-
     return (
       <div>
 
