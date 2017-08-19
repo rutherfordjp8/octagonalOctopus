@@ -5,6 +5,7 @@ class GameOwnerWaitingForPlayersScreen extends React.Component {
   constructor(props) {
     super(props);
     this.startGame = this.startGame.bind(this);
+    this.leaveGame = this.leaveGame.bind(this); 
   }
 
   startGame() {

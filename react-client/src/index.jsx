@@ -24,6 +24,7 @@ class App extends React.Component {
     super(props);
     
     this.nextPage = this.nextPage.bind(this);
+    this.waitingPage = this.waitingPage.bind(this);
 
     this.socket = openSocket();
     //new game created by host
@@ -57,8 +58,8 @@ class App extends React.Component {
     this.socket.on('hoststart', (data)=>{
       this.setState({role: data.role,
                     host: true,
-                    pageID: 'EnterMissionPlayersScreen',
-                    missionSize: data.missionSize
+                    missionSize: data.missionSize,
+                    pageID: 'EnterMissionPlayersScreen'
                   });
     }); //FIXME: the server will only send the role, not the username
     // save username when form is submitted
@@ -118,13 +119,18 @@ class App extends React.Component {
 
     this.socket.on('finaloutcome', (data) => {
       console.log(data, 'data for final outcome');
-      // this.setState({pageID: 'finalOutcomeScreen'})
+      this.setState({ gameOutcome: data.finalOutcome,
+                      playerRoleMapping: data.allPlayers,
+                      pageID: 'GameOutcomeScreen'});
     });
 
     this.socket.on('merlinfinaloutcome', (data) => {
       console.log(data, 'data for merlin final outcome');
-      // this.setState({pageID: 'finalOutcomeScreen'})
+      this.setState({ merlinChoice: data.merlinGuessed,
+                      playerRoleMapping: data.allPlayers,
+                      pageID: 'GameOutcomeScreen'});
     });
+
     
     this.state = {
 
@@ -138,8 +144,6 @@ class App extends React.Component {
 
       accessCode: '',
 
-      missionHistory: [null, null, null, null, null],
-
       missionPlayers: [],  
 
       missionSize: 3,
@@ -152,7 +156,13 @@ class App extends React.Component {
 
       username: '',
 
-      missionOutcome: []
+      missionOutcome: [],
+
+      gameOutcome: '', 
+
+      playerRoleMapping: '',
+
+      merlinChoice: ''
             
     };
    
@@ -178,7 +188,7 @@ class App extends React.Component {
       return (
         <AwaitAssassinScreen
         role={this.state.role}
-        missionHistory={this.state.missionHistory}
+        history={this.state.missionOutcome}
         spyCount={this.state.spyCount}
         socket={this.socket}
         roomname={this.state.accessCode}
@@ -190,7 +200,7 @@ class App extends React.Component {
       return (
         <AwaitMissionOutcomeScreen
         role={this.state.role}
-        missionHistory={this.state.missionHistory}
+        history={this.state.missionOutcome}
         socket={this.socket}
         roomname={this.state.accessCode}
         host={this.state.host}
@@ -230,9 +240,12 @@ class App extends React.Component {
       return (
 
         <GameOutcomeScreen
+        merlinchoice={this.state.merlinChoice}
         role={this.state.role}
-        missionHistory={this.state.missionHistory}
+        history={this.state.missionOutcome}
         socket={this.socket}
+        playermap={this.state.playerRoleMapping}
+        gameresult={this.state.gameOutcome}
         roomname={this.state.accessCode}
         />
       )},
@@ -241,6 +254,9 @@ class App extends React.Component {
 
       return (
         <GameOwnerWaitingForPlayersScreen
+        gameresult={this.state.gameOutcome}
+        role={this.state.role}
+        history={this.state.missionOutcome}
         accessCode={this.state.accessCode}
         players={this.state.players}
         socket={this.socket}
@@ -255,7 +271,7 @@ class App extends React.Component {
         <MerlinChoiceScreen
         players={this.state.players}
         role={this.state.role}
-        missionHistory={this.state.missionHistory}
+        history={this.state.missionOutcome}
         spyCount={this.state.spyCount}
         socket={this.socket}
         roomname={this.state.accessCode}
@@ -290,6 +306,7 @@ class App extends React.Component {
         socket={this.socket}
         roomname={this.state.accessCode}
         missionPlayers = {this.state.missionPlayers}
+        waiting={this.waitingPage}
         />
       )},
 
@@ -316,6 +333,10 @@ class App extends React.Component {
 
   nextPage(pageID) {
     this.setState({pageID})
+  }
+
+  waitingPage() {
+    this.setState({pageID: 'AwaitMissionOutcomeScreen'});
   }
 
   render () {

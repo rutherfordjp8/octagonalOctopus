@@ -11,7 +11,7 @@ class MissionHistory extends React.Component {
       <div>
         <h6> Mission History   </h6>
         <ol>
-        {this.props.history.map((outcome, index)=>{
+        {this.props.missionHistory.map((outcome, index)=>{
           return(<li key={index}> {outcome[0]} </li>)
         })}
         </ol>

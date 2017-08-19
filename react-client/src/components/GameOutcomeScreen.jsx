@@ -1,4 +1,5 @@
 import React from 'react';
+var _ = require('lodash');
 
 import MissionHistory from './MissionHistory.jsx';
 
@@ -10,6 +11,17 @@ class GameOutcomeScreen extends React.Component {
   }
 
   render() {
+    var result;
+      if(!this.props.merlinchoice) {
+        if(this.props.gameresult) {
+          result = ( <p>GOOD GUYS WIN!</p>)
+        } else {
+          result = <p>SPIES WIN!!</p>
+        }
+      } else {
+        result = <p>SPIES WIN!!</p>
+      }
+
 
     return (
 
@@ -17,15 +29,19 @@ class GameOutcomeScreen extends React.Component {
 
         <h5> Game Outcome  </h5>
 
-        <MissionHistory missionHistory={this.props.missionHistory}/>
+        <MissionHistory missionHistory={this.props.history}/>
 
-        <p>
-        Report on which side won.
-        </p>
+        <div>{result}</div>
 
-        <p>
-        Have a list of identities in the game. Coordinate with websocket person
-        </p>
+
+       <ul>
+        {_.map(this.props.playermap, (role, user)=>{
+          return (<li>{user} - {role}</li>)
+        })
+       }
+       </ul>
+
+      
 
         <button onClick={this.props.againButtonClickHandler}>
         {'Play Again'}

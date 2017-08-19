@@ -16,11 +16,11 @@ class AwaitMissionOutcomeScreen extends React.Component {
 
         <h3> Awaiting Mission Outcome </h3>
 
-        <InfoPanel role={this.props.role} missionHistory={this.props.missionHistory} />
+        <InfoPanel role={this.props.role} missionHistory={this.props.history} />
 
         <p></p>
 
-        <Timer seconds={30}/>
+        
         
       </div>
     )}

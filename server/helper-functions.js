@@ -1,5 +1,5 @@
 const _ = require('underscore');
-const db = require('../database-mongo');
+// const db = require('../database-mongo');
 
 // key represents number of players.
 // values represent the different roles that will be played
