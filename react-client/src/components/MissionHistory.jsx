@@ -7,7 +7,6 @@ class MissionHistory extends React.Component {
   }
 
   render() {
-
     return (
       <div>
         <h6> Mission History   </h6>

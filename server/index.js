@@ -8,15 +8,6 @@ var bodyParser = require('body-parser');
 var helpers = require('./helper-functions');
 var database = require('../database-mysql');
 io.on('connection', (socket) => {
-  // socket.emit('welcome', {}); //do we need this?
-
-  socket.on('iwannajoin', () => {
-    socket.emit('sendtojoin');
-  });
-
-  socket.on('iwannacreate', () => {
-    socket.emit('sendtocreate');
-  });
 
   socket.on('join', (data) => {
     socket.join(data.roomname);
@@ -41,6 +32,7 @@ io.on('connection', (socket) => {
   });
   
   socket.on('disconnect', () => {
+    console.log('heard a disconnect');
     database.removePlayer(socket.conn.id, (gameToken) => {
       database.getAllUsernames(gameToken, (allplayers) => {
         io.in(gameToken).emit('newplayer', {allplayers})
@@ -107,20 +99,16 @@ io.on('connection', (socket) => {
     });
   };
 
-
   socket.on('missionvote', (data) => {
     computeResult(data, (finalMissionResult, votesArray) => {
       database.updateResults(data.roomname, finalMissionResult, (results) => {
-        console.log(results, '***********results');
         if (results.length < 5) {
           database.nextMission(data.roomname, (votesNeeded) => {
-            console.log(votesNeeded, 'votes needed server side');
             io.in(data.roomname).emit('missionresult', {results: votesArray, missionSize: votesNeeded});
           });
         } else {
           var finalOutcome = helpers.gameOutcome(results);
-          console.log(finalOutcome, 'finaloutcome******');
-          if (!finalOutcome) {
+          if (finalOutcome) {
             io.in(data.roomname).emit('waitmerlinchoice', {});
             database.getMordred(data.roomname, (mordred) => {
               if (mordred.socketid === socket.id) {
@@ -130,7 +118,13 @@ io.on('connection', (socket) => {
               }
             });
           } else {
-            io.in(data.roomname).emit('finaloutcome', {finalOutcome});
+            database.getAllPlayers(data.roomname, (users) => {
+              var allPlayers = {};
+              for (var i = 0; i < users.length; i++) {
+                allPlayers[users[i].dataValues.username] = users[i].dataValues.role;
+              }
+              io.in(data.roomname).emit('finaloutcome', {finalOutcome, allPlayers});
+            })
           }
         }
       });
@@ -138,23 +132,23 @@ io.on('connection', (socket) => {
   });
 
   
-  // socket.on('entered merlin', (data) => {
-  //   database.getMerlin(data.roomname, (merlin) => {
-  //     database.getResults(data.roomname, (results) => {
-  //       var merlinGuessed = (merlin.username === data.merlin);
-  //       io.in(data.roomname).emit('merlinfinaloutcome', {results, merlinGuessed}); //FIXME
-  //     });
-  //   });
-  // });
-
+  socket.on('merlinselection', (data) => {
+    console.log(data, 'merlin selection socket**********');
+    database.getMerlin(data.roomname, (merlin) => {
+      var merlinGuessed = (merlin.username === data.choice);
+      database.getAllPlayers(data.roomname, (users) => {
+        var allPlayers = {};
+        for (var i = 0; i < users.length; i++) {
+          allPlayers[users[i].dataValues.username] = users[i].dataValues.role;
+        }
+        io.in(data.roomname).emit('merlinfinaloutcome', {merlinGuessed, allPlayers}); 
+      });
+    });
+  });
 });
 
 
 app.use(express.static(__dirname + '/../react-client/dist'));
-
-// app.get('/', function (req, res) {
-//   // serve up static files for login
-// });
 
 var port =  process.env.PORT || 3000;
 
