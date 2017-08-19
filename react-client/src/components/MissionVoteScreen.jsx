@@ -13,9 +13,11 @@ class MissionVoteScreen extends React.Component {
 
   fail(){
     this.props.socket.emit('missionvote', {roomname:this.props.roomname, vote: false });
+    this.props.waiting();
   }
   succeed() {
     this.props.socket.emit('missionvote', {roomname:this.props.roomname, vote: true });
+    this.props.waiting();
   }
 
   render() {
@@ -25,11 +27,11 @@ class MissionVoteScreen extends React.Component {
 
         <h3> Mission Vote </h3>
 
-        <InfoPanel role={this.props.role} missionHistory={this.props.missionHistory} />
+        <InfoPanel role={this.props.role} missionHistory={this.props.history} />
 
-        <Timer seconds={30}/>
+        
         <p> You are on a mission with</p>
-        <table border = '1'>
+        <table >
         {this.props.missionPlayers.map((player, index)=>{
           return (<tr key={index}>{player}</tr>)
         })}

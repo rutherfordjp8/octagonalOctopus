@@ -18,9 +18,9 @@ class AwaitAssassinScreen extends React.Component {
 
         <h3> Awaiting Mordred </h3>
         
-        <InfoPanel role={this.props.role} missionHistory={this.props.missionHistory} />
+        <InfoPanel role={this.props.role} missionHistory={this.props.history} />
         
-        <Timer seconds={this.spyCount * 60}/>
+        
 
       </div>
     )}

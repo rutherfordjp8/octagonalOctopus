@@ -31,14 +31,15 @@ class MerlinChoiceScreen extends React.Component {
 
         <h3> Choose Your Merlin </h3>
 
-        <InfoPanel role={this.props.role} missionHistory={this.props.missionHistory} />
+        <InfoPanel role={this.props.role} missionHistory={this.props.history} />
 
-        <Timer seconds={this.props.spyCount * 60}/>
+        
 
          <form onSubmit={this.handleSubmit}>
         <label>
           
           <select value={this.state.value} onChange={this.handleChange}>
+          <option>please select</option>
           {this.props.players.map((player, index)=>{
             return(<option key={index}>{player}</option>)
           })}

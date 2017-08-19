@@ -133,7 +133,7 @@ io.on('connection', (socket) => {
 
   
   socket.on('merlinselection', (data) => {
-    console.log(data, 'merlin selection socket**********');
+    //console.log(data, 'merlin selection socket**********');
     database.getMerlin(data.roomname, (merlin) => {
       var merlinGuessed = (merlin.username === data.choice);
       database.getAllPlayers(data.roomname, (users) => {
