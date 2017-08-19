@@ -39,12 +39,14 @@ class GameOwnerWaitingForPlayersScreen extends React.Component {
         {'Leave'}
         </button>
 
+
         <button onClick={this.startGame}>
         {'Start'}
         </button>
 
       </div>
-      )}
+    )
+  }
 }
 
 export default GameOwnerWaitingForPlayersScreen;
