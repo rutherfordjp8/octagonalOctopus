@@ -4,15 +4,18 @@ class MissionHistory extends React.Component {
 
   constructor(props) {
     super(props);
-    
-
   }
 
   render() {
 
     return (
       <div>
-        <h6> Mission History:   </h6>
+        <h6> Mission History   </h6>
+        <ol>
+        {this.props.history.map((outcome, index)=>{
+          return(<li key={index}> {outcome[0]} </li>)
+        })}
+        </ol>
       </div>
       )}
 }

@@ -34,7 +34,7 @@ class PlayerEnterNameScreen extends React.Component {
   }
 
   backtoWelcome(event){
-    this.props.socket.emit('welcomePage', 'hi');
+    this.props.back();
   }
 
   render() {
