@@ -1,6 +1,7 @@
 import React from 'react';
 
 import InfoPanel from './InfoPanel.jsx';
+import MissionHistory from './MissionHistory.jsx';
 
 class EnterMissonPlayersScreen extends React.Component {
 
@@ -18,6 +19,8 @@ class EnterMissonPlayersScreen extends React.Component {
         <h3> Decide who Goes on the Mission </h3>
 
         <InfoPanel role={this.props.role} missionHistory={this.props.missionHistory} />
+        
+        <MissionHistory history={this.props.history} />
 
         <h5>
         Discuss Which {this.props.missionSize} Players to Send on the Mission and enter the results:

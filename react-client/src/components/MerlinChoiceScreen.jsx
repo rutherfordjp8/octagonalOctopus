@@ -21,7 +21,7 @@ class MerlinChoiceScreen extends React.Component {
   }
 
   sendInfo() {
-    this.props.socket.emit('merlinselection', {choice: this.state.value});
+    this.props.socket.emit('merlinselection', {choice: this.state.value, roomname: this.props.roomname});
   }
 
   render() {
@@ -29,7 +29,7 @@ class MerlinChoiceScreen extends React.Component {
     return (
       <div>
 
-        <h3> Choose A Player to Assassinate as Merlin </h3>
+        <h3> Choose Your Merlin </h3>
 
         <InfoPanel role={this.props.role} missionHistory={this.props.missionHistory} />
 

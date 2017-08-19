@@ -38,7 +38,13 @@ const numFailuresNeeded = {
   10: [1,1,1,2,1]
 }
 
-module.exports.missionResult = (playerCount, roundNum, numFailures) => {
+module.exports.missionResult = (playerCount, roundNum, votesArray) => {
+  var numFailures = 0;
+  for (var i = 0; i < votesArray.length; i++) {
+    if (!votesArray[i]) {
+      numFailures++
+    }
+  }
   // depending on number of players and round, returns
   // if mission passed (true) or not (false)
 

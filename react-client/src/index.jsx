@@ -73,7 +73,6 @@ class App extends React.Component {
 
     //players on mission should go to voting page
     this.socket.on('missionvote', (data)=>{
-      console.log('mission vote emit got through')
       this.setState({missionPlayers: data.missionPlayers,
                       pageID: 'MissionVoteScreen'});
     });
@@ -108,21 +107,40 @@ class App extends React.Component {
     this.socket.on('pressedleave', (data)=>{
       this.setState({pageID: 'WelcomeScreen'});
     });
+
+    this.socket.on('entermerlin', (data) => {
+      this.setState({pageID: 'MerlinChoiceScreen'});
+    });
+
+    this.socket.on('waitmerlinchoice', (data) => {
+      this.setState({pageID: 'AwaitAssassinScreen'});
+    });
+
+    this.socket.on('finaloutcome', (data) => {
+      console.log(data, 'data for final outcome');
+      // this.setState({pageID: 'finalOutcomeScreen'})
+    });
+
+    this.socket.on('merlinfinaloutcome', (data) => {
+      console.log(data, 'data for merlin final outcome');
+      // this.setState({pageID: 'finalOutcomeScreen'})
+    });
     
     this.state = {
 
-      pageID: 'MerlinChoiceScreen',
+      pageID: 'WelcomeScreen',
 
       players: ['abhi', 'yang', 'rutherford', 'patricks bf'],
+
       role: '',
 
       spyCount: 3,
 
       accessCode: '',
 
-      missionHistory: [true, false, true, null, null],
+      missionHistory: [null, null, null, null, null],
 
-      missionPlayers: ['abhi', 'yang', 'rutherford', 'patricks bf'],  
+      missionPlayers: [],  
 
       missionSize: 3,
 
@@ -130,13 +148,11 @@ class App extends React.Component {
 
       successVotes: 0,
 
-      roomname: '',
-
       host: false,
 
       username: '',
 
-      missionOutcome: [['2 pass and 1 fail']]
+      missionOutcome: []
             
     };
    

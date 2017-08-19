@@ -16,13 +16,12 @@ class AwaitAssassinScreen extends React.Component {
     return (
       <div>
 
-        <h3> Awaiting Assassin </h3>
+        <h3> Awaiting Mordred </h3>
         
         <InfoPanel role={this.props.role} missionHistory={this.props.missionHistory} />
         
         <Timer seconds={this.spyCount * 60}/>
 
-        (Shown to non-spy players)
       </div>
     )}
 }
