@@ -30,7 +30,7 @@ class GameOwnerEnterNameScreen extends React.Component {
   }
 
   backtoWelcome(){
-    this.props.socket.emit('welcomePage');
+    this.props.back();
   }
 
   render() {

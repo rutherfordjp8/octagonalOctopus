@@ -22,36 +22,7 @@ import openSocket from 'socket.io-client';
 class App extends React.Component {
   constructor(props) {
     super(props);
-
-    this.state = {
-
-      pageID: 'WelcomeScreen',
-
-      players: ['abhi', 'yang', 'rutherford', 'patricks bf'],
-
-      role: '',
-
-      spyCount: 3,
-
-      accessCode: '',
-
-      missionHistory: [true, false, true, null, null],
-
-      missionPlayers: ['abhi', 'yang', 'rutherford', 'patricks bf'],  
-
-      missionSize: 3,
-
-      failVotes: 0,
-
-      successVotes: 0,
-
-      roomname: '',
-
-      host: false,
-
-      username: ''      
-    };
-
+    
     this.nextPage = this.nextPage.bind(this);
 
     this.socket = openSocket();
@@ -64,15 +35,6 @@ class App extends React.Component {
                     });
     });
 
-    //send host to create page
-    this.socket.on('sendtocreate', (data)=>{
-      this.setState({pageID: 'GameOwnerEnterNameScreen'});
-    });
-
-    //send player to join game page
-    this.socket.on('sendtojoin', (data)=>{
-      this.setState({pageID: 'PlayerEnterNameScreen'});
-    });
 
     this.socket.on('updateState', (data)=>{
       this.setState({roomname: data.roomname,
@@ -133,13 +95,50 @@ class App extends React.Component {
       data.results.forEach((vote)=>{
         vote ? pass++ : fail++;
       });
+      var history = [`${pass} pass ${fail} fail`];
+
 
       this.setState({failVotes: fail,
                       successVotes: pass,
                       missionSize: data.missionSize,
-                      pageID: 'MissionOutcomeScreen'}, () => {console.log(this.state.missionSize)});
+                      missionOutcome: this.state.missionOutcome.concat([history]),
+                      pageID: 'MissionOutcomeScreen'});
     });
 
+    this.socket.on('pressedleave', (data)=>{
+      this.setState({pageID: 'WelcomeScreen'});
+    });
+    
+    this.state = {
+
+      pageID: 'MerlinChoiceScreen',
+
+      players: ['abhi', 'yang', 'rutherford', 'patricks bf'],
+      role: '',
+
+      spyCount: 3,
+
+      accessCode: '',
+
+      missionHistory: [true, false, true, null, null],
+
+      missionPlayers: ['abhi', 'yang', 'rutherford', 'patricks bf'],  
+
+      missionSize: 3,
+
+      failVotes: 0,
+
+      successVotes: 0,
+
+      roomname: '',
+
+      host: false,
+
+      username: '',
+
+      missionOutcome: [['2 pass and 1 fail']]
+            
+    };
    
   this.screenDispatch = {
 
@@ -188,9 +187,9 @@ class App extends React.Component {
         <DiscussMissionPlayersScreen
         missionSize={this.state.missionSize}
         role={this.state.role}
-        missionHistory={this.state.missionHistory}
         socket={this.socket}
         roomname={this.state.accessCode}
+        history={this.state.missionOutcome}
         />
       )},
 
@@ -201,7 +200,7 @@ class App extends React.Component {
         <EnterMissionPlayersScreen
         missionSize={this.state.missionSize}
         role={this.state.role}
-        missionHistory={this.state.missionHistory}
+        history={this.state.missionOutcome}
         socket={this.socket}
         players={this.state.players}
         roomname={this.state.accessCode}
@@ -238,6 +237,7 @@ class App extends React.Component {
 
       return (
         <MerlinChoiceScreen
+        players={this.state.players}
         role={this.state.role}
         missionHistory={this.state.missionHistory}
         spyCount={this.state.spyCount}
@@ -253,7 +253,7 @@ class App extends React.Component {
 
         <MissionOutcomeScreen
         role={this.state.role}
-        missionHistory={this.state.missionHistory}
+        history={this.state.missionOutcome}
         failVotes={this.state.failVotes}
         successVotes={this.state.successVotes}
         socket={this.socket}
@@ -270,7 +270,7 @@ class App extends React.Component {
         <MissionVoteScreen
         players={this.players}
         role={this.state.role}
-        missionHistory={this.state.missionHistory}
+        history={this.state.missionOutcome}
         socket={this.socket}
         roomname={this.state.accessCode}
         missionPlayers = {this.state.missionPlayers}
