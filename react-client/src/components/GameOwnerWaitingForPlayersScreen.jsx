@@ -4,7 +4,18 @@ class GameOwnerWaitingForPlayersScreen extends React.Component {
 
   constructor(props) {
     super(props);
+    this.startGame = this.startGame.bind(this);
   }
+
+  startGame() {
+    this.props.socket.emit('hostpressedstart', 'please start game');
+  }
+
+  leaveGame() {
+    this.props.socket.emit('disconnect', 'can we just kick him out of the room??');
+  }
+
+
 
   render() {
 
@@ -24,11 +35,11 @@ class GameOwnerWaitingForPlayersScreen extends React.Component {
         
         <p> Patience is a virtue.....</p>
 
-        <button onClick={this.props.leaveButtonClickHandler}>
+        <button onClick={this.leaveGame}>
         {'Leave'}
         </button>
 
-        <button onClick={this.props.startButtonClickHandler}>
+        <button onClick={this.startGame}>
         {'Start'}
         </button>
 

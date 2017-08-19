@@ -1,6 +1,7 @@
 import React from 'react';
 
 import InfoPanel from './InfoPanel.jsx';
+import MissionHistory from './MissionHistory.jsx';
 
 class DiscussMissionPlayersScreen extends React.Component {
 
@@ -14,9 +15,11 @@ class DiscussMissionPlayersScreen extends React.Component {
     return (
       <div>
 
-        <h3> Discuss Which {this.props.missionSize} Players to Send on the Mission </h3>
+        <InfoPanel role={this.props.role} />
 
-        <InfoPanel role={this.props.role} missionHistory={this.props.missionHistory} />
+        <MissionHistory history={this.props.history} />
+
+         <h3> Discuss Which {this.props.missionSize} Players to Send on the Mission </h3>
 
 
       </div>
