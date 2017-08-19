@@ -21,11 +21,11 @@ class GameOwnerWaitingForPlayersScreen extends React.Component {
   render() {
 
     return (
-      <div>
+      <div id="gameOwnerWaitingForPlayersScreen">
 
         <h2> Waiting for Players </h2>
 
-        <p>
+        <p id="accessCode">
         Access Code: {this.props.accessCode}
         </p>
         <ul>
@@ -33,17 +33,18 @@ class GameOwnerWaitingForPlayersScreen extends React.Component {
           return (<li key={index}>{player}</li>)
         })}
         </ul>
-        
-        <p> Patience is a virtue.....</p>
 
-        <button onClick={this.leaveGame}>
-        {'Leave'}
-        </button>
+        <p className="waitMessage"> Patience is a virtue.....</p>
+        <div className="gameOwnerWaitingForPlayersScreenInput">
+          <button onClick={this.leaveGame}>
+            {'Leave'}
+          </button>
 
 
-        <button onClick={this.startGame}>
-        {'Start'}
-        </button>
+          <button onClick={this.startGame}>
+            {'Start'}
+          </button>
+        </div>
 
       </div>
     )
