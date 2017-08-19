@@ -27,7 +27,7 @@ class WelcomeScreen extends React.Component {
     }
 
     pageSelector(key) {
-      var pages = {welcome: (<div>
+      var pages = {welcome: (<div id='welcomeScreen'>
      <h2> Welcome to Definitely Not Avalon </h2>
 
         <p>
@@ -41,14 +41,15 @@ class WelcomeScreen extends React.Component {
             enter a short code given to you by the owner of a game to
             join that game.
         </p>
+        <div className="welcomeScreenInput">
+          <button onClick={this.host} >
+            New Game
+          </button>
 
-        <button onClick={this.host} >
-        New Game
-        </button>
-
-        <button onClick={this.player} >
-        Join
-        </button>
+          <button onClick={this.player} >
+            Join
+          </button>
+        </div>
       </div>
     ),
     newgame: (<GameOwnerEnterNameScreen
@@ -62,8 +63,8 @@ class WelcomeScreen extends React.Component {
       }
     return pages[key];
     }
-    
- 
+
+
   render() {
     return (
       <div>

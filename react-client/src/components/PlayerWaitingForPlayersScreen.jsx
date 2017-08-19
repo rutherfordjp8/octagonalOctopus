@@ -9,21 +9,22 @@ class PlayerWaitingForPlayersScreen extends React.Component {
   render() {
 
     return (
-      <div>
+      <div id="playerWaitingForPlayersScreen">
 
         <h2> Waiting for Players </h2>
 
-          <ul>
-        {this.props.players.map((player, index)=>{
-          return (<li key={index}>{player}</li>)
-        })}
+        <ul>
+          {this.props.players.map((player, index)=>{
+            return (<li key={index}>{player}</li>)
+          })}
         </ul>
 
-        <p> Patience is a virtue.....</p>
-
-        <button onClick={this.props.leaveButtonClickHandler}>
-        {'Leave'}
-        </button>
+        <p className="waitMessage"> Patience is a virtue.....</p>
+        <div className="playerWaitingForPlayersScreenInput">
+          <button className="leaveButton" onClick={this.props.leaveButtonClickHandler}>
+            {'Leave'}
+          </button>
+        </div>
 
       </div>
       )}

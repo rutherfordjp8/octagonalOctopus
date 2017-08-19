@@ -21,7 +21,7 @@ class MissionVoteScreen extends React.Component {
   render() {
 
     return (
-      <div>
+      <div id="missionVoteScreen">
 
         <h3> Mission Vote </h3>
 
@@ -38,15 +38,16 @@ class MissionVoteScreen extends React.Component {
         <p>
         Do you want the mission to fail or succeed?
         </p>
+        <div className="missionVoteScreenInput">
+          <button onClick={this.fail}>
+            Mission Fails!
+          </button>
 
-        <button onClick={this.fail}>
-        Mission Fails!
-        </button>
+          <button onClick={this.succeed}>
+            Mission Succeeds!
+          </button>
+        </div>
 
-        <button onClick={this.succeed}>
-        Mission Succeeds!
-        </button>
-        
       </div>
       )}
 }
