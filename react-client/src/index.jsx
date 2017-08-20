@@ -70,7 +70,9 @@ class App extends React.Component {
                     host: true,
                     missionSize: data.missionSize,
                     extraInfo: data.extraInfo,
-                    pageID: 'EnterMissionPlayersScreen'
+                    pageID: 'EnterMissionPlayersScreen',
+                    missionOutcome: [],
+                    gameOutcome: ''
                   });
     }); 
 
@@ -79,7 +81,10 @@ class App extends React.Component {
       this.setState({role: data.role,
                       missionSize: data.missionSize,
                       extraInfo: data.extraInfo,
-                      pageID: 'DiscussMissionPlayersScreen'});
+                      pageID: 'DiscussMissionPlayersScreen',
+                      missionOutcome: [],
+                      gameOutcome: ''
+                  });
     });
 
     //players on mission should go to voting page
@@ -156,18 +161,28 @@ class App extends React.Component {
                       pageID: 'GameOutcomeScreen'});
     });
 
+    this.socket.on('play again', (data) => {
+      if (this.state.host) {
+        this.setState({pageID: 'GameOwnerWaitingForPlayersScreen'}, () => {
+        });
+      } else {
+        this.setState({pageID: 'PlayerWaitingForPlayersScreen'}, () => {
+        });
+      }
+    });
+
     
     this.state = {
 
       pageID: 'WelcomeScreen',
 
-      players: ['abhi', 'yang', 'rutherford', 'patricks bf'],
+      players: ['abhi', 'yang', 'rutherford', 'patricks bf', 'host'],
 
       role: '',
 
       spyCount: 3,
 
-      accessCode: '',
+      accessCode: 'z3uewg',
 
       missionPlayers: [],  
 

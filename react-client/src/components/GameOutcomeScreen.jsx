@@ -8,11 +8,14 @@ class GameOutcomeScreen extends React.Component {
 
   constructor(props) {
     super(props);
+    this.newGame = this.newGame.bind(this);
+  }
+
+  newGame() {
+    this.props.socket.emit('newGame', {roomname: this.props.roomname});
   }
 
   render() {
-    console.log(this.props.merlinchoice, '******* merlin choice');
-    console.log(this.props.gameresult, '****** game result');
     var result;
       if(this.props.merlinchoice === null) {
         if(this.props.gameresult) {
@@ -47,7 +50,7 @@ class GameOutcomeScreen extends React.Component {
 
       
 
-        <button onClick={this.props.againButtonClickHandler}>
+        <button onClick={this.newGame}>
         {'Play Again'}
         </button>
 

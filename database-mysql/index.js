@@ -237,5 +237,16 @@ module.exports.getMordred = function(gameKey, callback) {
       }
     }
   });
-}
+};
+
+module.exports.clearGame = function(gameToken, callback) {
+  Game.findOne({where: {gameToken}})
+  .then((game) => {
+    game.update({results: '[]',
+                votes: '[]',
+                missionNumber: 0
+    });
+  })
+  .then(callback);
+};
 

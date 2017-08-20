@@ -165,7 +165,15 @@ io.on('connection', (socket) => {
       });
     });
   });
+
+  socket.on('newGame', (data) => {
+    database.clearGame(data.roomname, () => {
+    socket.emit('play again', {})
+    });
+  });
 });
+
+
 
 app.use(express.static(__dirname + '/../react-client/dist'));
 
