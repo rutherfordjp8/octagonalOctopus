@@ -38,12 +38,35 @@ io.on('connection', (socket) => {
   });
   
   socket.on('disconnect', () => {
-    console.log('heard a disconnect');
-    database.removePlayer(socket.conn.id, (gameToken) => {
+    database.removePlayer(socket.conn.id, (gameToken, host) => {
       database.getAllUsernames(gameToken, (allplayers) => {
-        io.in(gameToken).emit('newplayer', {allplayers})
+        io.in(gameToken).emit('playerjoined', {allplayers})
+        if (host) {
+          database.getSocketId(allplayers[0], gameToken, (socketid) => {
+            database.updateHost(gameToken, socketid, () => {
+              socket.to(socketid).emit('become host', {});
+            });
+          });
+        }
       });
     });
+  });
+
+  socket.on('player left', (data) => {
+    socket.leave(data.roomname);
+    database.removePlayer(socket.id, (gameToken, host) => {
+      database.getAllUsernames(gameToken, (allplayers) => {
+        if (host) {
+          database.getSocketId(allplayers[0], gameToken, (socketid) => {
+            database.updateHost(gameToken, socketid, () => {
+              socket.to(socketid).emit('become host', {});
+            });
+          });
+        }
+        io.in(gameToken).emit('playerjoined', {allplayers})
+      });
+    });
+    socket.emit('welcome', {});
   });
 
   socket.on('start game', (data) => {

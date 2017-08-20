@@ -58,6 +58,12 @@ class App extends React.Component {
       this.setState({players: data.allplayers});
     });
 
+    this.socket.on('become host', (data) => {
+      this.setState({host: true,
+                    pageID: 'GameOwnerWaitingForPlayersScreen'
+      });
+    });
+
     //host presses start and moves to page where he can enter the names
     this.socket.on('hoststart', (data)=>{
       this.setState({role: data.role,
@@ -66,8 +72,7 @@ class App extends React.Component {
                     extraInfo: data.extraInfo,
                     pageID: 'EnterMissionPlayersScreen'
                   });
-    }); //FIXME: the server will only send the role, not the username
-    // save username when form is submitted
+    }); 
 
     //players should be moved to the next page after host starts
     this.socket.on('playerstart', (data)=>{
@@ -75,8 +80,7 @@ class App extends React.Component {
                       missionSize: data.missionSize,
                       extraInfo: data.extraInfo,
                       pageID: 'DiscussMissionPlayersScreen'});
-    }); //FIXME: the server will only send the role, not the username
-    // save username when form is submitted
+    });
 
     //players on mission should go to voting page
     this.socket.on('missionvote', (data)=>{

@@ -13,8 +13,7 @@ class GameOwnerWaitingForPlayersScreen extends React.Component {
   }
 
   leaveGame() {
-    console.log('should emit disconnect');
-    this.props.socket.emit('disconnect', 'can we just kick him out of the room??');
+    this.props.socket.emit('player left', {roomname: this.props.accessCode});
   }
 
 
