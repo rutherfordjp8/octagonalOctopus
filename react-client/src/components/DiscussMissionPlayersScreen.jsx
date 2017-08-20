@@ -14,7 +14,7 @@ class DiscussMissionPlayersScreen extends React.Component {
     return (
       <div>
 
-        <InfoPanel role={this.props.role} />
+        <InfoPanel role={this.props.role} extraInfo = {this.props.extraInfo}/>
 
         <MissionHistory missionHistory={this.props.history} />
 

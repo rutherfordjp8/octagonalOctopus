@@ -18,9 +18,7 @@ class MissionOutcomeScreen extends React.Component {
 
         <h4> Mission Outcome  </h4>
 
-        <InfoPanel role={this.props.role} missionHistory={this.props.history} />
-
-        <Timer seconds={30}/>
+        <InfoPanel role={this.props.role} missionHistory={this.props.history}  extraInfo = {this.props.extraInfo}/>
 
         <p>
         Fail votes: {this.props.failVotes}

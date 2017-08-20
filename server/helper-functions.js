@@ -105,95 +105,30 @@ module.exports.gameOutcome = (missionResults) => {
   return true;
 };
 
-module.exports.extraInfoAssignment = (token, userRoleMapping) => {
-  // accepts an object with user to role mapping then
-  // returns an array of objects with an object of userId as key and special roles as another object.
-  // special roles object has role as key and an array of usernames for value.
+module.exports.extraInfoAssignment = (userRoleMapping) => {
+  var extraInfo = {};
 
-  //*****Special Roles******
-  // Spies: all spies except Oberon
-  // Merlin: all spies except Mordred (headspy)
-  // Percival: can see Merlin and Morgana but does not know which is which.
-  //************************
-
-
-  // const numPlayers = Object.keys(userRoleMapping).length;
-  // let extraInfo = [];
-  //
-  // // return all usernames of spies, headspy will be last.
-  // // if more than 6 players, Morgana will be last and
-  // // the headspy will be second to last.
-  // getAllSpies = () => {
-  //   let headSpy,
-  //       morgana,
-  //       spies = [];
-  //
-  //   // iterate thorough checking/adding spy roles.
-  //   for (let key in userRoleMapping) {
-  //     if (userRoleMapping[key] === 'Minion of Mordred') {
-  //       spies.push(key);
-  //     } else if (userRoleMapping[key] === 'Mordred') {
-  //       headSpy = key;
-  //     } else if (userRoleMapping[key] === 'Morgana') {
-  //       morgana = key;
-  //     }
-  //   }
-  //   // add headspy (Mordred) to end of array.
-  //   spies.push(headspy);
-  //   // if morgana exists, add him to end of array. Otherwise do nothing.
-  //   morgana !== undefined ? spies.push(morgana) : false;
-  //   return spies;
-  // }
-  //
-  // // Callback for database query.
-  // // Gets all info to return and assigns to
-  // // special roles to an object.
-  // getInfo = (playerIds) => {
-  //   let userId = playerIds[key],
-  //       usersInfo = {},
-  //       roleToUsers = {}, // roleToUsers example, {'Spies': [user1, user2], ...}
-  //       spies = getAllSpies(), // array containing usernames of all the spies
-  //       onlyMinions, merlin, morgana, mordred;
-  //
-  //   // get merlin from the database, promise neccessary for async
-  //   let getMerlinPromise = new Promise((resolve, reject) => {
-  //     db.getMerlin(token, (userMerlin) => {merlin = userMerlin;})
-  //   });
-  //   getMerlinPromise()
-  //   .then(() => {
-  //     for (let key in userRoleMapping) {
-  //
-  //       // if morgana exists, he is last spy. Mordred(headSpy) is second to last.
-  //       if (numPlayers > 6) {
-  //         morgana = spies[spies.length-1];
-  //         mordred = spies[spies.length-2];
-  //         onlyMinions = spies.splice(spies.length-2, 1);
-  //       } else {
-  //         mordred = spies[spies.length-1];
-  //         onlyMinions = spies.slice(0, -1);
-  //       }
-  //
-  //       // mix array of spies so that mordred and morgana do not
-  //       // always show last.
-  //       spies = _.shuffle(spies);
-  //
-  //       if (userRoleMapping[key] === 'Minion of Mordred') {
-  //         roleToUsers['Spies'] = spies;
-  //       } else if (userRoleMapping[key] === 'Merlin') {
-  //         roleToUsers['onlyMinions'] = onlyMinions;
-  //       } else if (userRoleMapping[key] === 'Percival') {
-  //         roleToUsers['morganaOrMerlin'] = _.shuffle([morgana, merlin]);
-  //       }
-  //       // {userId: {'Spies': [user1, user2], ...}}
-  //       usersInfo[userId] = roleToUsers;
-  //
-  //       extraInfo.push(usersInfo);
-  //     }
-  //   })
-  // }
-  //   db.getPlayerIdMapping(token, getInfo);
-  //
-  //   return extraInfo;
+  var spies = ['The Spies Are: '];
+  var shpies = ['The Spies Except Mordred Are: '];
+  var merlinAndMorgana = ['Merlin and Morgana Are: '];
+  for (var prop in userRoleMapping) {
+    if (prop === 'Minion of Mordred') {
+      extraInfo[userRoleMapping[prop][1]] = spies;
+      shpies.push(userRoleMapping[prop][0]);
+      spies.push(userRoleMapping[prop][0]);
+    } else if (prop === 'Mordred') {
+      extraInfo[userRoleMapping[prop][1]] = spies;
+      spies.push(userRoleMapping[prop][0]);
+    } else if (prop === 'Merlin') {
+      merlinAndMorgana.push(userRoleMapping[prop][0]);
+      extraInfo[userRoleMapping[prop][1]] = shpies;
+    } else if (prop === 'Morgana') {
+      merlinAndMorgana.push(userRoleMapping[prop][0]);
+    } else if (prop === 'Percival') {
+      extraInfo[userRoleMapping[prop][1]] = merlinAndMorgana;
+    }
+  }
+  return extraInfo;
 }
 
 module.exports.generateToken = () => {

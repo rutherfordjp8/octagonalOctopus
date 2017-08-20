@@ -27,7 +27,7 @@ class MissionVoteScreen extends React.Component {
 
         <h3> Mission Vote </h3>
 
-        <InfoPanel role={this.props.role} missionHistory={this.props.history} />
+        <InfoPanel role={this.props.role} missionHistory={this.props.history}  extraInfo = {this.props.extraInfo}/>
 
         
         <p> You are on a mission with</p>
