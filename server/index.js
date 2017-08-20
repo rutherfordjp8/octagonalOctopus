@@ -10,13 +10,19 @@ var database = require('../database-mysql');
 io.on('connection', (socket) => {
 
   socket.on('join', (data) => {
-    socket.join(data.roomname);
-    database.addPlayer(data.roomname, false, data.username, socket.id, () => {
-      database.getAllUsernames(data.roomname, (allplayers) => {
-        socket.to(data.roomname).emit('playerjoined', {allplayers})
-        var accessCode = data.roomname;
-        socket.emit('newplayer', {allplayers, accessCode})
-      }); 
+    database.getAllUsernames(data.roomname, (allplayers) => {
+      if (allplayers.indexOf(data.username) > -1) {
+        socket.emit('username exists', {});
+      } else {
+        socket.join(data.roomname);
+        database.addPlayer(data.roomname, false, data.username, socket.id, () => {
+          database.getAllUsernames(data.roomname, (allplayers) => {
+            socket.to(data.roomname).emit('playerjoined', {allplayers})
+            var accessCode = data.roomname;
+            socket.emit('newplayer', {allplayers, accessCode})
+          }); 
+        });
+      }
     });
   });
 
@@ -117,14 +123,13 @@ io.on('connection', (socket) => {
               }
               var results = votesArray;
               io.in(data.roomname).emit('finaloutcome', {finalOutcome, results, allPlayers});
-            })
+            });
           }
         }
       });
     });
   });
 
-  
   socket.on('merlinselection', (data) => {
     database.getMerlin(data.roomname, (merlin) => {
       var merlinGuessed = (merlin.username === data.choice);
@@ -138,7 +143,6 @@ io.on('connection', (socket) => {
     });
   });
 });
-
 
 app.use(express.static(__dirname + '/../react-client/dist'));
 

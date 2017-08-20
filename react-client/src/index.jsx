@@ -42,6 +42,10 @@ class App extends React.Component {
                     id: data.id});
     });
 
+    this.socket.on('username exists', (data) => {
+      alert('someone took this name! plz choose another');
+    })
+
     //player tryingt to join game
     this.socket.on('newplayer', (data)=>{
       this.setState({players: data.allplayers,
@@ -191,6 +195,7 @@ class App extends React.Component {
       return (
         <PlayerEnterNameScreen
         socket={this.socket}
+        currPlayers = {this.state.players}
         />
     )},
 

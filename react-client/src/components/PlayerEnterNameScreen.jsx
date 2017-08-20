@@ -38,7 +38,6 @@ class PlayerEnterNameScreen extends React.Component {
   }
 
   render() {
-
     return (
       <div id="playerEnterNameScreen">
 
