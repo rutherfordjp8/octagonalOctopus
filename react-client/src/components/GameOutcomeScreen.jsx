@@ -11,15 +11,19 @@ class GameOutcomeScreen extends React.Component {
   }
 
   render() {
+    console.log(this.props.merlinchoice, '******* merlin choice');
+    console.log(this.props.gameresult, '****** game result');
     var result;
-      if(!this.props.merlinchoice) {
+      if(this.props.merlinchoice === null) {
         if(this.props.gameresult) {
           result = ( <p>GOOD GUYS WIN!</p>)
         } else {
           result = <p>SPIES WIN!!</p>
         }
-      } else {
+      } else if (this.props.merlinchoice === true) {
         result = <p>SPIES WIN!!</p>
+      } else {
+        result = <p>GOOD GUYS WIN!!</p>
       }
 
 

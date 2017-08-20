@@ -7,12 +7,18 @@ class InfoPanel extends React.Component {
   }
 
   render() {
-
-    return (
+    if (!this.props.extraInfo) {
+        var extraInfo = ''
+      } else {
+        var usernames = this.props.extraInfo.slice(1, this.props.extraInfo.length);
+        var extraInfo = this.props.extraInfo[0] + usernames.join(', ');
+      }
+      return (
       <div>
         <h5> Info Panel </h5>
 
-        Your role: {this.props.role}
+        <p> Your role: {this.props.role} </p>
+        <p> {extraInfo} </p>
 
       </div>
       )}

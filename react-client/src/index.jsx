@@ -39,7 +39,7 @@ class App extends React.Component {
 
     this.socket.on('updateState', (data)=>{
       this.setState({roomname: data.roomname,
-                    id: data.id})
+                    id: data.id});
     });
 
     //player tryingt to join game
@@ -59,6 +59,7 @@ class App extends React.Component {
       this.setState({role: data.role,
                     host: true,
                     missionSize: data.missionSize,
+                    extraInfo: data.extraInfo,
                     pageID: 'EnterMissionPlayersScreen'
                   });
     }); //FIXME: the server will only send the role, not the username
@@ -68,6 +69,7 @@ class App extends React.Component {
     this.socket.on('playerstart', (data)=>{
       this.setState({role: data.role,
                       missionSize: data.missionSize,
+                      extraInfo: data.extraInfo,
                       pageID: 'DiscussMissionPlayersScreen'});
     }); //FIXME: the server will only send the role, not the username
     // save username when form is submitted
@@ -110,7 +112,15 @@ class App extends React.Component {
     });
 
     this.socket.on('entermerlin', (data) => {
-      this.setState({pageID: 'MerlinChoiceScreen'});
+      var pass = 0;
+      var fail = 0;
+      data.results.forEach((vote)=>{
+        vote ? pass++ : fail++;
+      });
+      var history = [`${pass} pass ${fail} fail`];
+
+      this.setState({pageID: 'MerlinChoiceScreen',
+                    missionOutcome: this.state.missionOutcome.concat([history])});
     });
 
     this.socket.on('waitmerlinchoice', (data) => {
@@ -118,14 +128,21 @@ class App extends React.Component {
     });
 
     this.socket.on('finaloutcome', (data) => {
-      console.log(data, 'data for final outcome');
+      var pass = 0;
+      var fail = 0;
+      data.results.forEach((vote)=>{
+        vote ? pass++ : fail++;
+      });
+      var history = [`${pass} pass ${fail} fail`];
+
       this.setState({ gameOutcome: data.finalOutcome,
                       playerRoleMapping: data.allPlayers,
-                      pageID: 'GameOutcomeScreen'});
+                      missionOutcome: this.state.missionOutcome.concat([history])}, () => {
+                        this.setState({pageID: 'GameOutcomeScreen'})
+                      });
     });
 
     this.socket.on('merlinfinaloutcome', (data) => {
-      console.log(data, 'data for merlin final outcome');
       this.setState({ merlinChoice: data.merlinGuessed,
                       playerRoleMapping: data.allPlayers,
                       pageID: 'GameOutcomeScreen'});
@@ -162,7 +179,9 @@ class App extends React.Component {
 
       playerRoleMapping: '',
 
-      merlinChoice: ''
+      merlinChoice: null,
+
+      extraInfo: null
             
     };
    
@@ -216,6 +235,7 @@ class App extends React.Component {
         socket={this.socket}
         roomname={this.state.accessCode}
         history={this.state.missionOutcome}
+        extraInfo = {this.state.extraInfo}
         />
       )},
 
@@ -230,6 +250,7 @@ class App extends React.Component {
         socket={this.socket}
         players={this.state.players}
         roomname={this.state.accessCode}
+        extraInfo = {this.state.extraInfo}
         />
 
       )},
@@ -292,6 +313,7 @@ class App extends React.Component {
         roomname={this.state.accessCode}
         nextPage={this.nextPage}
         host = {this.state.host}
+        extraInfo = {this.state.extraInfo}
         />
       )},
 
@@ -307,6 +329,7 @@ class App extends React.Component {
         roomname={this.state.accessCode}
         missionPlayers = {this.state.missionPlayers}
         waiting={this.waitingPage}
+        extraInfo = {this.state.extraInfo}
         />
       )},
 

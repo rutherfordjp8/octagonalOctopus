@@ -18,7 +18,7 @@ class EnterMissonPlayersScreen extends React.Component {
 
         <h3> Decide who Goes on the Mission </h3>
 
-        <InfoPanel role={this.props.role}  />
+        <InfoPanel role={this.props.role}   extraInfo = {this.props.extraInfo}/>
         
         <MissionHistory missionHistory={this.props.history}  />
 

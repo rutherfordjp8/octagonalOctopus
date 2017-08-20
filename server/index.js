@@ -40,34 +40,26 @@ io.on('connection', (socket) => {
     });
   });
 
-  // // const assignRolesandInfo = (data) => {
-  // //   database.getAllUsernames(data.roomname, (usernames) => {
-  // //     var roles = helpers.generateRoles(usernames);
-  // //     var extraInfoAssignment = helpers.extraInfoAssignment(roles);
-  // //     database.getAllPlayers(data.roomname, (users) => {
-  // //       for (var i = 0; i < users.length; i++) {
-  // //         var toEmit = {};
-  // //         toEmit[role] = roles[users[i].dataValues.username];
-  // //         toEmit[additionalInfo] = extraInfoAssignment[users[i].dataValues.username];
-  // //         socket.top(users[i].dataValues.socketid).emit('updateState', toEmit);
-  // //       }
-  // //     });
-  // //   });
-  // // };
-  
   socket.on('start game', (data) => {
     database.updateVotesAndParticipantNum(data.roomname, () => {
       database.getAllSocketIds(data.roomname, (socketids) => {
         database.votesNeeded(data.roomname, (votesNeeded) => {
           var roles = helpers.generateRoles(socketids);
-          socket.emit('hoststart', {role: roles[socket.id], missionSize: votesNeeded});
-          for (var i = 0; i < socketids.length; i++) {
-            database.assignRole(socketids[i], roles[socketids[i]], () => {
-            });
-            if (socketids[i] !== socket.id) {
-              socket.to(socketids[i]).emit('playerstart', {role: roles[socketids[i]], missionSize: votesNeeded});
+          var userRoles = {};
+          database.getAllPlayers(data.roomname, (users) => {
+            for (var i = 0; i < users.length; i++) {
+              userRoles[roles[users[i].dataValues.socketid]] = [users[i].dataValues.username, users[i].dataValues.socketid];
             }
-          }
+            var extraInfoAssignment = helpers.extraInfoAssignment(userRoles);
+            socket.emit('hoststart', {role: roles[socket.id], missionSize: votesNeeded, extraInfo: extraInfoAssignment[socket.id]});
+            for (var i = 0; i < socketids.length; i++) {
+              database.assignRole(socketids[i], roles[socketids[i]], () => {
+              });
+              if (socketids[i] !== socket.id) {
+                socket.to(socketids[i]).emit('playerstart', {role: roles[socketids[i]], missionSize: votesNeeded, extraInfo: extraInfoAssignment[socketids[i]]});
+              }
+            }
+          });
         });
       });
     });
@@ -112,9 +104,9 @@ io.on('connection', (socket) => {
             io.in(data.roomname).emit('waitmerlinchoice', {});
             database.getMordred(data.roomname, (mordred) => {
               if (mordred.socketid === socket.id) {
-                socket.emit('entermerlin', {});
+                socket.emit('entermerlin', {results: votesArray});
               } else{ 
-                  socket.to(mordred.socketid).emit('entermerlin', {}); 
+                  socket.to(mordred.socketid).emit('entermerlin', {results: votesArray}); 
               }
             });
           } else {
@@ -123,7 +115,8 @@ io.on('connection', (socket) => {
               for (var i = 0; i < users.length; i++) {
                 allPlayers[users[i].dataValues.username] = users[i].dataValues.role;
               }
-              io.in(data.roomname).emit('finaloutcome', {finalOutcome, allPlayers});
+              var results = votesArray;
+              io.in(data.roomname).emit('finaloutcome', {finalOutcome, results, allPlayers});
             })
           }
         }
@@ -133,7 +126,6 @@ io.on('connection', (socket) => {
 
   
   socket.on('merlinselection', (data) => {
-    //console.log(data, 'merlin selection socket**********');
     database.getMerlin(data.roomname, (merlin) => {
       var merlinGuessed = (merlin.username === data.choice);
       database.getAllPlayers(data.roomname, (users) => {
