@@ -36,7 +36,7 @@ class GameOwnerEnterNameScreen extends React.Component {
   render() {
 
     return (
-          <div id="gameOwnerEnterNameScreen">
+      <div id="gameOwnerEnterNameScreen">
 
         <h2> Please Enter your Name </h2>
 
@@ -56,8 +56,7 @@ class GameOwnerEnterNameScreen extends React.Component {
             Back
           </button>
         </div>
-
-     </div>
+      </div>
     )}
 }
 
