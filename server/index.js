@@ -10,13 +10,19 @@ var database = require('../database-mysql');
 io.on('connection', (socket) => {
 
   socket.on('join', (data) => {
-    socket.join(data.roomname);
-    database.addPlayer(data.roomname, false, data.username, socket.id, () => {
-      database.getAllUsernames(data.roomname, (allplayers) => {
-        socket.to(data.roomname).emit('playerjoined', {allplayers})
-        var accessCode = data.roomname;
-        socket.emit('newplayer', {allplayers, accessCode})
-      }); 
+    database.getAllUsernames(data.roomname, (allplayers) => {
+      if (allplayers.indexOf(data.username) > -1) {
+        socket.emit('username exists', {});
+      } else {
+        socket.join(data.roomname);
+        database.addPlayer(data.roomname, false, data.username, socket.id, () => {
+          database.getAllUsernames(data.roomname, (allplayers) => {
+            socket.to(data.roomname).emit('playerjoined', {allplayers})
+            var accessCode = data.roomname;
+            socket.emit('newplayer', {allplayers, accessCode})
+          }); 
+        });
+      }
     });
   });
 
@@ -32,12 +38,35 @@ io.on('connection', (socket) => {
   });
   
   socket.on('disconnect', () => {
-    console.log('heard a disconnect');
-    database.removePlayer(socket.conn.id, (gameToken) => {
+    database.removePlayer(socket.conn.id, (gameToken, host) => {
       database.getAllUsernames(gameToken, (allplayers) => {
-        io.in(gameToken).emit('newplayer', {allplayers})
+        io.in(gameToken).emit('playerjoined', {allplayers})
+        if (host) {
+          database.getSocketId(allplayers[0], gameToken, (socketid) => {
+            database.updateHost(gameToken, socketid, () => {
+              socket.to(socketid).emit('become host', {});
+            });
+          });
+        }
       });
     });
+  });
+
+  socket.on('player left', (data) => {
+    socket.leave(data.roomname);
+    database.removePlayer(socket.id, (gameToken, host) => {
+      database.getAllUsernames(gameToken, (allplayers) => {
+        if (host) {
+          database.getSocketId(allplayers[0], gameToken, (socketid) => {
+            database.updateHost(gameToken, socketid, () => {
+              socket.to(socketid).emit('become host', {});
+            });
+          });
+        }
+        io.in(gameToken).emit('playerjoined', {allplayers})
+      });
+    });
+    socket.emit('welcome', {});
   });
 
   socket.on('start game', (data) => {
@@ -117,14 +146,13 @@ io.on('connection', (socket) => {
               }
               var results = votesArray;
               io.in(data.roomname).emit('finaloutcome', {finalOutcome, results, allPlayers});
-            })
+            });
           }
         }
       });
     });
   });
 
-  
   socket.on('merlinselection', (data) => {
     database.getMerlin(data.roomname, (merlin) => {
       var merlinGuessed = (merlin.username === data.choice);
@@ -137,7 +165,14 @@ io.on('connection', (socket) => {
       });
     });
   });
+
+  socket.on('newGame', (data) => {
+    database.clearGame(data.roomname, () => {
+    socket.emit('play again', {})
+    });
+  });
 });
+
 
 
 app.use(express.static(__dirname + '/../react-client/dist'));

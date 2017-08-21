@@ -9,12 +9,15 @@ class GameOwnerWaitingForPlayersScreen extends React.Component {
   }
 
   startGame() {
-    this.props.socket.emit('start game', {roomname: this.props.accessCode});
+    if (this.props.players.length < 5 || this.props.players.length > 10) {
+      alert('We can only accomodate 5-10 player games! Sowwy!');
+    } else{
+      this.props.socket.emit('start game', {roomname: this.props.accessCode});
+    }
   }
 
   leaveGame() {
-    console.log('should emit disconnect');
-    this.props.socket.emit('disconnect', 'can we just kick him out of the room??');
+    this.props.socket.emit('player left', {roomname: this.props.accessCode});
   }
 
 

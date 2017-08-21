@@ -42,6 +42,10 @@ class App extends React.Component {
                     id: data.id});
     });
 
+    this.socket.on('username exists', (data) => {
+      alert('someone took this name! plz choose another');
+    })
+
     //player tryingt to join game
     this.socket.on('newplayer', (data)=>{
       this.setState({players: data.allplayers,
@@ -54,25 +58,34 @@ class App extends React.Component {
       this.setState({players: data.allplayers});
     });
 
+    this.socket.on('become host', (data) => {
+      this.setState({host: true,
+                    pageID: 'GameOwnerWaitingForPlayersScreen'
+      });
+    });
+
     //host presses start and moves to page where he can enter the names
     this.socket.on('hoststart', (data)=>{
       this.setState({role: data.role,
                     host: true,
                     missionSize: data.missionSize,
                     extraInfo: data.extraInfo,
-                    pageID: 'EnterMissionPlayersScreen'
+                    pageID: 'EnterMissionPlayersScreen',
+                    missionOutcome: [],
+                    gameOutcome: ''
                   });
-    }); //FIXME: the server will only send the role, not the username
-    // save username when form is submitted
+    }); 
 
     //players should be moved to the next page after host starts
     this.socket.on('playerstart', (data)=>{
       this.setState({role: data.role,
                       missionSize: data.missionSize,
                       extraInfo: data.extraInfo,
-                      pageID: 'DiscussMissionPlayersScreen'});
-    }); //FIXME: the server will only send the role, not the username
-    // save username when form is submitted
+                      pageID: 'DiscussMissionPlayersScreen',
+                      missionOutcome: [],
+                      gameOutcome: ''
+                  });
+    });
 
     //players on mission should go to voting page
     this.socket.on('missionvote', (data)=>{
@@ -148,18 +161,28 @@ class App extends React.Component {
                       pageID: 'GameOutcomeScreen'});
     });
 
+    this.socket.on('play again', (data) => {
+      if (this.state.host) {
+        this.setState({pageID: 'GameOwnerWaitingForPlayersScreen'}, () => {
+        });
+      } else {
+        this.setState({pageID: 'PlayerWaitingForPlayersScreen'}, () => {
+        });
+      }
+    });
+
     
     this.state = {
 
       pageID: 'WelcomeScreen',
 
-      players: ['abhi', 'yang', 'rutherford', 'patricks bf'],
+      players: ['abhi', 'yang', 'rutherford', 'patricks bf', 'host'],
 
       role: '',
 
       spyCount: 3,
 
-      accessCode: '',
+      accessCode: 'z3uewg',
 
       missionPlayers: [],  
 
@@ -191,6 +214,7 @@ class App extends React.Component {
       return (
         <PlayerEnterNameScreen
         socket={this.socket}
+        currPlayers = {this.state.players}
         />
     )},
 

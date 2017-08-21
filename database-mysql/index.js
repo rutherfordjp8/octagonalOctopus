@@ -128,8 +128,9 @@ module.exports.removePlayer = function(socketid, callback) {
   User.findOne({where: {socketid}})
   .then((user) => {
     var gameToken = user.dataValues.gameKey;
+    var host = user.dataValues.host;
     user.destroy();
-    callback(gameToken);
+    callback(gameToken, host);
   });
 };
 
@@ -170,6 +171,15 @@ module.exports.getAllSocketIds = function(gameKey, callback) {
     callback(ids);
   });
 };
+
+module.exports.updateHost = function(gameKey, socketid, callback) {
+  User.findOne({where: {socketid, gameKey}})
+  .then((user) => {
+    var host = true;
+    user.update({host});
+  })
+  .then(callback)
+}
 
 module.exports.getSocketId = function(username, gameKey, callback) {
   User.findOne({where: {username, gameKey}})
@@ -227,5 +237,16 @@ module.exports.getMordred = function(gameKey, callback) {
       }
     }
   });
-}
+};
+
+module.exports.clearGame = function(gameToken, callback) {
+  Game.findOne({where: {gameToken}})
+  .then((game) => {
+    game.update({results: '[]',
+                votes: '[]',
+                missionNumber: 0
+    });
+  })
+  .then(callback);
+};
 
